@@ -1,10 +1,10 @@
 Project 	- CMSGears (http://www.cmsgears.org)
 
-Plugin  	- Social Login
+Module  	- SNS Login
 
 License 	- GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html)
 
-Description - The Social Login Plugin allows users to login using their social network accounts.
+Description - The SNS Login Module allows users to login using their social network accounts.
 
 Highlighted Features
 =========================================
