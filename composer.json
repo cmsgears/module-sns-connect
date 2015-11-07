@@ -1,9 +1,9 @@
 {
-	"name": "cmsgears/plugin-social-login",
-	"description": "The Social Login Plugin allows users to login using their social network accounts.",
+	"name": "cmsgears/module-sns-login",
+	"description": "The SNS Login Module allows users to login using their social network accounts.",
 	"homepage": "http://www.cmsgears.org",
 	"type": "package",
-	"keywords": [ "yii", "yii2", "cmsgears", "plugin", "social login" ],
+	"keywords": [ "yii", "yii2", "cmsgears", "module", "social login" ],
 	"license": "GPLv3",
 	"support": {
 		"resources": "http://www.cmsgears.org"
