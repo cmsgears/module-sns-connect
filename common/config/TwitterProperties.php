@@ -4,6 +4,7 @@ namespace cmsgears\social\login\common\config;
 // Yii Imports
 use \Yii;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
@@ -68,7 +69,7 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 
 	// Twitter
 
-	function curl( $url, $headerParams ) {
+	function curl( $url, $headerParams, $post = true ) {
 
 		$authHeader		= $this->generateAuthHeader( $headerParams );
 		$authHeader		= [ $authHeader, 'Expect:' ];
@@ -79,7 +80,12 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 		curl_setopt( $ch, CURLOPT_HEADER, false );
 		curl_setopt( $ch, CURLOPT_URL, $url );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch, CURLOPT_POST, true );
+		
+		if( $post ) {
+
+			curl_setopt( $ch, CURLOPT_POST, true );
+		}
+
 		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
 
 		$data 	= curl_exec( $ch );
@@ -89,7 +95,7 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 		return $data;
 	}
 
-	public function generateBaseString( $tokenUrl, $headerParams ) {
+	public function generateBaseString( $tokenUrl, $headerParams, $post = true ) {
 
 		$tempArr	= [];
 
@@ -99,8 +105,15 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 
 		        $tempArr[] = "$key=" . rawurlencode( $value );
 		}
+		
+		if( $post ) {
 
-		return 'POST&' . rawurlencode( $tokenUrl ) . '&' . rawurlencode( implode( '&', $tempArr ) );
+			return 'POST&' . rawurlencode( $tokenUrl ) . '&' . rawurlencode( implode( '&', $tempArr ) );
+		}
+		else {
+			
+			return 'GET&' . rawurlencode( $tokenUrl ) . '&' . rawurlencode( implode( '&', $tempArr ) );
+		}
 	}
 
 	function generateCompositeKey( $apiSecret, $requestToken ) {
@@ -112,7 +125,9 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 
 	    $header		= 'Authorization: OAuth ';
 	    $tempArr 	= array();
-		
+
+		ksort( $headerParams );
+
 	    foreach( $headerParams as $key => $value ) {
 
 	        $tempArr[] = "$key=\"" . rawurlencode( $value ) . "\"";
@@ -166,19 +181,114 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 		$session->set( 'tw_oauth_token', $params[ 'oauth_token' ] );
 		$session->set( 'tw_oauth_token_secret', $params[ 'oauth_token_secret' ] );
 	}
+	
+	function setAuthToken( $oauth_token, $oauth_verifier ) {
+		
+		$session 		= Yii::$app->session;
 
-	function getUser( $accessToken ) {
+		$session->set( 'tw_oauth_token', $oauth_token );
+		$session->set( 'tw_oauth_verifier', $oauth_verifier );
+	}
 
-		$graphUrl 		= 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' . $accessToken;
-		$graphData		= $this->curl( $graphUrl );
-     	$user 			= json_decode( $graphData );
+	function getAccessToken() {
+		
+		$session 		= Yii::$app->session;
+		$apiKey			= $this->getApiKey();
+		$apiSecret		= $this->getApiSecret();
+		$redirectUri	= $this->getRedirectUri();
 
-     	if( isset( $user ) ) {
+		$nonce 			= Yii::$app->security->generateRandomString();
+		$timestamp 		= time();
 
-			return $user;
+		$tokenUrl 		= "https://api.twitter.com/oauth/access_token";
+
+		$headerParams	= [ 'oauth_token' => $session->get( 'tw_oauth_token' ),
+							'oauth_verifier' => $session->get( 'tw_oauth_verifier' ),
+							'oauth_consumer_key' => $apiKey,
+							'oauth_nonce' => $nonce,
+						    'oauth_signature_method' => 'HMAC-SHA1',
+						    'oauth_timestamp' => "$timestamp",
+						    'oauth_version' => '1.0' ];
+
+		$baseString		= $this->generateBaseString( $tokenUrl, $headerParams );
+		$compositeKey	= $this->generateCompositeKey( $apiSecret, $session->get( 'tw_oauth_token_secret' ) );
+
+		$oauthSignature = base64_encode( hash_hmac( 'sha1', $baseString, $compositeKey, true ) );
+
+		$headerParams['oauth_signature'] = $oauthSignature;
+
+		$response 		= $this->curl( $tokenUrl, $headerParams );
+
+		$params 		= null;
+
+		parse_str( $response, $params );
+
+		$session 		= Yii::$app->session;
+
+		$session->set( 'tw_oauth_token', $params[ 'oauth_token' ] );
+		$session->set( 'tw_oauth_token_secret', $params[ 'oauth_token_secret' ] );
+		$session->set( 'tw_user_id', $params[ 'user_id' ] );
+		$session->set( 'tw_screen_name', $params[ 'screen_name' ] );
+	}
+
+	function getUser() {
+
+		$session 		= Yii::$app->session;
+		$apiKey			= $this->getApiKey();
+		$apiSecret		= $this->getApiSecret();
+		$redirectUri	= $this->getRedirectUri();
+
+		$nonce 			= Yii::$app->security->generateRandomString();
+		$timestamp 		= time();
+
+		$tokenUrl 		= "https://api.twitter.com/1.1/users/show.json";
+
+		$headerParams	= [ 'oauth_token' => $session->get( 'tw_oauth_token' ),
+							'oauth_consumer_key' => $apiKey,
+							'oauth_nonce' => $nonce,
+						    'oauth_signature_method' => 'HMAC-SHA1',
+						    'oauth_timestamp' => "$timestamp",
+						    'oauth_version' => '1.0' ];
+
+		$baseArr		= ArrayHelper::merge( $headerParams, [ 'screen_name' => $session->get( 'tw_screen_name' ) ] );
+		$baseString		= $this->generateBaseString( $tokenUrl, $baseArr, false );
+		$compositeKey	= $this->generateCompositeKey( $apiSecret, $session->get( 'tw_oauth_token_secret' ) );
+
+		$oauthSignature = base64_encode( hash_hmac( 'sha1', $baseString, $compositeKey, true ) );
+
+		$headerParams['oauth_signature'] = $oauthSignature;
+
+		$response 		= $this->curl( $tokenUrl . "?screen_name=" . $session->get( 'tw_screen_name' ), $headerParams, false );
+
+		$user 			= json_decode( $response );
+
+		if( isset( $user->id ) ) {
+
+			$userUpd		= new \stdClass;
+			$userUpd->id	= $user->id;
+
+			$name			= $user->name;
+			$name			= preg_split( "/ /", $name );
+
+			if( count( $name ) > 1 ) {
+				
+				$userUpd->firstName	= $name[ 0 ];
+				$userUpd->lastName	= $name[ 1 ];
+			}
+			else {
+				
+				$userUpd->firstName	= $name[ 0 ];
+				$userUpd->lastName	= null;
+			}
+			
+			$userUpd->secret	= $session->get( 'tw_oauth_token_secret' );
+			
+			$session->set( 'tw_user', json_encode( $userUpd ) );
+
+			return $userUpd;
 		}
 
-		return false;
+     	return false;
 	}
 }
 

@@ -8,10 +8,12 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
+use cmsgears\core\frontend\config\WebGlobalCore;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\social\login\common\config\TwitterProperties;
 
 use cmsgears\social\login\common\models\forms\TwitterLogin;
+use cmsgears\social\login\frontend\models\forms\TwitterInfoForm;
 
 use cmsgears\social\login\common\services\TwitterProfileService;
 
@@ -37,54 +39,88 @@ class TwitterController extends \cmsgears\core\frontend\controllers\BaseControll
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'authorise' => [ 'get' ]
+                    'login' => [ 'get' ],
+                    'authorise' => [ 'get' ],
+                    'userInfo' => [ 'get', 'post' ]
                 ]
             ]
         ];
     }
 
 	// SiteController --------------------
-	
+
 	public function actionLogin() {
-		
+
 		$twitterProperties	= TwitterProperties::getInstance();
- 
+
 		$twitterProperties->requestToken();
-		
+
 		$authToken			= Yii::$app->session->get( 'tw_oauth_token' );
 
 		$this->redirect( "https://api.twitter.com/oauth/authorize?oauth_token=$authToken" );
 	}
 
-    public function actionAuthorise( $oauth_token, $oauth_token_secret, $screen_name, $user_id ) {
-    	
-		echo $oauth_token . " " . $oauth_token_secret;
+    public function actionAuthorise( $oauth_token, $oauth_verifier ) {
 
-		/*
 		$twitterProperties	= TwitterProperties::getInstance();
+ 
+		$twitterProperties->setAuthToken( $oauth_token, $oauth_verifier );
 
-		// Get Token
-		$accessToken		= $gplusProperties->getAccessToken( $code, $state );
-		$snsUser			= $gplusProperties->getUser( $accessToken );
+		$twitterProperties->getAccessToken();
 
-		if( isset( $snsUser ) ) {
+		$snsUser = $twitterProperties->getUser();
+
+		if( $snsUser ) {
 
 			// Get User
-			$user	= GPlusProfileService::getUser( $snsUser, $accessToken );
+			$user	= TwitterProfileService::getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );
 
-			// Login and Redirect to home page
-			$login	= new GPlusLogin( $user );
+			if( $user ) {
 
-			if( $login->login() ) {
+				// Login and Redirect to home page
+				$login	= new TwitterLogin( $user );
 
-				$this->checkHome();
+				if( $login->login() ) {
+		
+					$this->checkHome();
+				}
+			}
+			else {
+
+				$this->redirect( [ 'user-info' ] );
 			}
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) ); 
-		 */
+		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
     }
+
+	public function actionUserInfo() {
+
+		$this->layout	= WebGlobalCore::LAYOUT_PUBLIC;
+
+		$model			= new TwitterInfoForm();
+
+		if( $model->load( Yii::$app->request->post() ) && $model->validate() ) {
+
+			// Get User
+			$snsUser		= Yii::$app->session->get( 'tw_user' );
+			$snsUser		= json_decode( $snsUser ); 
+            $snsUser->email	= $model->email;
+
+			$user			= TwitterProfileService::getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ), $model->email );
+
+			// Login and Redirect to home page
+			$login	= new TwitterLogin( $user );
+
+			if( $login->login() ) {
+	
+				$this->checkHome();
+			}
+		}
+
+		return $this->render( 'user-info', [ 'model' => $model ] );
+	}
 }
 
 ?>

@@ -10,6 +10,7 @@ use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
+use cmsgears\core\common\services\UserService;
 use cmsgears\core\common\services\SiteMemberService;
 
 use cmsgears\core\common\utilities\DateUtil;
@@ -29,16 +30,22 @@ class FacebookProfileService extends SnsProfileService {
 			$user		= $snsProfile->user;
 		}
 		else {
+			
+			$user 		= UserService::findByEmail( $fbUser->email );
+			
+			if( !isset( $user ) ) {
+				
+				// Create User
+				$user 		= self::register( $fbUser );
 
-			// Create User
-			$user 		= self::register( $fbUser );
+				// Add User to current Site
+				SiteMemberService::create( $user );
+	
+				// Trigger Mail
+				Yii::$app->cmgSnsLoginMailer->sendRegisterFacebookMail( $user );
+			}
+
 			$snsProfile	= self::create( $user, $fbUser, $accessToken );
-
-			// Add User to current Site
-			SiteMemberService::create( $user );
-
-			// Trigger Mail
-			Yii::$app->cmgSnsLoginMailer->sendRegisterFacebookMail( $user );
 		}
 
 		return $user;

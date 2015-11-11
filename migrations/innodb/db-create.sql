@@ -13,6 +13,7 @@ CREATE TABLE `cmg_sns_profile` (
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `snsId` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `secret` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `data` mediumtext COLLATE utf8_unicode_ci,
   `createdAt` datetime NOT NULL,
   `modifiedAt` datetime DEFAULT NULL,

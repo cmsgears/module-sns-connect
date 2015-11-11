@@ -10,6 +10,7 @@ use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
+use cmsgears\core\common\services\UserService;
 use cmsgears\core\common\services\SiteMemberService;
 
 use cmsgears\core\common\utilities\DateUtil;
@@ -18,30 +19,39 @@ class TwitterProfileService extends SnsProfileService {
 
 	// Static Methods ----------------------------------------------
 
-	public static function getUser( $twitterUser, $accessToken ) {
+	public static function getUser( $twitterUser, $accessToken, $email = null ) {
 
 		$snsProfile		= self::findByTypeSnsId( SnsLoginGlobal::SNS_TYPE_TWITTER, $twitterUser->id );
-		$user			= null;
 
 		if( isset( $snsProfile ) ) {
 
 			$snsProfile	= self::update( $snsProfile, $twitterUser, $accessToken );
 			$user		= $snsProfile->user;
+			
+			return $user;
 		}
-		else {
+		else if( isset( $email ) ) {
 
-			// Create User
-			$user 		= self::register( $twitterUser );
+			$user 		= UserService::findByEmail( $email );
+
+			if( !isset( $user ) ) {
+
+				// Create User
+				$user 		= self::register( $twitterUser );
+
+				// Add User to current Site
+				SiteMemberService::create( $user );
+	
+				// Trigger Mail
+				Yii::$app->cmgSnsLoginMailer->sendRegisterTwitterMail( $user );
+			}
+
 			$snsProfile	= self::create( $user, $twitterUser, $accessToken );
-
-			// Add User to current Site
-			SiteMemberService::create( $user );
-
-			// Trigger Mail
-			Yii::$app->cmgSnsLoginMailer->sendRegisterTwitterMail( $user );
+			
+			return $user;
 		}
 
-		return $user;
+		return false;
 	}
 
 	// Create -----------
@@ -52,8 +62,8 @@ class TwitterProfileService extends SnsProfileService {
 		$date	= DateUtil::getDateTime();
 
 		$user->email 		= $twitterUser->email;
-		$user->firstName	= $twitterUser->given_name;
-		$user->lastName		= $twitterUser->family_name;
+		$user->firstName	= $twitterUser->firstName;
+		$user->lastName		= $twitterUser->lastName;
 		$user->newsletter	= 0;
 		$user->registeredAt	= $date;
 		$user->status		= User::STATUS_ACTIVE;
@@ -74,6 +84,7 @@ class TwitterProfileService extends SnsProfileService {
 		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_TWITTER;
 		$snsProfileToSave->snsId	= $twitterUser->id;
 		$snsProfileToSave->token	= $accessToken;
+		$snsProfileToSave->secret	= $twitterUser->secret;
 		$snsProfileToSave->data		= json_encode( $twitterUser );
 
 		// Create SnsProfile
