@@ -21,7 +21,7 @@ use cmsgears\social\login\common\config\SnsLoginGlobal;
 				case SnsLoginGlobal::CONFIG_SNS_GPLUS: {
 
 ?>
-	<div class="col12x4"> <a class="btn social" href="<?= $setting->getLoginUrl() ?>"> <i class="cmti cmti-social-google"> </i> <em class="margin-left-5">GOOGLE</em> </a></div>
+	<div class="col12x4"> <a class="btn social google" href="<?= $setting->getLoginUrl() ?>"> <i class="cmti cmti-social-google"> </i> <em class="margin-left-5">GOOGLE</em> </a></div>
 <?php	
 					break;
 				}

@@ -73,7 +73,7 @@ class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
 			}
 		}
 
-		$widgetHtml = $this->render( $this->viewFile, [ 'settings' => $this->settings ] );
+		$widgetHtml = $this->render( $this->template, [ 'settings' => $this->settings ] );
 
         return Html::tag( 'div', $widgetHtml, $this->options );
     }
