@@ -11,7 +11,7 @@ class Module extends \cmsgears\core\common\base\Module {
 
     public $controllerNamespace = 'cmsgears\social\login\admin\controllers';
 	
-	public $config 				= [ SnsLoginGlobal::CONFIG_SNS_FACEBOOK, SnsLoginGlobal::CONFIG_SNS_GPLUS ];
+	public $config 				= [ SnsLoginGlobal::CONFIG_SNS_FACEBOOK, SnsLoginGlobal::CONFIG_SNS_GOOGLE, SnsLoginGlobal::CONFIG_SNS_TWITTER ];
 
     public function init() {
 

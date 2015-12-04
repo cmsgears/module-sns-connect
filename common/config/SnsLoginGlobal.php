@@ -10,13 +10,13 @@ class SnsLoginGlobal {
 	// Config ----------------------------------------------------------
 
 	const CONFIG_SNS_FACEBOOK	= 'facebook'; // Facebook
-	const CONFIG_SNS_GPLUS		= 'gplus'; // Google Plus
+	const CONFIG_SNS_GOOGLE		= 'google'; // Google
 	const CONFIG_SNS_TWITTER	= 'twitter'; // Twitter
 
 	// SNS Types -------------------------------------------------------
 
 	const SNS_TYPE_FACEBOOK		= 'facebook'; // Facebook
-	const SNS_TYPE_GPLUS		= 'gplus'; // Google Plus
+	const SNS_TYPE_GOOGLE		= 'google'; // Google
 	const SNS_TYPE_TWITTER		= 'twitter'; // Twitter
 
 	// Model Fields ----------------------------------------------------
