@@ -20,7 +20,7 @@ use cmsgears\social\login\common\config\SnsLoginGlobal;
 <?php
 					break;
 				}
-				case SnsLoginGlobal::CONFIG_SNS_GPLUS: {
+				case SnsLoginGlobal::CONFIG_SNS_GOOGLE: {
 
 ?>
 	<div class="col12x4">

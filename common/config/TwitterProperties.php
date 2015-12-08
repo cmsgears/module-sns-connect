@@ -15,11 +15,11 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 	
 	const PROP_ACTIVE			= 'active';
 
-	const PROP_API_KEY			= 'api key';
+	const PROP_API_KEY			= 'api_key';
 
-	const PROP_API_SECRET		= 'api secret';
+	const PROP_API_SECRET		= 'api_secret';
 
-	const PROP_REDIRECT_URI		= 'redirect uri';
+	const PROP_REDIRECT_URI		= 'redirect_uri';
 
 	// Singleton instance
 	private static $instance;

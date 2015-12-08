@@ -10,7 +10,7 @@ use cmsgears\core\common\config\CmgProperties;
 
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\social\login\common\config\FacebookProperties;
-use cmsgears\social\login\common\config\GPlusProperties;
+use cmsgears\social\login\common\config\GoogleProperties;
 use cmsgears\social\login\common\config\TwitterProperties;
 
 class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
@@ -20,7 +20,7 @@ class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
 	// Public Variables --------------------
 
 	// SNS
-	public $sns			= [ SnsLoginGlobal::CONFIG_SNS_FACEBOOK, SnsLoginGlobal::CONFIG_SNS_GPLUS, SnsLoginGlobal::CONFIG_SNS_TWITTER ];
+	public $sns			= [ SnsLoginGlobal::CONFIG_SNS_FACEBOOK, SnsLoginGlobal::CONFIG_SNS_GOOGLE, SnsLoginGlobal::CONFIG_SNS_TWITTER ];
 
 	// Private Variables -------------------
 
@@ -58,9 +58,9 @@ class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
 
 					break;
 				}
-				case SnsLoginGlobal::CONFIG_SNS_GPLUS: {
+				case SnsLoginGlobal::CONFIG_SNS_GOOGLE: {
 
-					$this->settings[ $sns ] = GPlusProperties::getInstance();
+					$this->settings[ $sns ] = GoogleProperties::getInstance();
 
 					break;
 				}

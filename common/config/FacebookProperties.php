@@ -14,11 +14,11 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 	
 	const PROP_ACTIVE			= 'active';
 
-	const PROP_APP_ID			= 'app id';
+	const PROP_APP_ID			= 'app_id';
 
-	const PROP_APP_SECRET		= 'app secret';
+	const PROP_APP_SECRET		= 'app_secret';
 
-	const PROP_REDIRECT_URI		= 'redirect uri';
+	const PROP_REDIRECT_URI		= 'redirect_uri';
 
 	// Singleton instance
 	private static $instance;
@@ -124,7 +124,9 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 			$accessToken 	= $params[ 'access_token' ];
 	
 			if( isset( $accessToken ) ) {
-	
+
+				$session->set( 'fb_access_token', $accessToken );
+
 				return $accessToken;
 			}
 		}
@@ -139,6 +141,8 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
      	$user 		= json_decode( $graphData );
 
      	if( isset( $user ) ) {
+
+			$session->set( 'fb_user', json_encode( $user ) );
 
 			return $user;
 		}

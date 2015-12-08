@@ -12,6 +12,7 @@ use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\social\login\common\config\FacebookProperties;
 
 use cmsgears\social\login\common\models\forms\FbLogin;
+use cmsgears\social\login\frontend\models\forms\TwitterInfoForm;
 
 use cmsgears\social\login\common\services\FacebookProfileService;
 
@@ -55,14 +56,10 @@ class FacebookController extends \cmsgears\core\frontend\controllers\BaseControl
 
 		if( isset( $snsUser ) ) {
 
-			if( !isset( $snsUser->email ) ) {
+			// Get User
+			$user	= FacebookProfileService::getUser( $snsUser, $accessToken );
 
-				// TODO: Store SNS User in session and ask user for email
-			}
-			else {
-
-				// Get User
-				$user	= FacebookProfileService::getUser( $snsUser, $accessToken );
+			if( $user ) {
 
 				// Login and Redirect to home page
 				$login	= new FbLogin( $user );
@@ -72,11 +69,42 @@ class FacebookController extends \cmsgears\core\frontend\controllers\BaseControl
 					$this->checkHome();
 				}
 			}
+			else {
+
+				$this->redirect( [ 'user-info' ] );
+			}
 		}
 
 		// Model not found
 		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
     }
+
+	public function actionUserInfo() {
+
+		$this->layout	= WebGlobalCore::LAYOUT_PUBLIC;
+
+		$model			= new FacebookInfoForm();
+
+		if( $model->load( Yii::$app->request->post() ) && $model->validate() ) {
+
+			// Get User
+			$snsUser		= Yii::$app->session->get( 'fb_user' );
+			$snsUser		= json_decode( $snsUser ); 
+            $snsUser->email	= $model->email;
+
+			$user			= FacebookProfileService::getUser( $snsUser, Yii::$app->session->get( 'fb_access_token' ) );
+
+			// Login and Redirect to home page
+			$login	= new TwitterLogin( $user );
+
+			if( $login->login() ) {
+	
+				$this->checkHome();
+			}
+		}
+
+		return $this->render( 'user-info', [ 'model' => $model ] );
+	}
 }
 
 ?>

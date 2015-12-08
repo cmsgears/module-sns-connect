@@ -22,17 +22,18 @@ class FacebookProfileService extends SnsProfileService {
 	public static function getUser( $fbUser, $accessToken ) {
 
 		$snsProfile		= self::findByTypeSnsId( SnsLoginGlobal::SNS_TYPE_FACEBOOK, $fbUser->id );
-		$user			= null;
 
 		if( isset( $snsProfile ) ) {
 
 			$snsProfile	= self::update( $snsProfile, $fbUser, $accessToken );
 			$user		= $snsProfile->user;
+			
+			return $user;
 		}
 		else {
-			
+
 			$user 		= UserService::findByEmail( $fbUser->email );
-			
+
 			if( !isset( $user ) ) {
 				
 				// Create User
@@ -46,9 +47,11 @@ class FacebookProfileService extends SnsProfileService {
 			}
 
 			$snsProfile	= self::create( $user, $fbUser, $accessToken );
+			
+			return $user;
 		}
 
-		return $user;
+		return false;
 	}
 
 	// Create -----------

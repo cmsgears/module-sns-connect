@@ -8,17 +8,17 @@ use yii\helpers\Url;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-class GPlusProperties extends \cmsgears\core\common\config\CmgProperties {
+class GoogleProperties extends \cmsgears\core\common\config\CmgProperties {
 
 	//TODO Add code for caching the properties
 
 	const PROP_ACTIVE			= 'active';
 
-	const PROP_APP_ID			= 'app id';
+	const PROP_APP_ID			= 'app_id';
 
-	const PROP_APP_SECRET		= 'app secret';
+	const PROP_APP_SECRET		= 'app_secret';
 
-	const PROP_REDIRECT_URI		= 'redirect uri';
+	const PROP_REDIRECT_URI		= 'redirect_uri';
 
 	// Singleton instance
 	private static $instance;
@@ -36,9 +36,9 @@ class GPlusProperties extends \cmsgears\core\common\config\CmgProperties {
 
 		if( !isset( self::$instance ) ) {
 
-			self::$instance	= new GPlusProperties();
+			self::$instance	= new GoogleProperties();
 
-			self::$instance->init( SnsLoginGlobal::CONFIG_SNS_GPLUS );
+			self::$instance->init( SnsLoginGlobal::CONFIG_SNS_GOOGLE );
 		}
 
 		return self::$instance;

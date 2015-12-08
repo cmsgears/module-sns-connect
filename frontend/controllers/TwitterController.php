@@ -108,7 +108,7 @@ class TwitterController extends \cmsgears\core\frontend\controllers\BaseControll
 			$snsUser		= json_decode( $snsUser ); 
             $snsUser->email	= $model->email;
 
-			$user			= TwitterProfileService::getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ), $model->email );
+			$user			= TwitterProfileService::getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );
 
 			// Login and Redirect to home page
 			$login	= new TwitterLogin( $user );

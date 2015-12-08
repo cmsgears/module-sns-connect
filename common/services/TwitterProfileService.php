@@ -19,7 +19,7 @@ class TwitterProfileService extends SnsProfileService {
 
 	// Static Methods ----------------------------------------------
 
-	public static function getUser( $twitterUser, $accessToken, $email = null ) {
+	public static function getUser( $twitterUser, $accessToken ) {
 
 		$snsProfile		= self::findByTypeSnsId( SnsLoginGlobal::SNS_TYPE_TWITTER, $twitterUser->id );
 
@@ -30,9 +30,9 @@ class TwitterProfileService extends SnsProfileService {
 			
 			return $user;
 		}
-		else if( isset( $email ) ) {
+		else {
 
-			$user 		= UserService::findByEmail( $email );
+			$user 		= UserService::findByEmail( $twitterUser->email );
 
 			if( !isset( $user ) ) {
 
