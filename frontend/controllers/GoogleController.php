@@ -8,14 +8,13 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\login\common\config\SnsLoginGlobal;
-use cmsgears\social\login\common\config\GPlusProperties;
+use cmsgears\social\login\common\config\GoogleProperties;
 
-use cmsgears\social\login\common\models\forms\GPlusLogin;
+use cmsgears\social\login\common\models\forms\GoogleLogin;
 
-use cmsgears\social\login\common\services\GPlusProfileService;
+use cmsgears\social\login\common\services\GoogleProfileService;
 
-class GplusController extends \cmsgears\core\frontend\controllers\BaseController {
+class GoogleController extends \cmsgears\core\frontend\controllers\base\Controller {
 
 	// Constructor and Initialisation ------------------------------
 
@@ -47,19 +46,19 @@ class GplusController extends \cmsgears\core\frontend\controllers\BaseController
 
     public function actionAuthorise( $code, $state ) {
 
-		$gplusProperties	= GPlusProperties::getInstance();
+		$googleProperties	= GoogleProperties::getInstance();
 
 		// Get Token
-		$accessToken		= $gplusProperties->getAccessToken( $code, $state );
-		$snsUser			= $gplusProperties->getUser( $accessToken );
+		$accessToken		= $googleProperties->getAccessToken( $code, $state );
+		$snsUser			= $googleProperties->getUser( $accessToken );
 
 		if( isset( $snsUser ) ) {
 
 			// Get User
-			$user	= GPlusProfileService::getUser( $snsUser, $accessToken );
+			$user	= GoogleProfileService::getUser( $snsUser, $accessToken );
 
 			// Login and Redirect to home page
-			$login	= new GPlusLogin( $user );
+			$login	= new GoogleLogin( $user );
 
 			if( $login->login() ) {
 

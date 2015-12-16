@@ -91,9 +91,14 @@ class GoogleProperties extends \cmsgears\core\common\config\CmgProperties {
 	public function getLoginUrl() {
 
 		$session 	= Yii::$app->session;
-		$state		= Yii::$app->security->generateRandomString();
+        $state		= $session->get( 'gplus_state' );
 
-		$session->set( 'gplus_state', $state );
+      	if( !isset( $state ) ) {
+
+			$state		= Yii::$app->security->generateRandomString();
+
+			$session->set( 'gplus_state', $state );
+        }
 
 		$redirectUri	= $this->getRedirectUri();
 

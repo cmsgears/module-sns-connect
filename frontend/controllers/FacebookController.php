@@ -11,12 +11,12 @@ use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\social\login\common\config\FacebookProperties;
 
-use cmsgears\social\login\common\models\forms\FbLogin;
+use cmsgears\social\login\common\models\forms\FacebookLogin;
 use cmsgears\social\login\frontend\models\forms\TwitterInfoForm;
 
 use cmsgears\social\login\common\services\FacebookProfileService;
 
-class FacebookController extends \cmsgears\core\frontend\controllers\BaseController {
+class FacebookController extends \cmsgears\core\frontend\controllers\base\Controller {
 
 	// Constructor and Initialisation ------------------------------
 
@@ -62,7 +62,7 @@ class FacebookController extends \cmsgears\core\frontend\controllers\BaseControl
 			if( $user ) {
 
 				// Login and Redirect to home page
-				$login	= new FbLogin( $user );
+				$login	= new FacebookLogin( $user );
 
 				if( $login->login() ) {
 

@@ -64,25 +64,6 @@ class TwitterInfoForm extends Model {
             }
         }
     }
-
-    public function validateUsername( $attribute, $params ) {
-
-        if( !$this->hasErrors() ) {
-
-            if( UserService::isExistByUsername( $this->username ) ) {
-
-                $this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_USERNAME_EXIST ) );
-            }
-        }
-    }
-
-	public function termsValidator( $attribute, $params ) {
-
-		if( !isset( $this->terms ) || strlen( $this->terms ) <= 0 ) {
-
-			$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_TERMS ) );
-		}
-	}
 }
 
 ?>

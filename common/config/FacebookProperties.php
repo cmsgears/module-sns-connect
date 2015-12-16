@@ -85,9 +85,14 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 	public function getLoginUrl() {
 
 		$session 	= Yii::$app->session;
-		$state		= Yii::$app->security->generateRandomString();
+        $state		= $session->get( 'fb_state' );
 
-		$session->set( 'fb_state', $state );
+      	if( !isset( $state ) ) {
+
+			$state		= Yii::$app->security->generateRandomString();
+
+			$session->set( 'fb_state', $state );
+        }
 		
 		$redirectUri	= $this->getRedirectUri();
 
@@ -102,8 +107,9 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 	}
 
 	function getAccessToken( $code, $state ) {
-
-		$sState			= Yii::$app->session->get( 'fb_state' );
+		
+		$session 	= Yii::$app->session;
+		$sState		= $session->get( 'fb_state' );
 
 		if( isset( $state ) && strcmp( $sState, $state ) == 0 ) {
 
@@ -135,7 +141,8 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 	}
 
 	function getUser( $accessToken ) {
-
+		
+		$session 	= Yii::$app->session;
 		$graphUrl 	= "https://graph.facebook.com/me?fields=id,first_name,last_name,email,picture&access_token=". $accessToken;
 		$graphData	= $this->curl( $graphUrl );
      	$user 		= json_decode( $graphData );

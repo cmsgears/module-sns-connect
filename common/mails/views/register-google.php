@@ -28,7 +28,7 @@ $confirmLink	= Url::toRoute( "/activate-account?token=$token&email=$email", true
 		</tr>
 		<tr>
 			<td>
-				<br/>Thank you for registering with <?=$siteName?> using your google plus profile. You can also login using your email by activating your account. Activate your account using the below mentioned details:
+				<br/>Thank you for registering with <?=$siteName?> using your google profile. You can also login using your email by activating your account. Activate your account using the below mentioned details:
 			</td>
 		</tr>
 		<tr>

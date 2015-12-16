@@ -15,28 +15,28 @@ use cmsgears\core\common\services\SiteMemberService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
-class GPlusProfileService extends SnsProfileService {
+class GoogleProfileService extends SnsProfileService {
 
 	// Static Methods ----------------------------------------------
 
-	public static function getUser( $gplusUser, $accessToken ) {
+	public static function getUser( $googleUser, $accessToken ) {
 
-		$snsProfile		= self::findByTypeSnsId( SnsLoginGlobal::SNS_TYPE_GPLUS, $gplusUser->id );
+		$snsProfile		= self::findByTypeSnsId( SnsLoginGlobal::SNS_TYPE_GOOGLE, $googleUser->id );
 		$user			= null;
 
 		if( isset( $snsProfile ) ) {
 
-			$snsProfile	= self::update( $snsProfile, $gplusUser, $accessToken );
+			$snsProfile	= self::update( $snsProfile, $googleUser, $accessToken );
 			$user		= $snsProfile->user;
 		}
 		else {
 
-			$user 		= UserService::findByEmail( $gplusUser->email );
+			$user 		= UserService::findByEmail( $googleUser->email );
 			
 			if( !isset( $user ) ) {
 				
 				// Create User
-				$user 		= self::register( $gplusUser );
+				$user 		= self::register( $googleUser );
 
 				// Add User to current Site
 				SiteMemberService::create( $user );
@@ -45,7 +45,7 @@ class GPlusProfileService extends SnsProfileService {
 				Yii::$app->cmgSnsLoginMailer->sendRegisterFacebookMail( $user );
 			}
 
-			$snsProfile	= self::create( $user, $gplusUser, $accessToken );
+			$snsProfile	= self::create( $user, $googleUser, $accessToken );
 		}
 
 		return $user;
@@ -53,14 +53,14 @@ class GPlusProfileService extends SnsProfileService {
 
 	// Create -----------
 
-	function register( $gplusUser ) {
+	function register( $googleUser ) {
 
 		$user 	= new User();
 		$date	= DateUtil::getDateTime();
 
-		$user->email 		= $gplusUser->email;
-		$user->firstName	= $gplusUser->given_name;
-		$user->lastName		= $gplusUser->family_name;
+		$user->email 		= $googleUser->email;
+		$user->firstName	= $googleUser->given_name;
+		$user->lastName		= $googleUser->family_name;
 		$user->newsletter	= 0;
 		$user->registeredAt	= $date;
 		$user->status		= User::STATUS_ACTIVE;
@@ -73,15 +73,15 @@ class GPlusProfileService extends SnsProfileService {
 		return $user;
 	}
 
-	public static function create( $user, $gplusUser, $accessToken ) {
+	public static function create( $user, $googleUser, $accessToken ) {
 
 		$snsProfileToSave = new SnsProfile();
 
 		$snsProfileToSave->userId	= $user->id;
-		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_GPLUS;
-		$snsProfileToSave->snsId	= $gplusUser->id;
+		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_GOOGLE;
+		$snsProfileToSave->snsId	= $googleUser->id;
 		$snsProfileToSave->token	= $accessToken;
-		$snsProfileToSave->data		= json_encode( $gplusUser );
+		$snsProfileToSave->data		= json_encode( $googleUser );
 
 		// Create SnsProfile
 		$snsProfileToSave->save();

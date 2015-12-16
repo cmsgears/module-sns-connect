@@ -17,7 +17,7 @@ use cmsgears\social\login\frontend\models\forms\TwitterInfoForm;
 
 use cmsgears\social\login\common\services\TwitterProfileService;
 
-class TwitterController extends \cmsgears\core\frontend\controllers\BaseController {
+class TwitterController extends \cmsgears\core\frontend\controllers\base\Controller {
 
 	// Constructor and Initialisation ------------------------------
 

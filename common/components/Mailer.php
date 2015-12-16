@@ -11,7 +11,7 @@ use \Yii;
 class Mailer extends \cmsgears\core\common\base\Mailer {
 
 	const MAIL_REG_FACEBOOK		= 'register-facebook';
-	const MAIL_REG_GPLUS		= 'register-gplus';
+	const MAIL_REG_GOOGLE		= 'register-google';
 	const MAIL_REG_TWITTER		= 'register-twitter';
 
     public $htmlLayout 			= '@cmsgears/module-sns-login/common/mails/layouts/html';
@@ -32,13 +32,13 @@ class Mailer extends \cmsgears\core\common\base\Mailer {
             ->send();
 	}
 
-	public function sendRegisterGPlusMail( $user ) {
+	public function sendRegisterGoogleMail( $user ) {
 
 		$fromEmail 	= $this->mailProperties->getSenderEmail();
 		$fromName 	= $this->mailProperties->getSenderName();
 
 		// Send Mail
-        $this->getMailer()->compose( self::MAIL_REG_GPLUS, [ 'coreProperties' => $this->coreProperties, 'user' => $user ] )
+        $this->getMailer()->compose( self::MAIL_REG_GOOGLE, [ 'coreProperties' => $this->coreProperties, 'user' => $user ] )
             ->setTo( $user->email )
             ->setFrom( [ $fromEmail => $fromName ] )
             ->setSubject( "Registration | " . $this->coreProperties->getSiteName() )

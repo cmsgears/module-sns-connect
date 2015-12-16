@@ -11,7 +11,7 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | User Info';
 <p>We need further info before you continue with your twitter account:</p>
 
 <?php
-	if( $coreProperties->isPublicRegister() ) {
+	if( $coreProperties->isRegistration() ) {
 
 		$form = ActiveForm::begin( [ 'id' => 'frm-twitter' ] );
 ?>

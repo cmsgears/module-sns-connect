@@ -30,7 +30,7 @@ class TwitterProfileService extends SnsProfileService {
 			
 			return $user;
 		}
-		else {
+		else if( isset( $twitterUser->email ) ) {
 
 			$user 		= UserService::findByEmail( $twitterUser->email );
 

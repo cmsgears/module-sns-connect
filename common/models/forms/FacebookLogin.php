@@ -13,7 +13,7 @@ use cmsgears\core\common\services\UserService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
-class GPlusLogin extends \yii\base\Model {
+class FacebookLogin extends \yii\base\Model {
 
 	// Variables ---------------------------------------------------
 
