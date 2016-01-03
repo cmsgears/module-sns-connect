@@ -14,9 +14,9 @@ INSERT INTO `cmg_core_form` (`siteId`,`templateId`,`createdBy`,`modifiedBy`,`nam
 SELECT @form := `id` FROM cmg_core_form WHERE slug = 'config-facebook';
 
 INSERT INTO `cmg_core_form_field` (`formId`,`name`,`label`,`type`,`compress`,`validators`,`htmlOptions`,`data`,`order`) VALUES 
-	(@form,'active','Active',20,0,'required','{\"title\":\"Check whether Facebook Login is active.\"}',NULL,0),
+	(@form,'active','Active',40,0,'required','{\"title\":\"Check whether Facebook Login is active.\"}',NULL,0),
 	(@form,'app_id','Application Id',0,0,'required','{\"title\":\"Application Id.\",\"placeholder\":\"Application Id\"}',NULL,0),
-	(@form,'app_secret','Application Secret',5,0,'required','{\"title\":\"Application Secret.\",\"placeholder\":\"Application Secret\"}',NULL,0),
+	(@form,'app_secret','Application Secret',10,0,'required','{\"title\":\"Application Secret.\",\"placeholder\":\"Application Secret\"}',NULL,0),
 	(@form,'redirect_uri','Redirect URI',0,0,'required','{\"title\":\"Redirect URI.\",\"placeholder\":\"Redirect URI\"}',NULL,0);
 
 --
@@ -29,9 +29,9 @@ INSERT INTO `cmg_core_form` (`siteId`,`templateId`,`createdBy`,`modifiedBy`,`nam
 SELECT @form := `id` FROM cmg_core_form WHERE slug = 'config-google';
 
 INSERT INTO `cmg_core_form_field` (`formId`,`name`,`label`,`type`,`compress`,`validators`,`htmlOptions`,`data`,`order`) VALUES 
-	(@form,'active','Active',20,0,'required','{\"title\":\"Check whether Google Login is active.\"}',NULL,0),
+	(@form,'active','Active',40,0,'required','{\"title\":\"Check whether Google Login is active.\"}',NULL,0),
 	(@form,'app_id','Application Id',0,0,'required','{\"title\":\"Application Id.\",\"placeholder\":\"Application Id\"}',NULL,0),
-	(@form,'app_secret','Application Secret',5,0,'required','{\"title\":\"Application Secret.\",\"placeholder\":\"Application Secret\"}',NULL,0),
+	(@form,'app_secret','Application Secret',10,0,'required','{\"title\":\"Application Secret.\",\"placeholder\":\"Application Secret\"}',NULL,0),
 	(@form,'redirect_uri','Redirect URI',0,0,'required','{\"title\":\"Redirect URI.\",\"placeholder\":\"Redirect URI\"}',NULL,0);
 
 --
@@ -44,9 +44,9 @@ INSERT INTO `cmg_core_form` (`siteId`,`templateId`,`createdBy`,`modifiedBy`,`nam
 SELECT @form := `id` FROM cmg_core_form WHERE slug = 'config-twitter';
 
 INSERT INTO `cmg_core_form_field` (`formId`,`name`,`label`,`type`,`compress`,`validators`,`htmlOptions`,`data`,`order`) VALUES 
-	(@form,'active','Active',20,0,'required','{\"title\":\"Check whether Google Login is active.\"}',NULL,0),
+	(@form,'active','Active',40,0,'required','{\"title\":\"Check whether Google Login is active.\"}',NULL,0),
 	(@form,'api_key','API Id',0,0,'required','{\"title\":\"API Key.\",\"placeholder\":\"API Key\"}',NULL,0),
-	(@form,'api_secret','API Secret',5,0,'required','{\"title\":\"API Secret.\",\"placeholder\":\"API Secret\"}',NULL,0),
+	(@form,'api_secret','API Secret',10,0,'required','{\"title\":\"API Secret.\",\"placeholder\":\"API Secret\"}',NULL,0),
 	(@form,'redirect_uri','Redirect URI',0,0,'required','{\"title\":\"Redirect URI.\",\"placeholder\":\"Redirect URI\"}',NULL,0);
 
 --
