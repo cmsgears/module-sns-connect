@@ -14,9 +14,9 @@ CREATE TABLE `cmg_sns_profile` (
   `snsId` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `secret` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `data` mediumtext COLLATE utf8_unicode_ci,
   `createdAt` datetime NOT NULL,
   `modifiedAt` datetime DEFAULT NULL,
+  `data` mediumtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `fk_sns_profile_1` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -20,9 +20,9 @@ use cmsgears\core\common\models\entities\User;
  * @property integer $type
  * @property string $snsId
  * @property string $token
- * @property string $data
  * @property datetime $createdAt
- * @property datetime $modifiedAt 
+ * @property datetime $modifiedAt
+ * @property string $data 
  */
 class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
 
