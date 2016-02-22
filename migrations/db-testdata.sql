@@ -53,16 +53,16 @@ INSERT INTO `cmg_core_form_field` (`formId`,`name`,`label`,`type`,`compress`,`va
 -- Dumping data for table `cmg_core_model_attribute`
 --
 
-INSERT INTO `cmg_core_model_attribute` (`parentId`,`parentType`,`name`,`type`,`valueType`,`value`) VALUES
-	(@site,'site','active','facebook','flag','1'),
-	(@site,'site','app_id','facebook','text',''),
-	(@site,'site','app_secret','facebook','text',''),
-	(@site,'site','redirect_uri','facebook','text','/sns/facebook/authorise'),
-	(@site,'site','active','google','flag','1'),
-	(@site,'site','app_id','google','text',''),
-	(@site,'site','app_secret','google','text',''),
-	(@site,'site','redirect_uri','google','text','/sns/google/authorise'),
-	(@site,'site','active','twitter','flag','1'),
-	(@site,'site','api_key','twitter','text',''),
-	(@site,'site','api_secret','twitter','text',''),
-	(@site,'site','redirect_uri','twitter','text','/sns/twitter/authorise');
+INSERT INTO `cmg_core_model_attribute` (`parentId`,`parentType`,`name`,`label`,`type`,`valueType`,`value`) VALUES
+	(@site,'site','active','Active','facebook','flag','1'),
+	(@site,'site','app_id','App Id','facebook','text',''),
+	(@site,'site','app_secret','App Secret','facebook','text',''),
+	(@site,'site','redirect_uri','Redirect URI','facebook','text','/sns/facebook/authorise'),
+	(@site,'site','active','Actrive','google','flag','1'),
+	(@site,'site','app_id','App Id','google','text',''),
+	(@site,'site','app_secret','App Secret','google','text',''),
+	(@site,'site','redirect_uri','Redirect URI','google','text','/sns/google/authorise'),
+	(@site,'site','active','Active','twitter','flag','1'),
+	(@site,'site','api_key','API Key','twitter','text',''),
+	(@site,'site','api_secret','API Secret','twitter','text',''),
+	(@site,'site','redirect_uri','Redirect URI','twitter','text','/sns/twitter/authorise');
