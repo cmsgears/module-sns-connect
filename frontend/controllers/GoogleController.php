@@ -62,7 +62,7 @@ class GoogleController extends \cmsgears\core\frontend\controllers\base\Controll
 
 			if( $login->login() ) {
 
-				$this->checkHome();
+				return $this->redirect( [ '/user/index' ] );
 			}
 		}
 

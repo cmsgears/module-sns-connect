@@ -66,12 +66,12 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 
 				if( $login->login() ) {
 
-					$this->checkHome();
+					return $this->redirect( [ '/user/index' ] );
 				}
 			}
 			else {
 
-				$this->redirect( [ 'user-info' ] );
+				return $this->redirect( [ 'user-info' ] );
 			}
 		}
 
@@ -99,7 +99,7 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 
 			if( $login->login() ) {
 	
-				$this->checkHome();
+				return $this->redirect( [ '/user/index' ] );
 			}
 		}
 

@@ -82,12 +82,12 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 
 				if( $login->login() ) {
 		
-					$this->checkHome();
+					return $this->redirect( [ '/user/index' ] );
 				}
 			}
 			else {
 
-				$this->redirect( [ 'user-info' ] );
+				return $this->redirect( [ 'user-info' ] );
 			}
 		}
 
@@ -114,8 +114,8 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 			$login	= new TwitterLogin( $user );
 
 			if( $login->login() ) {
-	
-				$this->checkHome();
+
+				return $this->redirect( [ '/user/index' ] );
 			}
 		}
 
