@@ -12,7 +12,7 @@ use cmsgears\social\login\common\config\GoogleProperties;
 
 use cmsgears\social\login\common\models\forms\GoogleLogin;
 
-use cmsgears\social\login\common\services\GoogleProfileService;
+use cmsgears\social\login\common\services\entities\GoogleProfileService;
 
 class GoogleController extends \cmsgears\core\frontend\controllers\base\Controller {
 

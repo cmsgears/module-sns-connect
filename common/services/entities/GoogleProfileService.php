@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\social\login\common\services;
+namespace cmsgears\social\login\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -10,12 +10,12 @@ use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
-use cmsgears\core\common\services\UserService;
-use cmsgears\core\common\services\SiteMemberService;
+use cmsgears\core\common\services\entities\UserService;
+use cmsgears\core\common\services\mappers\SiteMemberService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
-class GoogleProfileService extends SnsProfileService {
+class GoogleProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService {
 
 	// Static Methods ----------------------------------------------
 
@@ -32,15 +32,15 @@ class GoogleProfileService extends SnsProfileService {
 		else {
 
 			$user 		= UserService::findByEmail( $googleUser->email );
-			
+
 			if( !isset( $user ) ) {
-				
+
 				// Create User
 				$user 		= self::register( $googleUser );
 
 				// Add User to current Site
 				SiteMemberService::create( $user );
-	
+
 				// Trigger Mail
 				Yii::$app->cmgSnsLoginMailer->sendRegisterFacebookMail( $user );
 			}

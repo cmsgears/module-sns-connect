@@ -9,13 +9,12 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\core\frontend\config\WebGlobalCore;
-use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\social\login\common\config\TwitterProperties;
 
 use cmsgears\social\login\common\models\forms\TwitterLogin;
 use cmsgears\social\login\frontend\models\forms\TwitterInfoForm;
 
-use cmsgears\social\login\common\services\TwitterProfileService;
+use cmsgears\social\login\common\services\entities\TwitterProfileService;
 
 class TwitterController extends \cmsgears\core\frontend\controllers\base\Controller {
 
@@ -63,7 +62,7 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
     public function actionAuthorise( $oauth_token, $oauth_verifier ) {
 
 		$twitterProperties	= TwitterProperties::getInstance();
- 
+
 		$twitterProperties->setAuthToken( $oauth_token, $oauth_verifier );
 
 		$twitterProperties->getAccessToken();
@@ -81,7 +80,7 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 				$login	= new TwitterLogin( $user );
 
 				if( $login->login() ) {
-		
+
 					return $this->redirect( [ '/user/index' ] );
 				}
 			}
@@ -105,7 +104,7 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 
 			// Get User
 			$snsUser		= Yii::$app->session->get( 'tw_user' );
-			$snsUser		= json_decode( $snsUser ); 
+			$snsUser		= json_decode( $snsUser );
             $snsUser->email	= $model->email;
 
 			$user			= TwitterProfileService::getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );

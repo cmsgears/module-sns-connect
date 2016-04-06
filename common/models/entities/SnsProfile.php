@@ -11,6 +11,7 @@ use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
 use cmsgears\core\common\models\entities\User;
+use cmsgears\social\login\common\models\base\SnsTables;
 
 /**
  * SnsProfile Entity
@@ -22,16 +23,23 @@ use cmsgears\core\common\models\entities\User;
  * @property string $token
  * @property datetime $createdAt
  * @property datetime $modifiedAt
- * @property string $data 
+ * @property string $data
  */
-class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
+class SnsProfile extends \cmsgears\core\common\models\base\CmgEntity {
+
+	// Variables ---------------------------------------------------
+
+	// Constants/Statics --
+
+	// Public -------------
+
+	// Private/Protected --
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
 
 	// Instance Methods --------------------------------------------
-
-	public function getUser() {
-
-		return $this->hasOne( User::className(), [ 'id' => 'userId' ] );
-	}
 
 	// yii\base\Component ----------------
 
@@ -79,7 +87,16 @@ class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
 		];
 	}
 
+	// SnsProfile ------------------------
+
+	public function getUser() {
+
+		return $this->hasOne( User::className(), [ 'id' => 'userId' ] );
+	}
+
 	// Static Methods ----------------------------------------------
+
+	// yii\db\ActiveRecord ---------------
 
     /**
      * @inheritdoc
@@ -89,9 +106,11 @@ class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
 		return SnsTables::TABLE_SNS_PROFILE;
 	}
 
-	// SnsProfile
+	// SnsProfile ------------------------
 
-	// Read ------
+	// Create -------------
+
+	// Read ---------------
 
 	/**
 	 * @return SnsProfile - by slug.
@@ -100,6 +119,10 @@ class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
 
 		return self::find()->where( 'type=:type AND snsId=:snsId', [ ':type' => $type, ':snsId' => $snsId ] )->one();
 	}
+
+	// Update -------------
+
+	// Delete -------------
 }
 
 ?>

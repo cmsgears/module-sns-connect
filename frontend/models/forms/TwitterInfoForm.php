@@ -3,16 +3,14 @@ namespace cmsgears\social\login\frontend\models\forms;
 
 // Yii Imports
 use \Yii;
-use yii\validators\FilterValidator;
 use yii\helpers\ArrayHelper;
-use yii\base\Model;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\services\UserService;
+use cmsgears\core\common\services\entities\UserService;
 
-class TwitterInfoForm extends Model {
+class TwitterInfoForm extends \yii\base\Model {
 
 	// Variables ---------------------------------------------------
 
@@ -21,11 +19,11 @@ class TwitterInfoForm extends Model {
 	public $email;
 
 	// Instance Methods --------------------------------------------
-	
+
 	// yii\base\Model
 
 	public function rules() {
-		
+
 		$trim		= [];
 
 		if( Yii::$app->cmgCore->trimFieldValue ) {
@@ -59,7 +57,7 @@ class TwitterInfoForm extends Model {
         if( !$this->hasErrors() ) {
 
             if( UserService::isExistByEmail( $this->email ) ) {
-            	
+
 				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_EMAIL_EXIST ) );
             }
         }

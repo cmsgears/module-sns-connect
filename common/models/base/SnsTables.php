@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\social\login\common\models\entities;
+namespace cmsgears\social\login\common\models\base;
 
 class SnsTables {
 

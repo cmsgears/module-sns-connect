@@ -9,7 +9,7 @@ use cmsgears\core\common\config\CoreGlobal;
 
 use cmsgears\core\common\models\entities\User;
 
-use cmsgears\core\common\services\UserService;
+use cmsgears\core\common\services\entities\UserService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
@@ -18,7 +18,7 @@ class GoogleLogin extends \yii\base\Model {
 	// Variables ---------------------------------------------------
 
 	// Public Variables --------------------
-	
+
 	public $email;
 
 	// Private Variables -------------------

@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\social\login\common\services;
+namespace cmsgears\social\login\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -10,12 +10,12 @@ use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
-use cmsgears\core\common\services\UserService;
-use cmsgears\core\common\services\SiteMemberService;
+use cmsgears\core\common\services\entities\UserService;
+use cmsgears\core\common\services\mappers\SiteMemberService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
-class TwitterProfileService extends SnsProfileService {
+class TwitterProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService {
 
 	// Static Methods ----------------------------------------------
 
@@ -27,7 +27,7 @@ class TwitterProfileService extends SnsProfileService {
 
 			$snsProfile	= self::update( $snsProfile, $twitterUser, $accessToken );
 			$user		= $snsProfile->user;
-			
+
 			return $user;
 		}
 		else if( isset( $twitterUser->email ) ) {
@@ -41,13 +41,13 @@ class TwitterProfileService extends SnsProfileService {
 
 				// Add User to current Site
 				SiteMemberService::create( $user );
-	
+
 				// Trigger Mail
 				Yii::$app->cmgSnsLoginMailer->sendRegisterTwitterMail( $user );
 			}
 
 			$snsProfile	= self::create( $user, $twitterUser, $accessToken );
-			
+
 			return $user;
 		}
 

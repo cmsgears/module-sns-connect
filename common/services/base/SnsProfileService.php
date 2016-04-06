@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\social\login\common\services;
+namespace cmsgears\social\login\common\services\base;
 
 // Yii Imports
 use \Yii;
@@ -8,7 +8,7 @@ use \Yii;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\login\common\models\entities\SnsTables;
+use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
 use cmsgears\core\common\utilities\DateUtil;
@@ -16,7 +16,7 @@ use cmsgears\core\common\utilities\DateUtil;
 /**
  * The class SnsProfileService is base class to perform database activities for SnsProfile Entity.
  */
-class SnsProfileService extends \cmsgears\core\common\services\Service {
+class SnsProfileService extends \cmsgears\core\common\services\base\Service {
 
 	// Static Methods ----------------------------------------------
 

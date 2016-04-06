@@ -39,7 +39,7 @@ INSERT INTO `cmg_core_form_field` (`formId`,`name`,`label`,`type`,`compress`,`va
 --
 
 INSERT INTO `cmg_core_form` (`siteId`,`templateId`,`createdBy`,`modifiedBy`,`name`,`slug`,`type`,`description`,`successMessage`,`captcha`,`visibility`,`active`,`userMail`,`adminMail`,`createdAt`,`modifiedAt`,`htmlOptions`,`data`) VALUES
-	(@site,NULL,1,1,'Config Twitter','config-twitter','system','Twitter site configuration form.','All configurations saved successfully.',0,10,1,0,0,'2014-10-11 14:22:54','2014-10-11 14:22:54',NULL,NULL);
+	(@site,NULL,1,1,'Config Twitter','config-twitter','system','Twitter configuration form.','All configurations saved successfully.',0,10,1,0,0,'2014-10-11 14:22:54','2014-10-11 14:22:54',NULL,NULL);
 
 SELECT @form := `id` FROM cmg_core_form WHERE slug = 'config-twitter';
 

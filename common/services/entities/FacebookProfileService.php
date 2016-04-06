@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\social\login\common\services;
+namespace cmsgears\social\login\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -10,12 +10,12 @@ use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
-use cmsgears\core\common\services\UserService;
-use cmsgears\core\common\services\SiteMemberService;
+use cmsgears\core\common\services\entities\UserService;
+use cmsgears\core\common\services\mappers\SiteMemberService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
-class FacebookProfileService extends SnsProfileService {
+class FacebookProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService {
 
 	// Static Methods ----------------------------------------------
 
@@ -27,7 +27,7 @@ class FacebookProfileService extends SnsProfileService {
 
 			$snsProfile	= self::update( $snsProfile, $fbUser, $accessToken );
 			$user		= $snsProfile->user;
-			
+
 			return $user;
 		}
 		else {
@@ -35,19 +35,19 @@ class FacebookProfileService extends SnsProfileService {
 			$user 		= UserService::findByEmail( $fbUser->email );
 
 			if( !isset( $user ) ) {
-				
+
 				// Create User
 				$user 		= self::register( $fbUser );
 
 				// Add User to current Site
 				SiteMemberService::create( $user );
-	
+
 				// Trigger Mail
 				Yii::$app->cmgSnsLoginMailer->sendRegisterFacebookMail( $user );
 			}
 
 			$snsProfile	= self::create( $user, $fbUser, $accessToken );
-			
+
 			return $user;
 		}
 
@@ -55,7 +55,7 @@ class FacebookProfileService extends SnsProfileService {
 	}
 
 	// Create -----------
-	
+
 	public static function register( $fbUser ) {
 
 		$user 	= new User();
@@ -75,7 +75,7 @@ class FacebookProfileService extends SnsProfileService {
 
 		return $user;
 	}
-	
+
 	public static function create( $user, $fbUser, $accessToken ) {
 
 		$snsProfileToSave = new SnsProfile();

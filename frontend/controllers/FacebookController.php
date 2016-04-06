@@ -8,13 +8,12 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\login\common\config\SnsLoginGlobal;
 use cmsgears\social\login\common\config\FacebookProperties;
 
 use cmsgears\social\login\common\models\forms\FacebookLogin;
-use cmsgears\social\login\frontend\models\forms\TwitterInfoForm;
+use cmsgears\social\login\frontend\models\forms\FacebookInfoForm;
 
-use cmsgears\social\login\common\services\FacebookProfileService;
+use cmsgears\social\login\common\services\entities\FacebookProfileService;
 
 class FacebookController extends \cmsgears\core\frontend\controllers\base\Controller {
 
@@ -89,7 +88,7 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 
 			// Get User
 			$snsUser		= Yii::$app->session->get( 'fb_user' );
-			$snsUser		= json_decode( $snsUser ); 
+			$snsUser		= json_decode( $snsUser );
             $snsUser->email	= $model->email;
 
 			$user			= FacebookProfileService::getUser( $snsUser, Yii::$app->session->get( 'fb_access_token' ) );
@@ -98,7 +97,7 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 			$login	= new TwitterLogin( $user );
 
 			if( $login->login() ) {
-	
+
 				return $this->redirect( [ '/user/index' ] );
 			}
 		}
