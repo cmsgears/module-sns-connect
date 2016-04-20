@@ -18,7 +18,7 @@ CREATE TABLE `cmg_sns_profile` (
   `modifiedAt` datetime DEFAULT NULL,
   `data` mediumtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
-  KEY `fk_sns_profile_1` (`userId`)
+  KEY `fk_cmg_sns_profile_1` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -30,6 +30,6 @@ SET FOREIGN_KEY_CHECKS=0;
 --
 
 ALTER TABLE `cmg_sns_profile`
-	ADD CONSTRAINT `fk_sns_profile_1` FOREIGN KEY (`userId`) REFERENCES `cmg_core_user` (`id`);
+	ADD CONSTRAINT `fk_cmg_sns_profile_1` FOREIGN KEY (`userId`) REFERENCES `cmg_core_user` (`id`);
 
 SET FOREIGN_KEY_CHECKS=1;
