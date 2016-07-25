@@ -9,33 +9,60 @@ use cmsgears\core\common\config\CoreGlobal;
 
 use cmsgears\core\common\models\entities\User;
 
-use cmsgears\core\common\services\entities\UserService;
-
 use cmsgears\core\common\utilities\DateUtil;
 
 class FacebookLogin extends \yii\base\Model {
 
 	// Variables ---------------------------------------------------
 
-	// Public Variables --------------------
+	// Globals -------------------------------
+
+	// Constants --------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
 
 	public $email;
 
-	// Private Variables -------------------
+	// Protected --------------
 
-    private $_user;
+	protected $userService;
+
+	// Private ----------------
+
+	private $user;
+
+	// Traits ------------------------------------------------------
 
 	// Constructor and Initialisation ------------------------------
 
 	public function __construct( $user )  {
 
-		$this->_user 	= $user;
+		$this->user 	= $user;
 		$this->email	= $user->email;
 	}
 
-	// Instance Methods --------------------------------------------
+	public function init() {
 
-	// yii\base\Model
+		parent::init();
+
+		$this->userService	= Yii::$app->factory->get( 'userService' );
+	}
+
+	// Instance methods --------------------------------------------
+
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// yii\base\Model ---------
 
 	public function rules() {
 
@@ -53,17 +80,11 @@ class FacebookLogin extends \yii\base\Model {
 		];
 	}
 
-	// LoginForm
+	// CMG interfaces ------------------------
 
-    public function getUser() {
+	// CMG parent classes --------------------
 
-        if( $this->_user === false ) {
-
-            $this->_user = UserService::findByEmail( $this->email );
-        }
-
-        return $this->_user;
-    }
+	// Validators ----------------------------
 
     public function validateUser( $attribute, $params ) {
 
@@ -71,35 +92,45 @@ class FacebookLogin extends \yii\base\Model {
 
             if( !$this->user ) {
 
-				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_USER_NOT_EXIST ) );
+				$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_USER_NOT_EXIST ) );
             }
 
-			if( !$this->hasErrors() && !$this->user->isConfirmed() ) {
+			if( !$this->hasErrors() && !$this->user->isVerified() ) {
 
-				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_USER_VERIFICATION ) );
+				$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_USER_VERIFICATION ) );
 			}
 
 			if( !$this->hasErrors() && $this->user->isBlocked() ) {
 
-				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_BLOCKED ) );
+				$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_BLOCKED ) );
 			}
         }
+    }
+
+	// FacebookLogin -------------------------
+
+    public function getUser() {
+
+        if( $this->user === false ) {
+
+            $this->user = $this->userService->getByEmail( $this->email );
+        }
+
+        return $this->user;
     }
 
     public function login() {
 
         if ( $this->validate() ) {
 
-			$user				= $this->user;
+			$user				= $this->getUser();
 			$user->lastLoginAt 	= DateUtil::getDateTime();
 
 			$user->save();
 
-            return Yii::$app->user->login( $user, 0 );
+            return Yii::$app->user->login( $user, false );
         }
 
 		return false;
     }
 }
-
-?>

@@ -1,52 +1,86 @@
 <?php
-namespace cmsgears\social\login\common\services\entities;
+namespace cmsgears\core\common\services\entities;
 
 // Yii Imports
 use \Yii;
 
 // CMG Imports
+use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
-use cmsgears\core\common\models\entities\User;
+use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
-use cmsgears\core\common\services\entities\UserService;
-use cmsgears\core\common\services\mappers\SiteMemberService;
+use cmsgears\social\login\common\services\interfaces\entities\IFacebookProfileService;
 
-use cmsgears\core\common\utilities\DateUtil;
+class FacebookProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService implements IFacebookProfileService {
 
-class FacebookProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService {
+	// Variables ---------------------------------------------------
 
-	// Static Methods ----------------------------------------------
+	// Globals -------------------------------
 
-	public static function getUser( $fbUser, $accessToken ) {
+	// Constants --------------
 
-		$snsProfile		= self::findByTypeSnsId( SnsLoginGlobal::SNS_TYPE_FACEBOOK, $fbUser->id );
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+	// Instance methods --------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// FacebookProfileService ----------------
+
+	// Data Provider ------
+
+	// Read ---------------
+
+	public function getUser( $fbUser, $accessToken ) {
+
+		$snsProfile		= $this->getByTypeSnsId( SnsLoginGlobal::SNS_TYPE_FACEBOOK, $fbUser->id );
 
 		if( isset( $snsProfile ) ) {
 
-			$snsProfile	= self::update( $snsProfile, $fbUser, $accessToken );
+			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $fbUser, 'accessToken' => $accessToken ] );
 			$user		= $snsProfile->user;
 
 			return $user;
 		}
 		else {
 
-			$user 		= UserService::findByEmail( $fbUser->email );
+			$user 		= $this->userService->getByEmail( $fbUser->email );
 
 			if( !isset( $user ) ) {
 
 				// Create User
-				$user 		= self::register( $fbUser );
+				$user 		= $this->register( $fbUser );
 
 				// Add User to current Site
-				SiteMemberService::create( $user );
+				$this->siteMemberService->create( $user );
 
 				// Trigger Mail
-				Yii::$app->cmgSnsLoginMailer->sendRegisterFacebookMail( $user );
+				Yii::$app->snsLoginMailer->sendRegisterFacebookMail( $user );
 			}
 
-			$snsProfile	= self::create( $user, $fbUser, $accessToken );
+			$snsProfile	= $this->create( $user, [ 'snsUser' => $fbUser, 'accessToken' => $accessToken ] );
 
 			return $user;
 		}
@@ -54,9 +88,37 @@ class FacebookProfileService extends \cmsgears\social\login\common\services\base
 		return false;
 	}
 
-	// Create -----------
+    // Read - Models ---
 
-	public static function register( $fbUser ) {
+    // Read - Lists ----
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	public function create( $user, $config = [] ) {
+
+		$snsUser		= $config[ 'snsUser' ];
+		$accessToken	= $config[ 'accessToken' ];
+
+		$snsProfileToSave = new SnsProfile();
+
+		$snsProfileToSave->userId	= $user->id;
+		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_FACEBOOK;
+		$snsProfileToSave->snsId	= $snsUser->id;
+		$snsProfileToSave->token	= $accessToken;
+		$snsProfileToSave->data		= json_encode( $snsUser );
+
+		// Create SnsProfile
+		$snsProfileToSave->save();
+
+		// Return SnsProfile
+		return $snsProfileToSave;
+	}
+
+	public function register( $fbUser ) {
 
 		$user 	= new User();
 		$date	= DateUtil::getDateTime();
@@ -64,7 +126,7 @@ class FacebookProfileService extends \cmsgears\social\login\common\services\base
 		$user->email 		= $fbUser->email;
 		$user->firstName	= $fbUser->first_name;
 		$user->lastName		= $fbUser->last_name;
-		$user->newsletter	= 0;
+		$user->newsletter	= false;
 		$user->registeredAt	= $date;
 		$user->status		= User::STATUS_ACTIVE;
 
@@ -76,22 +138,31 @@ class FacebookProfileService extends \cmsgears\social\login\common\services\base
 		return $user;
 	}
 
-	public static function create( $user, $fbUser, $accessToken ) {
+	// Update -------------
 
-		$snsProfileToSave = new SnsProfile();
+	// Delete -------------
 
-		$snsProfileToSave->userId	= $user->id;
-		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_FACEBOOK;
-		$snsProfileToSave->snsId	= $fbUser->id;
-		$snsProfileToSave->token	= $accessToken;
-		$snsProfileToSave->data		= json_encode( $fbUser );
+	// Static Methods ----------------------------------------------
 
-		// Create SnsProfile
-		$snsProfileToSave->save();
+	// CMG parent classes --------------------
 
-		// Return SnsProfile
-		return $snsProfileToSave;
-	}
+	// FacebookProfileService ----------------
+
+	// Data Provider ------
+
+	// Read ---------------
+
+    // Read - Models ---
+
+    // Read - Lists ----
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	// Update -------------
+
+	// Delete -------------
 }
-
-?>

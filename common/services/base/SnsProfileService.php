@@ -5,83 +5,129 @@ namespace cmsgears\social\login\common\services\base;
 use \Yii;
 
 // CMG Imports
+use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
-use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
-use cmsgears\core\common\utilities\DateUtil;
+use cmsgears\core\common\services\interfaces\entities\IUserService;
+use cmsgears\core\common\services\interfaces\mappers\ISiteMemberService;
+use cmsgears\social\login\common\services\interfaces\base\ISnsProfileService;
 
-/**
- * The class SnsProfileService is base class to perform database activities for SnsProfile Entity.
- */
-class SnsProfileService extends \cmsgears\core\common\services\base\Service {
+abstract class SnsProfileService extends \yii\base\Object implements ISnsProfileService {
 
-	// Static Methods ----------------------------------------------
+	// Variables ---------------------------------------------------
 
-	// Read ----------------
+	// Globals -------------------------------
 
-	/**
-	 * @param integer $id
-	 * @return SnsProfile
-	 */
-	public static function findById( $id ) {
+	// Constants --------------
 
-		return SnsProfile::findById( $id );
-	}
+	// Public -----------------
 
-	/**
-	 * @param string $type
-	 * @param string $snsId
-	 * @return SnsProfile
-	 */
-	public static function findByTypeSnsId( $type, $snsId ) {
+	public static $modelClass	= '\cmsgears\social\login\common\models\entities\SnsProfile';
+
+	public static $modelTable	= SnsTables::TABLE_SNS_PROFILE;
+
+	public static $parentType	= null;
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	protected $userService;
+
+	protected $siteMemberService;
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+    public function __construct( IUserService $userService, ISiteMemberService $siteMemberService, $config = [] ) {
+
+		$this->userService			= $userService;
+		$this->siteMemberService 	= $siteMemberService;
+
+        parent::__construct( $config );
+    }
+
+	// Instance methods --------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// SnsProfileService ---------------------
+
+	// Data Provider ------
+
+	// Read ---------------
+
+    // Read - Models ---
+
+   	public function getByTypeSnsId( $type, $snsId ) {
 
 		return SnsProfile::findByTypeSnsId( $type, $snsId );
 	}
 
-	// Data Provider ----
+    // Read - Lists ----
 
-	/**
-	 * @param array $config to generate query
-	 * @return ActiveDataProvider
-	 */
-	public static function getPagination( $config = [] ) {
+    // Read - Maps -----
 
-		return self::getDataProvider( new SnsProfile(), $config );
-	}
+	// Read - Others ---
 
-	// Update -----------
+	// Create -------------
 
-	public static function update( $snsProfile, $snsUser, $accessToken ) {
+	// Update -------------
 
-		// Find existing SnsProfile
-		$profileToUpdate	= self::findById( $snsProfile->id );
+	public function update( $snsProfile, $config = [] ) {
+
+		$snsUser		= $config[ 'snsUser' ];
+		$accessToken	= $config[ 'accessToken' ];
 
 		// Copy Attributes
 		$profileToUpdate->token	= $accessToken;
 		$profileToUpdate->data	= json_encode( $snsUser );
 
-		// Update SnsProfile
-		$profileToUpdate->update();
-
 		// Return updated SnsProfile
-		return $profileToUpdate;
+		return parent::update( $model, [
+			'attributes' => [ 'token', 'data' ]
+		]);
 	}
 
-	// Delete -----------
+	// Delete -------------
 
-	public static function delete( $profile ) {
+	// Static Methods ----------------------------------------------
 
-		// Find existing SnsProfile
-		$profileToDelete	= self::findById( $profile->id );
+	// CMG parent classes --------------------
 
-		// Delete SnsProfile
-		$profileToDelete->delete();
+	// SnsProfileService ---------------------
 
-		return true;
-	}
+	// Data Provider ------
+
+	// Read ---------------
+
+    // Read - Models ---
+
+    // Read - Lists ----
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	// Update -------------
+
+	// Delete -------------
 }
-
-?>

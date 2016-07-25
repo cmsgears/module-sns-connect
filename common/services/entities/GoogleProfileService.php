@@ -1,57 +1,119 @@
 <?php
-namespace cmsgears\social\login\common\services\entities;
+namespace cmsgears\core\common\services\entities;
 
 // Yii Imports
 use \Yii;
 
 // CMG Imports
+use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
-use cmsgears\core\common\models\entities\User;
+use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
-use cmsgears\core\common\services\entities\UserService;
-use cmsgears\core\common\services\mappers\SiteMemberService;
+use cmsgears\social\login\common\services\interfaces\entities\IGoogleProfileService;
 
-use cmsgears\core\common\utilities\DateUtil;
+class GoogleProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService implements IGoogleProfileService {
 
-class GoogleProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService {
+	// Variables ---------------------------------------------------
 
-	// Static Methods ----------------------------------------------
+	// Globals -------------------------------
 
-	public static function getUser( $googleUser, $accessToken ) {
+	// Constants --------------
 
-		$snsProfile		= self::findByTypeSnsId( SnsLoginGlobal::SNS_TYPE_GOOGLE, $googleUser->id );
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+	// Instance methods --------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// GoogleProfileService ------------------
+
+	// Data Provider ------
+
+	// Read ---------------
+
+    // Read - Models ---
+
+	public function getUser( $googleUser, $accessToken ) {
+
+		$snsProfile		= $this->getByTypeSnsId( SnsLoginGlobal::SNS_TYPE_GOOGLE, $googleUser->id );
 		$user			= null;
 
 		if( isset( $snsProfile ) ) {
 
-			$snsProfile	= self::update( $snsProfile, $googleUser, $accessToken );
+			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $googleUser, 'accessToken' => $accessToken ] );
 			$user		= $snsProfile->user;
 		}
 		else {
 
-			$user 		= UserService::findByEmail( $googleUser->email );
+			$user 		= $this->userService->getByEmail( $googleUser->email );
 
 			if( !isset( $user ) ) {
 
 				// Create User
-				$user 		= self::register( $googleUser );
+				$user 		= $this->register( $googleUser );
 
 				// Add User to current Site
-				SiteMemberService::create( $user );
+				$this->siteMemberService->create( $user );
 
 				// Trigger Mail
-				Yii::$app->cmgSnsLoginMailer->sendRegisterFacebookMail( $user );
+				Yii::$app->snsLoginMailer->sendRegisterFacebookMail( $user );
 			}
 
-			$snsProfile	= self::create( $user, $googleUser, $accessToken );
+			$snsProfile	= $this->create( $user, [ 'snsUser' => $googleUser, 'accessToken' => $accessToken ] );
 		}
 
 		return $user;
 	}
 
-	// Create -----------
+    // Read - Lists ----
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	public function create( $user, $config = [] ) {
+
+		$snsUser		= $config[ 'snsUser' ];
+		$accessToken	= $config[ 'accessToken' ];
+
+		$snsProfileToSave = new SnsProfile();
+
+		$snsProfileToSave->userId	= $user->id;
+		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_GOOGLE;
+		$snsProfileToSave->snsId	= $snsUser->id;
+		$snsProfileToSave->token	= $accessToken;
+		$snsProfileToSave->data		= json_encode( $snsUser );
+
+		// Create SnsProfile
+		$snsProfileToSave->save();
+
+		// Return SnsProfile
+		return $snsProfileToSave;
+	}
 
 	function register( $googleUser ) {
 
@@ -73,22 +135,31 @@ class GoogleProfileService extends \cmsgears\social\login\common\services\base\S
 		return $user;
 	}
 
-	public static function create( $user, $googleUser, $accessToken ) {
+	// Update -------------
 
-		$snsProfileToSave = new SnsProfile();
+	// Delete -------------
 
-		$snsProfileToSave->userId	= $user->id;
-		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_GOOGLE;
-		$snsProfileToSave->snsId	= $googleUser->id;
-		$snsProfileToSave->token	= $accessToken;
-		$snsProfileToSave->data		= json_encode( $googleUser );
+	// Static Methods ----------------------------------------------
 
-		// Create SnsProfile
-		$snsProfileToSave->save();
+	// CMG parent classes --------------------
 
-		// Return SnsProfile
-		return $snsProfileToSave;
-	}
+	// GoogleProfileService ------------------
+
+	// Data Provider ------
+
+	// Read ---------------
+
+    // Read - Models ---
+
+    // Read - Lists ----
+
+    // Read - Maps -----
+
+	// Read - Others ---
+
+	// Create -------------
+
+	// Update -------------
+
+	// Delete -------------
 }
-
-?>

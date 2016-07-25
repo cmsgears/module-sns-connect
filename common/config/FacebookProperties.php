@@ -10,8 +10,10 @@ use cmsgears\core\common\config\CoreGlobal;
 
 class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 
-	//TODO Add code for caching the properties
-	
+	// Variables ---------------------------------------------------
+
+	// Global -----------------
+
 	const PROP_ACTIVE			= 'active';
 
 	const PROP_APP_ID			= 'app_id';
@@ -20,14 +22,25 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 
 	const PROP_REDIRECT_URI		= 'redirect_uri';
 
-	// Singleton instance
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
 	private static $instance;
 
 	// Constructor and Initialisation ------------------------------
 
- 	private function __construct() {
+	// Instance methods --------------------------------------------
 
-	}
+	// Yii parent classes --------------------
+
+	// CMG parent classes --------------------
+
+	// FacebookProperties --------------------
+
+	// Singleton
 
 	/**
 	 * Return Singleton instance.
@@ -43,7 +56,7 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 
 		return self::$instance;
 	}
-	
+
 	// Properties
 
 	public function isActive() {
@@ -93,7 +106,7 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 
 			$session->set( 'fb_state', $state );
         }
-		
+
 		$redirectUri	= $this->getRedirectUri();
 
 		$loginUrl = "https://www.facebook.com/dialog/oauth?"
@@ -107,28 +120,28 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 	}
 
 	function getAccessToken( $code, $state ) {
-		
+
 		$session 	= Yii::$app->session;
 		$sState		= $session->get( 'fb_state' );
 
 		if( isset( $state ) && strcmp( $sState, $state ) == 0 ) {
 
 			$redirectUri	= $this->getRedirectUri();
-	
+
 			$tokenUrl 	= "https://graph.facebook.com/oauth/access_token?"
 							. 'client_id=' . $this->getAppId()
 							. '&redirect_uri=' . urlencode( $redirectUri )
 							. '&client_secret=' . $this->getAppSecret()
 							. '&code=' . $code;
-	
+
 			$response 	= $this->curl( $tokenUrl );
-	
+
 			$params 	= null;
-	
+
 			parse_str( $response, $params );
-	
+
 			$accessToken 	= $params[ 'access_token' ];
-	
+
 			if( isset( $accessToken ) ) {
 
 				$session->set( 'fb_access_token', $accessToken );
@@ -141,7 +154,7 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 	}
 
 	function getUser( $accessToken ) {
-		
+
 		$session 	= Yii::$app->session;
 		$graphUrl 	= "https://graph.facebook.com/me?fields=id,first_name,last_name,email,picture&access_token=". $accessToken;
 		$graphData	= $this->curl( $graphUrl );
@@ -157,5 +170,3 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 		return false;
 	}
 }
-
-?>

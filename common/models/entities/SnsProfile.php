@@ -11,6 +11,7 @@ use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
 use cmsgears\core\common\models\entities\User;
+use cmsgears\core\common\models\traits\resources\DataTrait;
 use cmsgears\social\login\common\models\base\SnsTables;
 
 /**
@@ -25,23 +26,39 @@ use cmsgears\social\login\common\models\base\SnsTables;
  * @property datetime $modifiedAt
  * @property string $data
  */
-class SnsProfile extends \cmsgears\core\common\models\base\CmgEntity {
+class SnsProfile extends \cmsgears\core\common\models\base\Entity {
 
 	// Variables ---------------------------------------------------
 
-	// Constants/Statics --
+	// Globals -------------------------------
 
-	// Public -------------
+	// Constants --------------
 
-	// Private/Protected --
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
 
 	// Traits ------------------------------------------------------
 
+	use DataTrait;
+
 	// Constructor and Initialisation ------------------------------
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Component ----------------
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
 
     /**
      * @inheritdoc
@@ -59,7 +76,7 @@ class SnsProfile extends \cmsgears\core\common\models\base\CmgEntity {
         ];
     }
 
-	// yii\base\Model --------------------
+	// yii\base\Model ---------
 
     /**
      * @inheritdoc
@@ -79,15 +96,21 @@ class SnsProfile extends \cmsgears\core\common\models\base\CmgEntity {
 	public function attributeLabels() {
 
 		return [
-			'userId' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_USER ),
-			'type' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
-			'snsId' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
-			'token' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
-			'data' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_TYPE )
+			'userId' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_USER ),
+			'type' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
+			'snsId' => 'Social Network',
+			'token' => 'Token',
+			'data' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DATA )
 		];
 	}
 
-	// SnsProfile ------------------------
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// Validators ----------------------------
+
+	// SnsProfile ----------------------------
 
 	public function getUser() {
 
@@ -96,7 +119,9 @@ class SnsProfile extends \cmsgears\core\common\models\base\CmgEntity {
 
 	// Static Methods ----------------------------------------------
 
-	// yii\db\ActiveRecord ---------------
+	// Yii parent classes --------------------
+
+	// yii\db\ActiveRecord ----
 
     /**
      * @inheritdoc
@@ -106,11 +131,21 @@ class SnsProfile extends \cmsgears\core\common\models\base\CmgEntity {
 		return SnsTables::TABLE_SNS_PROFILE;
 	}
 
-	// SnsProfile ------------------------
+	// CMG parent classes --------------------
 
-	// Create -------------
+	// SnsProfile ----------------------------
 
-	// Read ---------------
+	// Read - Query -----------
+
+	public static function queryWithHasOne( $config = [] ) {
+
+		$relations				= isset( $config[ 'relations' ] ) ? $config[ 'relations' ] : [ 'user' ];
+		$config[ 'relations' ]	= $relations;
+
+		return parent::queryWithAll( $config );
+	}
+
+	// Read - Find ------------
 
 	/**
 	 * @return SnsProfile - by slug.
@@ -120,9 +155,9 @@ class SnsProfile extends \cmsgears\core\common\models\base\CmgEntity {
 		return self::find()->where( 'type=:type AND snsId=:snsId', [ ':type' => $type, ':snsId' => $snsId ] )->one();
 	}
 
-	// Update -------------
+	// Create -----------------
 
-	// Delete -------------
+	// Update -----------------
+
+	// Delete -----------------
 }
-
-?>

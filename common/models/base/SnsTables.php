@@ -3,12 +3,11 @@ namespace cmsgears\social\login\common\models\base;
 
 class SnsTables {
 
-	// Variables ---------------------------------------------------
+	// Entities -------------
 
-	// Static Variables --------------------
+	const TABLE_SNS_PROFILE			= 'cmg_sns_profile';
 
-	//Forms
-	const TABLE_SNS_PROFILE			= "cmg_sns_profile";
+	// Resources ------------
+
+	// Mappers & Traits -----
 }
-
-?>
