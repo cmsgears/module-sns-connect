@@ -15,7 +15,7 @@ use cmsgears\core\common\services\interfaces\entities\IUserService;
 use cmsgears\core\common\services\interfaces\mappers\ISiteMemberService;
 use cmsgears\social\login\common\services\interfaces\base\ISnsProfileService;
 
-abstract class SnsProfileService extends \yii\base\Object implements ISnsProfileService {
+abstract class SnsProfileService extends \cmsgears\core\common\services\base\EntityService implements ISnsProfileService {
 
 	// Variables ---------------------------------------------------
 
@@ -90,14 +90,14 @@ abstract class SnsProfileService extends \yii\base\Object implements ISnsProfile
 
 	// Update -------------
 
-	public function update( $snsProfile, $config = [] ) {
+	public function update( $model, $config = [] ) {
 
 		$snsUser		= $config[ 'snsUser' ];
 		$accessToken	= $config[ 'accessToken' ];
 
 		// Copy Attributes
-		$profileToUpdate->token	= $accessToken;
-		$profileToUpdate->data	= json_encode( $snsUser );
+		$model->token	= $accessToken;
+		$model->data	= json_encode( $snsUser );
 
 		// Return updated SnsProfile
 		return parent::update( $model, [

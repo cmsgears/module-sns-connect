@@ -14,23 +14,34 @@ use cmsgears\social\login\common\config\TwitterProperties;
 use cmsgears\social\login\common\models\forms\TwitterLogin;
 use cmsgears\social\login\frontend\models\forms\TwitterInfoForm;
 
-use cmsgears\social\login\common\services\entities\TwitterProfileService;
-
 class TwitterController extends \cmsgears\core\frontend\controllers\base\Controller {
+
+	// Variables ---------------------------------------------------
+
+	// Globals ----------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
 
 	// Constructor and Initialisation ------------------------------
 
-    /**
-     * @inheritdoc
-     */
- 	public function __construct( $id, $module, $config = [] ) {
+ 	public function init() {
 
-        parent::__construct( $id, $module, $config );
+        parent::init();
+
+		$this->modelService	= Yii::$app->factory->get( 'twitterProfileService' );
 	}
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Component ----------------
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
 
     public function behaviors() {
 
@@ -46,7 +57,13 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
         ];
     }
 
-	// SiteController --------------------
+	// yii\base\Controller ----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// TwitterController ---------------------
 
 	public function actionLogin() {
 
@@ -72,7 +89,7 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 		if( $snsUser ) {
 
 			// Get User
-			$user	= TwitterProfileService::getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );
+			$user	= $this->modelService->getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );
 
 			if( $user ) {
 
@@ -91,7 +108,7 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
     }
 
 	public function actionUserInfo() {
@@ -107,7 +124,7 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 			$snsUser		= json_decode( $snsUser );
             $snsUser->email	= $model->email;
 
-			$user			= TwitterProfileService::getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );
+			$user			= $this->modelService->getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );
 
 			// Login and Redirect to home page
 			$login	= new TwitterLogin( $user );
@@ -121,5 +138,3 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 		return $this->render( 'user-info', [ 'model' => $model ] );
 	}
 }
-
-?>

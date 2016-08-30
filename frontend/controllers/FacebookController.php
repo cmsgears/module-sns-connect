@@ -13,23 +13,34 @@ use cmsgears\social\login\common\config\FacebookProperties;
 use cmsgears\social\login\common\models\forms\FacebookLogin;
 use cmsgears\social\login\frontend\models\forms\FacebookInfoForm;
 
-use cmsgears\social\login\common\services\entities\FacebookProfileService;
-
 class FacebookController extends \cmsgears\core\frontend\controllers\base\Controller {
+
+	// Variables ---------------------------------------------------
+
+	// Globals ----------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
 
 	// Constructor and Initialisation ------------------------------
 
-    /**
-     * @inheritdoc
-     */
- 	public function __construct( $id, $module, $config = [] ) {
+ 	public function init() {
 
-        parent::__construct( $id, $module, $config );
+        parent::init();
+
+		$this->modelService	= Yii::$app->factory->get( 'facebookProfileService' );
 	}
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Component ----------------
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
 
     public function behaviors() {
 
@@ -43,7 +54,13 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
         ];
     }
 
-	// SiteController --------------------
+	// yii\base\Controller ----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// FacebookController --------------------
 
     public function actionAuthorise( $code, $state ) {
 
@@ -56,7 +73,7 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 		if( isset( $snsUser ) ) {
 
 			// Get User
-			$user	= FacebookProfileService::getUser( $snsUser, $accessToken );
+			$user	= $this->modelService->getUser( $snsUser, $accessToken );
 
 			if( $user ) {
 
@@ -75,7 +92,7 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
     }
 
 	public function actionUserInfo() {
@@ -91,7 +108,7 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 			$snsUser		= json_decode( $snsUser );
             $snsUser->email	= $model->email;
 
-			$user			= FacebookProfileService::getUser( $snsUser, Yii::$app->session->get( 'fb_access_token' ) );
+			$user			= $this->modelService->getUser( $snsUser, Yii::$app->session->get( 'fb_access_token' ) );
 
 			// Login and Redirect to home page
 			$login	= new TwitterLogin( $user );
@@ -105,5 +122,3 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 		return $this->render( 'user-info', [ 'model' => $model ] );
 	}
 }
-
-?>

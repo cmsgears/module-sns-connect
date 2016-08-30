@@ -56,17 +56,17 @@ class SnsLogin extends \yii\base\Component {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'cmsgears\social\login\common\services\interfaces\entities\IFacebookProfileService', 'cmsgears\social\login\common\services\entities\IFacebookProfileService' );
-		$factory->set( 'cmsgears\social\login\common\services\interfaces\entities\IGoogleProfileService', 'cmsgears\social\login\common\services\entities\IGoogleProfileService' );
-		$factory->set( 'cmsgears\social\login\common\services\interfaces\entities\ITwitterProfileService', 'cmsgears\social\login\common\services\entities\ITwitterProfileService' );
+		$factory->set( 'cmsgears\social\login\common\services\interfaces\entities\IFacebookProfileService', 'cmsgears\social\login\common\services\entities\FacebookProfileService' );
+		$factory->set( 'cmsgears\social\login\common\services\interfaces\entities\IGoogleProfileService', 'cmsgears\social\login\common\services\entities\GoogleProfileService' );
+		$factory->set( 'cmsgears\social\login\common\services\interfaces\entities\ITwitterProfileService', 'cmsgears\social\login\common\services\entities\TwitterProfileService' );
 	}
 
 	public function initEntityServices() {
 
 		$factory = Yii::$app->factory->getContainer();
 
-		$factory->set( 'facebookProfileService', 'cmsgears\social\login\common\services\entities\IFacebookProfileService' );
-		$factory->set( 'googleProfileService', 'cmsgears\social\login\common\services\entities\IGoogleProfileService' );
-		$factory->set( 'twitterProfileService', 'cmsgears\social\login\common\services\entities\ITwitterProfileService' );
+		$factory->set( 'facebookProfileService', 'cmsgears\social\login\common\services\entities\FacebookProfileService' );
+		$factory->set( 'googleProfileService', 'cmsgears\social\login\common\services\entities\GoogleProfileService' );
+		$factory->set( 'twitterProfileService', 'cmsgears\social\login\common\services\entities\TwitterProfileService' );
 	}
 }

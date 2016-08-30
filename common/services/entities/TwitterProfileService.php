@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\core\common\services\entities;
+namespace cmsgears\social\login\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -8,10 +8,13 @@ use \Yii;
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
+use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
 use cmsgears\social\login\common\services\interfaces\entities\ITwitterProfileService;
+
+use cmsgears\core\common\utilities\DateUtil;
 
 class TwitterProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService implements ITwitterProfileService {
 
@@ -109,7 +112,7 @@ class TwitterProfileService extends \cmsgears\social\login\common\services\base\
 		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_TWITTER;
 		$snsProfileToSave->snsId	= $snsUser->id;
 		$snsProfileToSave->token	= $accessToken;
-		$snsProfileToSave->secret	= $twitterUser->secret;
+		$snsProfileToSave->secret	= $snsUser->secret;
 		$snsProfileToSave->data		= json_encode( $snsUser );
 
 		// Create SnsProfile
@@ -127,7 +130,6 @@ class TwitterProfileService extends \cmsgears\social\login\common\services\base\
 		$user->email 		= $twitterUser->email;
 		$user->firstName	= $twitterUser->firstName;
 		$user->lastName		= $twitterUser->lastName;
-		$user->newsletter	= false;
 		$user->registeredAt	= $date;
 		$user->status		= User::STATUS_ACTIVE;
 

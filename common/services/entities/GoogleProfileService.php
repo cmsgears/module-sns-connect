@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\core\common\services\entities;
+namespace cmsgears\social\login\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -8,10 +8,13 @@ use \Yii;
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
+use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
 use cmsgears\social\login\common\services\interfaces\entities\IGoogleProfileService;
+
+use cmsgears\core\common\utilities\DateUtil;
 
 class GoogleProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService implements IGoogleProfileService {
 
@@ -123,7 +126,6 @@ class GoogleProfileService extends \cmsgears\social\login\common\services\base\S
 		$user->email 		= $googleUser->email;
 		$user->firstName	= $googleUser->given_name;
 		$user->lastName		= $googleUser->family_name;
-		$user->newsletter	= 0;
 		$user->registeredAt	= $date;
 		$user->status		= User::STATUS_ACTIVE;
 

@@ -90,19 +90,23 @@ class TwitterLogin extends \yii\base\Model {
 
         if( !$this->hasErrors() ) {
 
-            if( !$this->user ) {
+			$user = $this->user;
+
+            if( !isset( $user ) ) {
 
 				$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_USER_NOT_EXIST ) );
             }
+			else {
 
-			if( !$this->hasErrors() && !$this->user->isVerified() ) {
+				if( !$this->hasErrors() && !$user->isVerified( false ) ) {
 
-				$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_USER_VERIFICATION ) );
-			}
+					$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_USER_VERIFICATION ) );
+				}
 
-			if( !$this->hasErrors() && $this->user->isBlocked() ) {
+				if( !$this->hasErrors() && $user->isBlocked() ) {
 
-				$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_BLOCKED ) );
+					$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_BLOCKED ) );
+				}
 			}
         }
     }

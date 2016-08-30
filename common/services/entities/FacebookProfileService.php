@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\core\common\services\entities;
+namespace cmsgears\social\login\common\services\entities;
 
 // Yii Imports
 use \Yii;
@@ -8,10 +8,13 @@ use \Yii;
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
+use cmsgears\core\common\models\entities\User;
 use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
 use cmsgears\social\login\common\services\interfaces\entities\IFacebookProfileService;
+
+use cmsgears\core\common\utilities\DateUtil;
 
 class FacebookProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService implements IFacebookProfileService {
 
@@ -126,7 +129,6 @@ class FacebookProfileService extends \cmsgears\social\login\common\services\base
 		$user->email 		= $fbUser->email;
 		$user->firstName	= $fbUser->first_name;
 		$user->lastName		= $fbUser->last_name;
-		$user->newsletter	= false;
 		$user->registeredAt	= $date;
 		$user->status		= User::STATUS_ACTIVE;
 
