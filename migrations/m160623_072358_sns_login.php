@@ -45,10 +45,10 @@ class m160623_072358_sns_login extends \yii\db\Migration {
         $this->createTable( $this->prefix . 'sns_profile', [
 			'id' => $this->bigPrimaryKey( 20 ),
 			'userId' => $this->bigInteger( 20 ),
-			'type' => $this->string( CoreGlobal::TEXT_LARGE )->notNull(),
-			'snsId' => $this->string( CoreGlobal::TEXT_XLARGE )->notNull(),
-			'token' => $this->string( CoreGlobal::TEXT_XLARGE )->notNull(),
-			'secret' => $this->string( CoreGlobal::TEXT_XLARGE )->notNull(),
+			'type' => $this->string( Yii::$app->core->mediumText )->notNull(),
+			'snsId' => $this->string(Yii::$app->core->xLargeText )->notNull(),
+			'token' => $this->string(Yii::$app->core->xLargeText )->notNull(),
+			'secret' => $this->string(Yii::$app->core->xLargeText )->notNull(),
 			'createdAt' => $this->dateTime()->notNull(),
 			'modifiedAt' => $this->dateTime(),
 			'data' => $this->text()
@@ -78,5 +78,3 @@ class m160623_072358_sns_login extends \yii\db\Migration {
 		$this->dropForeignKey( 'fk_' . $this->prefix . 'sns_profile_user', $this->prefix . 'sns_profile' );
 	}
 }
-
-?>

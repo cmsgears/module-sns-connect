@@ -84,8 +84,13 @@ class SnsProfile extends \cmsgears\core\common\models\base\Entity {
 	public function rules() {
 
         return [
+        	// Required, Safe
             [ [ 'type', 'snsId', 'token' ], 'required' ],
 			[ [ 'id', 'userId', 'data' ], 'safe' ],
+            // Text Limit
+            [ [ 'type' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ],
+            [ [ 'snsId', 'token', 'secret' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
+			// Other
             [ [ 'createdAt', 'modifiedAt' ], 'date', 'format' => Yii::$app->formatter->datetimeFormat ]
         ];
     }
