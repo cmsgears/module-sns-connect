@@ -11,8 +11,10 @@ use cmsgears\core\common\config\CoreGlobal;
 
 class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 
-	//TODO Add code for caching the properties
-	
+	// Variables ---------------------------------------------------
+
+	// Global -----------------
+
 	const PROP_ACTIVE			= 'active';
 
 	const PROP_API_KEY			= 'api_key';
@@ -21,14 +23,25 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 
 	const PROP_REDIRECT_URI		= 'redirect_uri';
 
-	// Singleton instance
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
 	private static $instance;
 
 	// Constructor and Initialisation ------------------------------
 
- 	private function __construct() {
+	// Instance methods --------------------------------------------
 
-	}
+	// Yii parent classes --------------------
+
+	// CMG parent classes --------------------
+
+	// TwitterProperties ---------------------
+
+	// Singleton
 
 	/**
 	 * Return Singleton instance.
@@ -44,7 +57,7 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 
 		return self::$instance;
 	}
-	
+
 	// Properties
 
 	public function isActive() {
@@ -75,12 +88,12 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 		$authHeader		= [ $authHeader, 'Expect:' ];
 
 		$ch		= curl_init();
-		
+
 		curl_setopt( $ch, CURLOPT_HTTPHEADER, $authHeader );
 		curl_setopt( $ch, CURLOPT_HEADER, false );
 		curl_setopt( $ch, CURLOPT_URL, $url );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		
+
 		if( $post ) {
 
 			curl_setopt( $ch, CURLOPT_POST, true );
@@ -105,13 +118,13 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 
 		        $tempArr[] = "$key=" . rawurlencode( $value );
 		}
-		
+
 		if( $post ) {
 
 			return 'POST&' . rawurlencode( $tokenUrl ) . '&' . rawurlencode( implode( '&', $tempArr ) );
 		}
 		else {
-			
+
 			return 'GET&' . rawurlencode( $tokenUrl ) . '&' . rawurlencode( implode( '&', $tempArr ) );
 		}
 	}
@@ -181,9 +194,9 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 		$session->set( 'tw_oauth_token', $params[ 'oauth_token' ] );
 		$session->set( 'tw_oauth_token_secret', $params[ 'oauth_token_secret' ] );
 	}
-	
+
 	function setAuthToken( $oauth_token, $oauth_verifier ) {
-		
+
 		$session 		= Yii::$app->session;
 
 		$session->set( 'tw_oauth_token', $oauth_token );
@@ -191,7 +204,7 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 	}
 
 	function getAccessToken() {
-		
+
 		$session 		= Yii::$app->session;
 		$apiKey			= $this->getApiKey();
 		$apiSecret		= $this->getApiSecret();
@@ -271,18 +284,18 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
 			$name			= preg_split( "/ /", $name );
 
 			if( count( $name ) > 1 ) {
-				
+
 				$userUpd->firstName	= $name[ 0 ];
 				$userUpd->lastName	= $name[ 1 ];
 			}
 			else {
-				
+
 				$userUpd->firstName	= $name[ 0 ];
 				$userUpd->lastName	= null;
 			}
-			
+
 			$userUpd->secret	= $session->get( 'tw_oauth_token_secret' );
-			
+
 			$session->set( 'tw_user', json_encode( $userUpd ) );
 
 			return $userUpd;
@@ -291,5 +304,3 @@ class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
      	return false;
 	}
 }
-
-?>

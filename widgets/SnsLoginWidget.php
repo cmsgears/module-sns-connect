@@ -41,12 +41,12 @@ class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
 
     public function run() {
 
-        return $this->renderButtons();
+        return $this->renderWidget();
     }
 
 	// SnsLoginWidget
 
-    public function renderButtons() {
+    public function renderWidget( $config = [] ) {
 
 		foreach ( $this->sns as $sns ) {
 

@@ -3,16 +3,12 @@ namespace cmsgears\social\login\frontend\models\forms;
 
 // Yii Imports
 use \Yii;
-use yii\validators\FilterValidator;
 use yii\helpers\ArrayHelper;
-use yii\base\Model;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\services\UserService;
-
-class TwitterInfoForm extends Model {
+class TwitterInfoForm extends \yii\base\Model {
 
 	// Variables ---------------------------------------------------
 
@@ -21,17 +17,10 @@ class TwitterInfoForm extends Model {
 	public $email;
 
 	// Instance Methods --------------------------------------------
-	
+
 	// yii\base\Model
 
 	public function rules() {
-		
-		$trim		= [];
-
-		if( Yii::$app->cmgCore->trimFieldValue ) {
-
-			$trim[] = [ [ 'email' ], 'filter', 'filter' => 'trim', 'skipOnArray' => true ];
-		}
 
         $rules = [
 			[ [ 'email' ], 'required' ],
@@ -39,7 +28,9 @@ class TwitterInfoForm extends Model {
 			[ 'email', 'validateEmail' ]
 		];
 
-		if( Yii::$app->cmgCore->trimFieldValue ) {
+		if( Yii::$app->core->trimFieldValue ) {
+
+			$trim[] = [ [ 'email' ], 'filter', 'filter' => 'trim', 'skipOnArray' => true ];
 
 			return ArrayHelper::merge( $trim, $rules );
 		}
@@ -50,7 +41,7 @@ class TwitterInfoForm extends Model {
 	public function attributeLabels() {
 
 		return [
-			'email' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_EMAIL )
+			'email' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_EMAIL )
 		];
 	}
 
@@ -58,12 +49,12 @@ class TwitterInfoForm extends Model {
 
         if( !$this->hasErrors() ) {
 
-            if( UserService::isExistByEmail( $this->email ) ) {
-            	
-				$this->addError( $attribute, Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_EMAIL_EXIST ) );
+			$userService	= Yii::$app->factory->get( 'userService' );
+
+            if( $userService->isExistByEmail( $this->email ) ) {
+
+				$this->addError( $attribute, Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_EMAIL_EXIST ) );
             }
         }
     }
 }
-
-?>

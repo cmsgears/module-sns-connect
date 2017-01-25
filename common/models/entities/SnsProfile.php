@@ -11,6 +11,8 @@ use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
 use cmsgears\core\common\models\entities\User;
+use cmsgears\core\common\models\traits\resources\DataTrait;
+use cmsgears\social\login\common\models\base\SnsTables;
 
 /**
  * SnsProfile Entity
@@ -20,20 +22,43 @@ use cmsgears\core\common\models\entities\User;
  * @property integer $type
  * @property string $snsId
  * @property string $token
- * @property string $data
  * @property datetime $createdAt
- * @property datetime $modifiedAt 
+ * @property datetime $modifiedAt
+ * @property string $data
  */
-class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
+class SnsProfile extends \cmsgears\core\common\models\base\Entity {
 
-	// Instance Methods --------------------------------------------
+	// Variables ---------------------------------------------------
 
-	public function getUser() {
+	// Globals -------------------------------
 
-		return $this->hasOne( User::className(), [ 'id' => 'userId' ] );
-	}
+	// Constants --------------
 
-	// yii\base\Component ----------------
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	use DataTrait;
+
+	// Constructor and Initialisation ------------------------------
+
+	// Instance methods --------------------------------------------
+
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
 
     /**
      * @inheritdoc
@@ -51,7 +76,7 @@ class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
         ];
     }
 
-	// yii\base\Model --------------------
+	// yii\base\Model ---------
 
     /**
      * @inheritdoc
@@ -59,8 +84,13 @@ class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
 	public function rules() {
 
         return [
+        	// Required, Safe
             [ [ 'type', 'snsId', 'token' ], 'required' ],
 			[ [ 'id', 'userId', 'data' ], 'safe' ],
+            // Text Limit
+            [ [ 'type' ], 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ],
+            [ [ 'snsId', 'token', 'secret' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
+			// Other
             [ [ 'createdAt', 'modifiedAt' ], 'date', 'format' => Yii::$app->formatter->datetimeFormat ]
         ];
     }
@@ -71,15 +101,32 @@ class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
 	public function attributeLabels() {
 
 		return [
-			'userId' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_USER ),
-			'type' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
-			'snsId' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
-			'token' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
-			'data' => Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::FIELD_TYPE )
+			'userId' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_USER ),
+			'type' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
+			'snsId' => 'Social Network',
+			'token' => 'Token',
+			'data' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DATA )
 		];
 	}
 
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// Validators ----------------------------
+
+	// SnsProfile ----------------------------
+
+	public function getUser() {
+
+		return $this->hasOne( User::className(), [ 'id' => 'userId' ] );
+	}
+
 	// Static Methods ----------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\db\ActiveRecord ----
 
     /**
      * @inheritdoc
@@ -89,9 +136,21 @@ class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
 		return SnsTables::TABLE_SNS_PROFILE;
 	}
 
-	// SnsProfile
+	// CMG parent classes --------------------
 
-	// Read ------
+	// SnsProfile ----------------------------
+
+	// Read - Query -----------
+
+	public static function queryWithHasOne( $config = [] ) {
+
+		$relations				= isset( $config[ 'relations' ] ) ? $config[ 'relations' ] : [ 'user' ];
+		$config[ 'relations' ]	= $relations;
+
+		return parent::queryWithAll( $config );
+	}
+
+	// Read - Find ------------
 
 	/**
 	 * @return SnsProfile - by slug.
@@ -100,6 +159,10 @@ class SnsProfile extends \cmsgears\core\common\models\entities\CmgEntity {
 
 		return self::find()->where( 'type=:type AND snsId=:snsId', [ ':type' => $type, ':snsId' => $snsId ] )->one();
 	}
-}
 
-?>
+	// Create -----------------
+
+	// Update -----------------
+
+	// Delete -----------------
+}

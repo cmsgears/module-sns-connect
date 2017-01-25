@@ -4,19 +4,56 @@ namespace cmsgears\social\login\common\components;
 // Yii Imports
 use \Yii;
 
+// CMG Imports
+use cmsgears\core\common\config\CoreGlobal;
+
 /**
- * The mail component used for sending possible mails by the CMSGears sns login module. It must be initialised 
- * for app using the name cmgSnsLoginMailer. It's used by various controllers to trigger mails.  
+ * The mail component used for sending possible mails by the CMSGears sns login module. It must be initialised
+ * for app using the name cmgSnsLoginMailer. It's used by various controllers to trigger mails.
  */
 class Mailer extends \cmsgears\core\common\base\Mailer {
 
-	const MAIL_REG_FACEBOOK		= 'register-facebook';
-	const MAIL_REG_GOOGLE		= 'register-google';
-	const MAIL_REG_TWITTER		= 'register-twitter';
+	// Variables ---------------------------------------------------
+
+	// Globals -------------------------------
+
+	// Constants --------------
+
+	const MAIL_REG_FACEBOOK		= 'register/facebook';
+	const MAIL_REG_GOOGLE		= 'register/google';
+	const MAIL_REG_TWITTER		= 'register/twitter';
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
 
     public $htmlLayout 			= '@cmsgears/module-sns-login/common/mails/layouts/html';
     public $textLayout 			= '@cmsgears/module-sns-login/common/mails/layouts/text';
     public $viewPath 			= '@cmsgears/module-sns-login/common/mails/views';
+
+	// Protected --------------
+
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+	// Instance methods --------------------------------------------
+
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// Mailer --------------------------------
 
 	public function sendRegisterFacebookMail( $user ) {
 
@@ -60,5 +97,3 @@ class Mailer extends \cmsgears\core\common\base\Mailer {
             ->send();
 	}
 }
-
-?>

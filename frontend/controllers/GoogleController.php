@@ -12,23 +12,34 @@ use cmsgears\social\login\common\config\GoogleProperties;
 
 use cmsgears\social\login\common\models\forms\GoogleLogin;
 
-use cmsgears\social\login\common\services\GoogleProfileService;
-
 class GoogleController extends \cmsgears\core\frontend\controllers\base\Controller {
+
+	// Variables ---------------------------------------------------
+
+	// Globals ----------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
 
 	// Constructor and Initialisation ------------------------------
 
-    /**
-     * @inheritdoc
-     */
- 	public function __construct( $id, $module, $config = [] ) {
+ 	public function init() {
 
-        parent::__construct( $id, $module, $config );
+        parent::init();
+
+		$this->modelService	= Yii::$app->factory->get( 'googleProfileService' );
 	}
 
-	// Instance Methods --------------------------------------------
+	// Instance methods --------------------------------------------
 
-	// yii\base\Component ----------------
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
 
     public function behaviors() {
 
@@ -42,7 +53,13 @@ class GoogleController extends \cmsgears\core\frontend\controllers\base\Controll
         ];
     }
 
-	// SiteController --------------------
+	// yii\base\Controller ----
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// GoogleController ----------------------
 
     public function actionAuthorise( $code, $state ) {
 
@@ -55,20 +72,18 @@ class GoogleController extends \cmsgears\core\frontend\controllers\base\Controll
 		if( isset( $snsUser ) ) {
 
 			// Get User
-			$user	= GoogleProfileService::getUser( $snsUser, $accessToken );
+			$user	= $this->modelService->getUser( $snsUser, $accessToken );
 
 			// Login and Redirect to home page
 			$login	= new GoogleLogin( $user );
 
 			if( $login->login() ) {
 
-				$this->checkHome();
+				return $this->redirect( [ '/user/index' ] );
 			}
 		}
 
 		// Model not found
-		throw new NotFoundHttpException( Yii::$app->cmgCoreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
+		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
     }
 }
-
-?>

@@ -10,7 +10,9 @@ use cmsgears\core\common\config\CoreGlobal;
 
 class GoogleProperties extends \cmsgears\core\common\config\CmgProperties {
 
-	//TODO Add code for caching the properties
+	// Variables ---------------------------------------------------
+
+	// Global -----------------
 
 	const PROP_ACTIVE			= 'active';
 
@@ -20,14 +22,25 @@ class GoogleProperties extends \cmsgears\core\common\config\CmgProperties {
 
 	const PROP_REDIRECT_URI		= 'redirect_uri';
 
-	// Singleton instance
+	// Public -----------------
+
+	// Protected --------------
+
+	// Private ----------------
+
 	private static $instance;
 
 	// Constructor and Initialisation ------------------------------
 
- 	private function __construct() {
+	// Instance methods --------------------------------------------
 
-	}
+	// Yii parent classes --------------------
+
+	// CMG parent classes --------------------
+
+	// GoogleProperties ----------------------
+
+	// Singleton
 
 	/**
 	 * Return Singleton instance.
@@ -43,7 +56,7 @@ class GoogleProperties extends \cmsgears\core\common\config\CmgProperties {
 
 		return self::$instance;
 	}
-	
+
 	// Properties
 
 	public function isActive() {
@@ -154,5 +167,3 @@ class GoogleProperties extends \cmsgears\core\common\config\CmgProperties {
 		return false;
 	}
 }
-
-?>
