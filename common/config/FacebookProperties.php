@@ -109,7 +109,7 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 
 		$redirectUri	= $this->getRedirectUri();
 
-		$loginUrl = "https://www.facebook.com/dialog/oauth?"
+		$loginUrl = "https://www.facebook.com/v2.8/dialog/oauth?"
 					. "client_id=" . $this->getAppId()
 					. "&redirect_uri=" . urlencode( $redirectUri )
 					. "&state=" . $state
@@ -128,7 +128,7 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 
 			$redirectUri	= $this->getRedirectUri();
 
-			$tokenUrl 	= "https://graph.facebook.com/oauth/access_token?"
+			$tokenUrl 	= "https://graph.facebook.com/v2.8/oauth/access_token?"
 							. 'client_id=' . $this->getAppId()
 							. '&redirect_uri=' . urlencode( $redirectUri )
 							. '&client_secret=' . $this->getAppSecret()
@@ -136,13 +136,13 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 
 			$response 	= $this->curl( $tokenUrl );
 
-			$params 	= null;
+			$params 	= json_decode( $response );
 
-			parse_str( $response, $params );
+			//parse_str( $response, $params );
 
-			$accessToken 	= $params[ 'access_token' ];
+			if( isset( $params->access_token ) ) {
 
-			if( isset( $accessToken ) ) {
+              	$accessToken 	= $params->access_token;
 
 				$session->set( 'fb_access_token', $accessToken );
 
@@ -156,7 +156,7 @@ class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
 	function getUser( $accessToken ) {
 
 		$session 	= Yii::$app->session;
-		$graphUrl 	= "https://graph.facebook.com/me?fields=id,first_name,last_name,email,picture&access_token=". $accessToken;
+		$graphUrl 	= "https://graph.facebook.com/v2.8/me?fields=id,first_name,last_name,email,picture&access_token=". $accessToken;
 		$graphData	= $this->curl( $graphUrl );
      	$user 		= json_decode( $graphData );
 
