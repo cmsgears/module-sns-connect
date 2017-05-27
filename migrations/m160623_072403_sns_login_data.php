@@ -59,10 +59,10 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
 		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'validators', 'order', 'icon', 'htmlOptions' ];
 
 		$fields	= [
-			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{\"title\":\"Check whether Facebook Login is active.\"}' ],
-			[ $config->id, 'app_id', 'App Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{\"title\":\"Application Id.\",\"placeholder\":\"Application Id\"}' ],
-			[ $config->id, 'app_secret', 'App Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{\"title\":\"Application Secret.\",\"placeholder\":\"Application Secret\"}' ],
-			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{\"title\":\"Redirect URI.\",\"placeholder\":\"Redirect URI\"}' ]
+			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{"title":"Check whether Facebook Login is active."}' ],
+			[ $config->id, 'app_id', 'App Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Application Id.","placeholder":"Application Id"}' ],
+			[ $config->id, 'app_secret', 'App Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Application Secret.","placeholder":"Application Secret"}' ],
+			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_form_field', $columns, $fields );
@@ -89,10 +89,10 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
 		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'validators', 'order', 'icon', 'htmlOptions' ];
 
 		$fields	= [
-			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{\"title\":\"Check whether Google Login is active.\"}' ],
-			[ $config->id, 'app_id', 'App Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{\"title\":\"Application Id.\",\"placeholder\":\"Application Id\"}' ],
-			[ $config->id, 'app_secret', 'App Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{\"title\":\"Application Secret.\",\"placeholder\":\"Application Secret\"}' ],
-			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{\"title\":\"Redirect URI.\",\"placeholder\":\"Redirect URI\"}' ]
+			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{"title":"Check whether Google Login is active."}' ],
+			[ $config->id, 'app_id', 'App Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Application Id.","placeholder":"Application Id"}' ],
+			[ $config->id, 'app_secret', 'App Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Application Secret.","placeholder":"Application Secret"}' ],
+			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_form_field', $columns, $fields );
@@ -119,10 +119,10 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
 		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'validators', 'order', 'icon', 'htmlOptions' ];
 
 		$fields	= [
-			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{\"title\":\"Check whether Twitter Login is active.\"}' ],
-			[ $config->id, 'api_key', 'API Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{\"title\":\"Application Id.\",\"placeholder\":\"Application Id\"}' ],
-			[ $config->id, 'api_secret', 'API Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{\"title\":\"Application Secret.\",\"placeholder\":\"Application Secret\"}' ],
-			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{\"title\":\"Redirect URI.\",\"placeholder\":\"Redirect URI\"}' ]
+			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{"title":"Check whether Twitter Login is active."}' ],
+			[ $config->id, 'api_key', 'API Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Application Id.","placeholder":"Application Id"}' ],
+			[ $config->id, 'api_secret', 'API Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Application Secret.","placeholder":"Application Secret"}' ],
+			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_form_field', $columns, $fields );
@@ -159,5 +159,3 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
         return true;
     }
 }
-
-?>
