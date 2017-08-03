@@ -13,7 +13,7 @@ $this->title 	= $coreProperties->getSiteTitle() . ' | User Info';
 <?php
 	if( $coreProperties->isRegistration() ) {
 
-		$form = ActiveForm::begin( [ 'id' => 'frm-twitter' ] );
+		$form = ActiveForm::begin( [ 'id' => 'frm-twitter', 'options' => [ 'class' => 'form' ] ] ); ?>
 ?>
 	<ul>
 		<li>

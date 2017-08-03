@@ -9,7 +9,7 @@ interface ISnsProfileService extends \cmsgears\core\common\services\interfaces\b
 
 	public function getByTypeSnsId( $type, $snsId );
 
-	public function getUser( $snsUser, $accessToken );
+	public function getUser( $model, $accessToken );
 
     // Read - Models ---
 
@@ -18,8 +18,6 @@ interface ISnsProfileService extends \cmsgears\core\common\services\interfaces\b
     // Read - Maps -----
 
 	// Create -------------
-
-	public function register( $snsUser );
 
 	// Update -------------
 

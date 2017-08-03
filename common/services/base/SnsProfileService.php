@@ -1,13 +1,7 @@
 <?php
 namespace cmsgears\social\login\common\services\base;
 
-// Yii Imports
-use \Yii;
-
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\login\common\config\SnsLoginGlobal;
-
 use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 

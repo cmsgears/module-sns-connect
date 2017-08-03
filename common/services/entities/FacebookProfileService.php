@@ -2,14 +2,12 @@
 namespace cmsgears\social\login\common\services\entities;
 
 // Yii Imports
-use \Yii;
+use Yii;
 
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
 use cmsgears\social\login\common\services\interfaces\entities\IFacebookProfileService;
@@ -56,25 +54,25 @@ class FacebookProfileService extends \cmsgears\social\login\common\services\base
 
 	// Read ---------------
 
-	public function getUser( $fbUser, $accessToken ) {
+	public function getUser( $model, $accessToken ) {
 
-		$snsProfile		= $this->getByTypeSnsId( SnsLoginGlobal::SNS_TYPE_FACEBOOK, $fbUser->id );
+		$snsProfile		= $this->getByTypeSnsId( SnsLoginGlobal::SNS_TYPE_FACEBOOK, $model->id );
 
 		if( isset( $snsProfile ) ) {
 
-			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $fbUser, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
 			$user		= $snsProfile->user;
 
 			return $user;
 		}
 		else {
 
-			$user 		= $this->userService->getByEmail( $fbUser->email );
+			$user 		= $this->userService->getByEmail( $model->email );
 
 			if( !isset( $user ) ) {
 
 				// Create User
-				$user 		= $this->register( $fbUser );
+				$user 		= $this->register( $model );
 
 				// Add User to current Site
 				$this->siteMemberService->create( $user );
@@ -83,7 +81,7 @@ class FacebookProfileService extends \cmsgears\social\login\common\services\base
 				Yii::$app->snsLoginMailer->sendRegisterFacebookMail( $user );
 			}
 
-			$snsProfile	= $this->create( $user, [ 'snsUser' => $fbUser, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->create( $user, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
 
 			return $user;
 		}
@@ -121,14 +119,14 @@ class FacebookProfileService extends \cmsgears\social\login\common\services\base
 		return $snsProfileToSave;
 	}
 
-	public function register( $fbUser ) {
+	function register( $model, $config = [] ) {
 
 		$user 	= new User();
 		$date	= DateUtil::getDateTime();
 
-		$user->email 		= $fbUser->email;
-		$user->firstName	= $fbUser->first_name;
-		$user->lastName		= $fbUser->last_name;
+		$user->email 		= $model->email;
+		$user->firstName	= $model->first_name;
+		$user->lastName		= $model->last_name;
 		$user->registeredAt	= $date;
 		$user->status		= User::STATUS_ACTIVE;
 
