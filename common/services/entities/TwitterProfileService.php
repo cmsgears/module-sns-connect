@@ -108,7 +108,7 @@ class TwitterProfileService extends \cmsgears\social\login\common\services\base\
 
 		$snsProfileToSave->userId	= $user->id;
 		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_TWITTER;
-		$snsProfileToSave->snsId	= $snsUser->id;
+		$snsProfileToSave->snsId	= strval($snsUser->id);
 		$snsProfileToSave->token	= $accessToken;
 		$snsProfileToSave->secret	= $snsUser->secret;
 		$snsProfileToSave->data		= json_encode( $snsUser );

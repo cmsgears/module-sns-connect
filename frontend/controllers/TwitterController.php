@@ -117,6 +117,13 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 
 		$model			= new TwitterInfoForm();
 
+		$snsUser		= Yii::$app->session->get( 'tw_user' );
+		$snsUser		= json_decode( $snsUser );
+
+		$user			= $this->modelService->getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );
+		
+		$model->email	= $user->email ?? null; 
+		
 		if( $model->load( Yii::$app->request->post() ) && $model->validate() ) {
 
 			// Get User
