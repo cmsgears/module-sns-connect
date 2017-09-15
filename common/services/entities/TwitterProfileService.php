@@ -62,7 +62,8 @@ class TwitterProfileService extends \cmsgears\social\login\common\services\base\
 
 		if( isset( $snsProfile ) ) {
 
-			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
+			// ToDo update function not worked
+			//$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
 			$user		= $snsProfile->user;
 
 			return $user;
