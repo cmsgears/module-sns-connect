@@ -2,14 +2,12 @@
 namespace cmsgears\social\login\common\services\entities;
 
 // Yii Imports
-use \Yii;
+use Yii;
 
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\social\login\common\config\SnsLoginGlobal;
 
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\login\common\models\base\SnsTables;
 use cmsgears\social\login\common\models\entities\SnsProfile;
 
 use cmsgears\social\login\common\services\interfaces\entities\IGoogleProfileService;
@@ -58,24 +56,24 @@ class GoogleProfileService extends \cmsgears\social\login\common\services\base\S
 
     // Read - Models ---
 
-	public function getUser( $googleUser, $accessToken ) {
+	public function getUser( $model, $accessToken ) {
 
-		$snsProfile		= $this->getByTypeSnsId( SnsLoginGlobal::SNS_TYPE_GOOGLE, $googleUser->id );
+		$snsProfile		= $this->getByTypeSnsId( SnsLoginGlobal::SNS_TYPE_GOOGLE, $model->id );
 		$user			= null;
 
 		if( isset( $snsProfile ) ) {
 
-			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $googleUser, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
 			$user		= $snsProfile->user;
 		}
 		else {
 
-			$user 		= $this->userService->getByEmail( $googleUser->email );
+			$user 		= $this->userService->getByEmail( $model->email );
 
 			if( !isset( $user ) ) {
 
 				// Create User
-				$user 		= $this->register( $googleUser );
+				$user 		= $this->register( $model );
 
 				// Add User to current Site
 				$this->siteMemberService->create( $user );
@@ -84,7 +82,7 @@ class GoogleProfileService extends \cmsgears\social\login\common\services\base\S
 				Yii::$app->snsLoginMailer->sendRegisterFacebookMail( $user );
 			}
 
-			$snsProfile	= $this->create( $user, [ 'snsUser' => $googleUser, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->create( $user, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
 		}
 
 		return $user;
@@ -118,14 +116,14 @@ class GoogleProfileService extends \cmsgears\social\login\common\services\base\S
 		return $snsProfileToSave;
 	}
 
-	function register( $googleUser ) {
+	function register( $model, $config = [] ) {
 
 		$user 	= new User();
 		$date	= DateUtil::getDateTime();
 
-		$user->email 		= $googleUser->email;
-		$user->firstName	= $googleUser->given_name;
-		$user->lastName		= $googleUser->family_name;
+		$user->email 		= $model->email;
+		$user->firstName	= $model->given_name;
+		$user->lastName		= $model->family_name;
 		$user->registeredAt	= $date;
 		$user->status		= User::STATUS_ACTIVE;
 

@@ -48,7 +48,7 @@ class m160623_072358_sns_login extends \yii\db\Migration {
 			'type' => $this->string( Yii::$app->core->mediumText )->notNull(),
 			'snsId' => $this->string(Yii::$app->core->xLargeText )->notNull(),
 			'token' => $this->string(Yii::$app->core->xLargeText )->notNull(),
-			'secret' => $this->string(Yii::$app->core->xLargeText )->notNull(),
+			'secret' => $this->string(Yii::$app->core->xLargeText ),
 			'createdAt' => $this->dateTime()->notNull(),
 			'modifiedAt' => $this->dateTime(),
 			'data' => $this->text()
