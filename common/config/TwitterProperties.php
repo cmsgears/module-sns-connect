@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-class TwitterProperties extends \cmsgears\core\common\config\CmgProperties {
+class TwitterProperties extends \cmsgears\core\common\config\Properties {
 
 	// Variables ---------------------------------------------------
 

@@ -8,7 +8,7 @@ use yii\helpers\Url;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-class FacebookProperties extends \cmsgears\core\common\config\CmgProperties {
+class FacebookProperties extends \cmsgears\core\common\config\Properties {
 
 	// Variables ---------------------------------------------------
 

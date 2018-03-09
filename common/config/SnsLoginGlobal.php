@@ -19,6 +19,13 @@ class SnsLoginGlobal {
 	const SNS_TYPE_GOOGLE		= 'google'; // Google
 	const SNS_TYPE_TWITTER		= 'twitter'; // Twitter
 
+	// Messages --------------------------------------------------------
+
+	// Errors ----------------------------------------------------------
+
 	// Model Fields ----------------------------------------------------
+
+	// Generic Fields
+	const FIELD_SNS_NETWORK		= 'snsNetworkField';
 
 }

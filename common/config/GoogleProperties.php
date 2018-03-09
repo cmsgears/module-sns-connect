@@ -8,7 +8,7 @@ use yii\helpers\Url;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-class GoogleProperties extends \cmsgears\core\common\config\CmgProperties {
+class GoogleProperties extends \cmsgears\core\common\config\Properties {
 
 	// Variables ---------------------------------------------------
 
