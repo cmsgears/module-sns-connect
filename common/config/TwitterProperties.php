@@ -1,19 +1,32 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\login\common\config;
 
 // Yii Imports
-use \Yii;
+use Yii;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 
 // CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
+use cmsgears\core\common\config\Properties;
 
-class TwitterProperties extends \cmsgears\core\common\config\Properties {
+/**
+ * TwitterProperties provide methods to access the properties specific to twitter application for login.
+ *
+ * @since 1.0.0
+ */
+class TwitterProperties extends Properties {
 
 	// Variables ---------------------------------------------------
 
-	// Global -----------------
+	// Globals ----------------
 
 	const PROP_ACTIVE			= 'active';
 
@@ -31,17 +44,9 @@ class TwitterProperties extends \cmsgears\core\common\config\Properties {
 
 	private static $instance;
 
+	// Traits ------------------------------------------------------
+
 	// Constructor and Initialisation ------------------------------
-
-	// Instance methods --------------------------------------------
-
-	// Yii parent classes --------------------
-
-	// CMG parent classes --------------------
-
-	// TwitterProperties ---------------------
-
-	// Singleton
 
 	/**
 	 * Return Singleton instance.
@@ -58,7 +63,17 @@ class TwitterProperties extends \cmsgears\core\common\config\Properties {
 		return self::$instance;
 	}
 
-	// Properties
+	// Instance methods --------------------------------------------
+
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// TwitterProperties ---------------------
 
 	public function isActive() {
 
@@ -303,4 +318,5 @@ class TwitterProperties extends \cmsgears\core\common\config\Properties {
 
      	return false;
 	}
+
 }
