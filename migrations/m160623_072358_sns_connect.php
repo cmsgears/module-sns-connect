@@ -1,8 +1,22 @@
 <?php
-// CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
 
-class m160623_072358_sns_login extends \yii\db\Migration {
+// CMG Imports
+use cmsgears\core\common\base\Migration;
+
+/**
+ * The sns connect migration inserts the database tables of sns connect module. It also insert
+ * the foreign keys if FK flag of migration component is true.
+ *
+ * @since 1.0.0
+ */
+class m160623_072358_sns_connect extends Migration {
 
 	// Public Variables
 
@@ -15,8 +29,8 @@ class m160623_072358_sns_login extends \yii\db\Migration {
 
 	public function init() {
 
-		// Fixed
-		$this->prefix		= 'cmg_';
+		// Table prefix
+		$this->prefix		= Yii::$app->migration->cmgPrefix;
 
 		// Get the values via config
 		$this->fk			= Yii::$app->migration->isFk();
@@ -77,4 +91,5 @@ class m160623_072358_sns_login extends \yii\db\Migration {
 
 		$this->dropForeignKey( 'fk_' . $this->prefix . 'sns_profile_user', $this->prefix . 'sns_profile' );
 	}
+
 }

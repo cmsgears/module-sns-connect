@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\social\login\frontend\controllers;
+namespace cmsgears\social\connect\frontend\controllers;
 
 // Yii Imports
 use Yii;
@@ -8,12 +8,14 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\login\common\config\FacebookProperties;
+use cmsgears\social\connect\common\config\FacebookProperties;
 
-use cmsgears\social\login\common\models\forms\FacebookLogin;
-use cmsgears\social\login\frontend\models\forms\FacebookInfoForm;
+use cmsgears\social\connect\common\models\forms\FacebookLogin;
+use cmsgears\social\connect\frontend\models\forms\FacebookInfoForm;
 
-class FacebookController extends \cmsgears\core\frontend\controllers\base\Controller {
+use cmsgears\core\frontend\controllers\base\Controller;
+
+class FacebookController extends Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -121,4 +123,5 @@ class FacebookController extends \cmsgears\core\frontend\controllers\base\Contro
 
 		return $this->render( 'user-info', [ 'model' => $model ] );
 	}
+
 }

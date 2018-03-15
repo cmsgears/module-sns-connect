@@ -1,14 +1,15 @@
 <?php
-namespace cmsgears\social\login\frontend\models\forms;
+namespace cmsgears\social\connect\frontend\models\forms;
 
 // Yii Imports
-use \Yii;
+use Yii;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-class TwitterInfoForm extends \yii\base\Model {
+class TwitterInfoForm extends Model {
 
 	// Variables ---------------------------------------------------
 

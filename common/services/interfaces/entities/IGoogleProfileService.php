@@ -1,7 +1,10 @@
 <?php
-namespace cmsgears\social\login\common\services\interfaces\entities;
+namespace cmsgears\social\connect\common\services\interfaces\entities;
 
-interface IGoogleProfileService extends \cmsgears\social\login\common\services\interfaces\base\ISnsProfileService {
+// CMG Imports
+use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;
+
+interface IGoogleProfileService extends ISnsProfileService {
 
 	// Data Provider ------
 

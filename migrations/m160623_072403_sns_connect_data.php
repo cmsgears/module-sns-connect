@@ -1,6 +1,16 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
+
+use cmsgears\core\common\base\Migration;
 
 use cmsgears\core\common\models\entities\Site;
 use cmsgears\core\common\models\entities\User;
@@ -9,9 +19,18 @@ use cmsgears\core\common\models\resources\FormField;
 
 use cmsgears\core\common\utilities\DateUtil;
 
-class m160623_072403_sns_login_data extends \yii\db\Migration {
+/**
+ * The sns connect data migration inserts the base data required to run the application.
+ *
+ * @since 1.0.0
+ */
+class m160623_072403_sns_connect_data extends Migration {
 
-	public $prefix;
+	// Public Variables
+
+	// Private Variables
+
+	private $prefix;
 
 	private $site;
 
@@ -19,7 +38,8 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
 
 	public function init() {
 
-		$this->prefix		= 'cmg_';
+		// Table prefix
+		$this->prefix	= Yii::$app->migration->cmgPrefix;
 
 		$this->site		= Site::findBySlug( CoreGlobal::SITE_MAIN );
 		$this->master	= User::findByUsername( Yii::$app->migration->getSiteMaster() );
@@ -54,7 +74,7 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
             'modifiedAt' => DateUtil::getDateTime()
         ]);
 
-		$config	= Form::findBySlug( 'config-facebook', CoreGlobal::TYPE_SYSTEM );
+		$config	= Form::findBySlugType( 'config-facebook', CoreGlobal::TYPE_SYSTEM );
 
 		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'validators', 'order', 'icon', 'htmlOptions' ];
 
@@ -84,7 +104,7 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
             'modifiedAt' => DateUtil::getDateTime()
         ]);
 
-		$config	= Form::findBySlug( 'config-google', CoreGlobal::TYPE_SYSTEM );
+		$config	= Form::findBySlugType( 'config-google', CoreGlobal::TYPE_SYSTEM );
 
 		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'validators', 'order', 'icon', 'htmlOptions' ];
 
@@ -114,7 +134,7 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
             'modifiedAt' => DateUtil::getDateTime()
         ]);
 
-		$config	= Form::findBySlug( 'config-twitter', CoreGlobal::TYPE_SYSTEM );
+		$config	= Form::findBySlugType( 'config-twitter', CoreGlobal::TYPE_SYSTEM );
 
 		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'validators', 'order', 'icon', 'htmlOptions' ];
 
@@ -154,8 +174,9 @@ class m160623_072403_sns_login_data extends \yii\db\Migration {
 
     public function down() {
 
-        echo "m160623_072403_sns_login_data will be deleted with m160621_014408_core.\n";
+        echo "m160623_072403_sns_connect_data will be deleted with m160621_014408_core.\n";
 
         return true;
     }
+
 }

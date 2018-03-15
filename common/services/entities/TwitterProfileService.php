@@ -1,20 +1,22 @@
 <?php
-namespace cmsgears\social\login\common\services\entities;
+namespace cmsgears\social\connect\common\services\entities;
 
 // Yii Imports
 use Yii;
 
 // CMG Imports
-use cmsgears\social\login\common\config\SnsLoginGlobal;
+use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\login\common\models\entities\SnsProfile;
+use cmsgears\social\connect\common\models\entities\SnsProfile;
 
-use cmsgears\social\login\common\services\interfaces\entities\ITwitterProfileService;
+use cmsgears\social\connect\common\services\interfaces\entities\ITwitterProfileService;
+
+use cmsgears\social\connect\common\services\base\SnsProfileService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
-class TwitterProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService implements ITwitterProfileService {
+class TwitterProfileService extends SnsProfileService implements ITwitterProfileService {
 
 	// Variables ---------------------------------------------------
 
@@ -58,7 +60,7 @@ class TwitterProfileService extends \cmsgears\social\login\common\services\base\
 
 	public function getUser( $model, $accessToken ) {
 
-		$snsProfile		= $this->getByTypeSnsId( SnsLoginGlobal::SNS_TYPE_TWITTER, $model->id );
+		$snsProfile		= $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_TWITTER, $model->id );
 
 		if( isset( $snsProfile ) ) {
 
@@ -108,7 +110,7 @@ class TwitterProfileService extends \cmsgears\social\login\common\services\base\
 		$snsProfileToSave = new SnsProfile();
 
 		$snsProfileToSave->userId	= $user->id;
-		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_TWITTER;
+		$snsProfileToSave->type		= SnsConnectGlobal::SNS_TYPE_TWITTER;
 		$snsProfileToSave->snsId	= strval($snsUser->id);
 		$snsProfileToSave->token	= $accessToken;
 		$snsProfileToSave->secret	= $snsUser->secret;

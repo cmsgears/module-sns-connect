@@ -1,16 +1,16 @@
 <?php
-namespace cmsgears\social\login\admin;
+namespace cmsgears\social\connect\admin;
 
 // Yii Imports
 use \Yii;
 
 // CMG Imports
-use cmsgears\social\login\common\config\SnsLoginGlobal;
+use cmsgears\social\connect\common\config\SnsLoginGlobal;
 
 class Module extends \cmsgears\core\common\base\Module {
 
-    public $controllerNamespace = 'cmsgears\social\login\admin\controllers';
-	
+    public $controllerNamespace = 'cmsgears\social\connect\admin\controllers';
+
 	public $config 				= [ SnsLoginGlobal::CONFIG_SNS_FACEBOOK, SnsLoginGlobal::CONFIG_SNS_GOOGLE, SnsLoginGlobal::CONFIG_SNS_TWITTER ];
 
     public function init() {
@@ -27,5 +27,3 @@ class Module extends \cmsgears\core\common\base\Module {
 		return $path;
 	}
 }
-
-?>

@@ -1,15 +1,17 @@
 <?php
-namespace cmsgears\social\login\common\services\base;
+namespace cmsgears\social\connect\common\services\base;
 
 // CMG Imports
-use cmsgears\social\login\common\models\base\SnsTables;
-use cmsgears\social\login\common\models\entities\SnsProfile;
+use cmsgears\social\connect\common\models\base\SnsTables;
+use cmsgears\social\connect\common\models\entities\SnsProfile;
 
 use cmsgears\core\common\services\interfaces\entities\IUserService;
 use cmsgears\core\common\services\interfaces\mappers\ISiteMemberService;
-use cmsgears\social\login\common\services\interfaces\base\ISnsProfileService;
+use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;
 
-abstract class SnsProfileService extends \cmsgears\core\common\services\base\EntityService implements ISnsProfileService {
+use cmsgears\core\common\services\base\EntityService;
+
+abstract class SnsProfileService extends EntityService implements ISnsProfileService {
 
 	// Variables ---------------------------------------------------
 
@@ -19,7 +21,7 @@ abstract class SnsProfileService extends \cmsgears\core\common\services\base\Ent
 
 	// Public -----------------
 
-	public static $modelClass	= '\cmsgears\social\login\common\models\entities\SnsProfile';
+	public static $modelClass	= '\cmsgears\social\connect\common\models\entities\SnsProfile';
 
 	public static $modelTable	= SnsTables::TABLE_SNS_PROFILE;
 

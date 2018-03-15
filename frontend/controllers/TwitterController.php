@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\social\login\frontend\controllers;
+namespace cmsgears\social\connect\frontend\controllers;
 
 // Yii Imports
 use Yii;
@@ -11,10 +11,12 @@ use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\core\frontend\config\WebGlobalCore;
 use cmsgears\social\login\common\config\TwitterProperties;
 
-use cmsgears\social\login\common\models\forms\TwitterLogin;
-use cmsgears\social\login\frontend\models\forms\TwitterInfoForm;
+use cmsgears\social\connect\common\models\forms\TwitterLogin;
+use cmsgears\social\connect\frontend\models\forms\TwitterInfoForm;
 
-class TwitterController extends \cmsgears\core\frontend\controllers\base\Controller {
+use cmsgears\core\frontend\controllers\base\Controller;
+
+class TwitterController extends Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -121,9 +123,9 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 		$snsUser		= json_decode( $snsUser );
 
 		$user			= $this->modelService->getUser( $snsUser, Yii::$app->session->get( 'tw_oauth_token' ) );
-		
-		$model->email	= $user->email ?? null; 
-		
+
+		$model->email	= $user->email ?? null;
+
 		if( $model->load( Yii::$app->request->post() ) && $model->validate() ) {
 
 			// Get User
@@ -144,4 +146,5 @@ class TwitterController extends \cmsgears\core\frontend\controllers\base\Control
 
 		return $this->render( 'user-info', [ 'model' => $model ] );
 	}
+
 }
