@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-namespace cmsgears\social\login\common\models\entities;
+namespace cmsgears\social\connect\common\models\entities;
 
 // Yii Imports
 use Yii;
@@ -16,13 +16,13 @@ use yii\behaviors\TimestampBehavior;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\login\common\config\SnsLoginGlobal;
+use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\models\interfaces\resources\IData;
 
 use cmsgears\core\common\models\base\Entity;
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\login\common\models\base\SnsTables;
+use cmsgears\social\connect\common\models\base\SnsTables;
 
 use cmsgears\core\common\models\traits\resources\DataTrait;
 
@@ -59,6 +59,8 @@ class SnsProfile extends Entity implements IData {
 	// Public -----------------
 
 	// Protected --------------
+
+	protected $modelType	= SnsConnectGlobal::TYPE_SNS_PROFILE;
 
 	// Private ----------------
 
@@ -124,7 +126,7 @@ class SnsProfile extends Entity implements IData {
 		return [
 			'userId' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_USER ),
 			'type' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
-			'snsId' => Yii::$app->snsLoginMessage->getMessage( SnsLoginGlobal::FIELD_SNS_NETWORK ),
+			'snsId' => Yii::$app->snsLoginMessage->getMessage( SnsConnectGlobal::FIELD_SNS_NETWORK ),
 			'token' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TOKEN ),
 			'data' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DATA )
 		];
@@ -138,6 +140,11 @@ class SnsProfile extends Entity implements IData {
 
 	// SnsProfile ----------------------------
 
+	/**
+	 * Returns the corresponding user.
+	 *
+	 * @return \cmsgears\core\common\models\entities\User
+	 */
 	public function getUser() {
 
 		return $this->hasOne( User::class, [ 'id' => 'userId' ] );

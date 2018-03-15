@@ -11,15 +11,15 @@
 use cmsgears\core\common\base\Migration;
 
 use cmsgears\core\common\models\resources\Stats;
-use cmsgears\social\login\common\models\base\SnsTables;
+use cmsgears\social\connect\common\models\base\SnsTables;
 
 /**
- * The sns login stats migration insert the default row count for all the tables available in
+ * The sns connect stats migration insert the default row count for all the tables available in
  * form module. A scheduled console job can be executed to update these stats.
  *
  * @since 1.0.0
  */
-class m160623_072912_sns_login_stats extends Migration {
+class m160623_072912_sns_connect_stats extends Migration {
 
 	// Public Variables
 
@@ -65,4 +65,5 @@ class m160623_072912_sns_login_stats extends Migration {
 
 		Stats::deleteByTableName( SnsTables::getTableName( SnsTables::TABLE_SNS_PROFILE ) );
 	}
+
 }

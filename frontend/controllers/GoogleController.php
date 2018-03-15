@@ -1,5 +1,5 @@
 <?php
-namespace cmsgears\social\login\frontend\controllers;
+namespace cmsgears\social\connect\frontend\controllers;
 
 // Yii Imports
 use Yii;
@@ -8,11 +8,13 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\login\common\config\GoogleProperties;
+use cmsgears\social\connect\common\config\GoogleProperties;
 
-use cmsgears\social\login\common\models\forms\GoogleLogin;
+use cmsgears\social\connect\common\models\forms\GoogleLogin;
 
-class GoogleController extends \cmsgears\core\frontend\controllers\base\Controller {
+use cmsgears\core\frontend\controllers\base\Controller;
+
+class GoogleController extends Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -86,4 +88,5 @@ class GoogleController extends \cmsgears\core\frontend\controllers\base\Controll
 		// Model not found
 		throw new NotFoundHttpException( Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_NOT_FOUND ) );
     }
+
 }

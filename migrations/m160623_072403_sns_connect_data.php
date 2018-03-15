@@ -20,11 +20,11 @@ use cmsgears\core\common\models\resources\FormField;
 use cmsgears\core\common\utilities\DateUtil;
 
 /**
- * The sns login data migration inserts the base data required to run the application.
+ * The sns connect data migration inserts the base data required to run the application.
  *
  * @since 1.0.0
  */
-class m160623_072403_sns_login_data extends Migration {
+class m160623_072403_sns_connect_data extends Migration {
 
 	// Public Variables
 
@@ -174,8 +174,9 @@ class m160623_072403_sns_login_data extends Migration {
 
     public function down() {
 
-        echo "m160623_072403_sns_login_data will be deleted with m160621_014408_core.\n";
+        echo "m160623_072403_sns_connect_data will be deleted with m160621_014408_core.\n";
 
         return true;
     }
+
 }

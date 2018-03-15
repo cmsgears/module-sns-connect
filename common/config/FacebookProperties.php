@@ -68,7 +68,7 @@ class FacebookProperties extends Properties {
 
 			self::$instance	= new FacebookProperties();
 
-			self::$instance->init( SnsLoginGlobal::CONFIG_SNS_FACEBOOK );
+			self::$instance->init( SnsConnectGlobal::CONFIG_SNS_FACEBOOK );
 		}
 
 		return self::$instance;

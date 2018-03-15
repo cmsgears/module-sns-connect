@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-namespace cmsgears\social\login\common\models\forms;
+namespace cmsgears\social\connect\common\models\forms;
 
 class FacebookLogin extends SnsLogin {
 

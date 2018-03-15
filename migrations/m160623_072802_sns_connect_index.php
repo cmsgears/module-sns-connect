@@ -11,13 +11,13 @@
 use cmsgears\core\common\base\Migration;
 
 /**
- * The sns login index migration inserts the recommended indexes for better performance. It
+ * The sns connect index migration inserts the recommended indexes for better performance. It
  * also list down other possible index commented out. These indexes can be created using
  * project based migration script.
  *
  * @since 1.0.0
  */
-class m160623_072802_sns_login_index extends Migration {
+class m160623_072802_sns_connect_index extends Migration {
 
 	// Public Variables
 
@@ -54,4 +54,5 @@ class m160623_072802_sns_login_index extends Migration {
 		$this->dropIndex( 'idx_' . $this->prefix . 'sns_profile_type', $this->prefix . 'sns_profile' );
 		//$this->dropIndex( 'idx_' . $this->prefix . 'sns_profile_snsid', $this->prefix . 'sns_profile' );
 	}
+
 }

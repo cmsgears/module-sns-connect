@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-namespace cmsgears\social\login\common\config;
+namespace cmsgears\social\connect\common\config;
 
 // Yii Imports
 use Yii;
@@ -57,7 +57,7 @@ class TwitterProperties extends Properties {
 
 			self::$instance	= new TwitterProperties();
 
-			self::$instance->init( SnsLoginGlobal::CONFIG_SNS_TWITTER );
+			self::$instance->init( SnsConnectGlobal::CONFIG_SNS_TWITTER );
 		}
 
 		return self::$instance;

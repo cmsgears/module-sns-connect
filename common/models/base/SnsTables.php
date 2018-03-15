@@ -7,11 +7,16 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-namespace cmsgears\social\login\common\models\base;
+namespace cmsgears\social\connect\common\models\base;
 
 // CMG Imports
 use cmsgears\core\common\models\base\DbTables;
 
+/**
+ * It provide table name constants of db tables available in SNS Connect Module.
+ *
+ * @since 1.0.0
+ */
 class SnsTables extends DbTables {
 
 	// Entities -------------
@@ -21,4 +26,5 @@ class SnsTables extends DbTables {
 	// Resources ------------
 
 	// Mappers --------------
+
 }

@@ -1,20 +1,22 @@
 <?php
-namespace cmsgears\social\login\common\services\entities;
+namespace cmsgears\social\connect\common\services\entities;
 
 // Yii Imports
 use Yii;
 
 // CMG Imports
-use cmsgears\social\login\common\config\SnsLoginGlobal;
+use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\login\common\models\entities\SnsProfile;
+use cmsgears\social\connect\common\models\entities\SnsProfile;
 
-use cmsgears\social\login\common\services\interfaces\entities\IGoogleProfileService;
+use cmsgears\social\connect\common\services\interfaces\entities\IGoogleProfileService;
+
+use cmsgears\social\connect\common\services\base\SnsProfileService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
-class GoogleProfileService extends \cmsgears\social\login\common\services\base\SnsProfileService implements IGoogleProfileService {
+class GoogleProfileService extends SnsProfileService implements IGoogleProfileService {
 
 	// Variables ---------------------------------------------------
 
@@ -58,7 +60,7 @@ class GoogleProfileService extends \cmsgears\social\login\common\services\base\S
 
 	public function getUser( $model, $accessToken ) {
 
-		$snsProfile		= $this->getByTypeSnsId( SnsLoginGlobal::SNS_TYPE_GOOGLE, $model->id );
+		$snsProfile		= $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_GOOGLE, $model->id );
 		$user			= null;
 
 		if( isset( $snsProfile ) ) {
@@ -104,7 +106,7 @@ class GoogleProfileService extends \cmsgears\social\login\common\services\base\S
 		$snsProfileToSave = new SnsProfile();
 
 		$snsProfileToSave->userId	= $user->id;
-		$snsProfileToSave->type		= SnsLoginGlobal::SNS_TYPE_GOOGLE;
+		$snsProfileToSave->type		= SnsConnectGlobal::SNS_TYPE_GOOGLE;
 		$snsProfileToSave->snsId	= $snsUser->id;
 		$snsProfileToSave->token	= $accessToken;
 		$snsProfileToSave->data		= json_encode( $snsUser );

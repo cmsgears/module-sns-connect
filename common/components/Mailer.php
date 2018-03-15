@@ -1,11 +1,5 @@
 <?php
-namespace cmsgears\social\login\common\components;
-
-// Yii Imports
-use \Yii;
-
-// CMG Imports
-use cmsgears\core\common\config\CoreGlobal;
+namespace cmsgears\social\connect\common\components;
 
 /**
  * The mail component used for sending possible mails by the CMSGears sns login module. It must be initialised

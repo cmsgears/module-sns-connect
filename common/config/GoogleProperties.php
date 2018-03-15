@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-namespace cmsgears\social\login\common\config;
+namespace cmsgears\social\connect\common\config;
 
 // Yii Imports
 use Yii;
@@ -68,7 +68,7 @@ class GoogleProperties extends Properties {
 
 			self::$instance	= new GoogleProperties();
 
-			self::$instance->init( SnsLoginGlobal::CONFIG_SNS_GOOGLE );
+			self::$instance->init( SnsConnectGlobal::CONFIG_SNS_GOOGLE );
 		}
 
 		return self::$instance;

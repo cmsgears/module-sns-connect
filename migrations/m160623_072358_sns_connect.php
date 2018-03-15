@@ -11,12 +11,12 @@
 use cmsgears\core\common\base\Migration;
 
 /**
- * The sns login migration inserts the database tables of sns login module. It also insert
+ * The sns connect migration inserts the database tables of sns connect module. It also insert
  * the foreign keys if FK flag of migration component is true.
  *
  * @since 1.0.0
  */
-class m160623_072358_sns_login extends Migration {
+class m160623_072358_sns_connect extends Migration {
 
 	// Public Variables
 
@@ -91,4 +91,5 @@ class m160623_072358_sns_login extends Migration {
 
 		$this->dropForeignKey( 'fk_' . $this->prefix . 'sns_profile_user', $this->prefix . 'sns_profile' );
 	}
+
 }

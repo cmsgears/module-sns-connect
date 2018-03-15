@@ -1,10 +1,13 @@
 <?php
-namespace cmsgears\social\login\common\components;
+namespace cmsgears\social\connect\common\components;
+
+// Yii Imports
+use yii\base\Component;
 
 // CMG Imports
-use cmsgears\social\login\common\config\SnsLoginGlobal;
+use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
-class MessageSource extends \yii\base\Component {
+class MessageSource extends Component {
 
 	// Variables ---------------------------------------------------
 
@@ -17,7 +20,7 @@ class MessageSource extends \yii\base\Component {
 	protected $messageDb = [
 
 		// Generic Fields
-		SnsLoginGlobal::FIELD_SNS_NETWORK => 'Social Network'
+		SnsConnectGlobal::FIELD_SNS_NETWORK => 'Social Network'
 	];
 
 	// Private ----------------
@@ -36,4 +39,5 @@ class MessageSource extends \yii\base\Component {
 
 		return $this->messageDb[ $messageKey ];
 	}
+
 }

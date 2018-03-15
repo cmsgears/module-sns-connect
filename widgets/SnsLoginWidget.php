@@ -1,19 +1,19 @@
 <?php
-namespace cmsgears\social\login\widgets;
+namespace cmsgears\social\connect\widgets;
 
 // Yii Imports
-use \Yii;
 use yii\helpers\Html;
 
 // CMG Imports
-use cmsgears\core\common\config\CmgProperties;
+use cmsgears\social\connect\common\config\SnsLoginGlobal;
 
-use cmsgears\social\login\common\config\SnsLoginGlobal;
-use cmsgears\social\login\common\config\FacebookProperties;
-use cmsgears\social\login\common\config\GoogleProperties;
-use cmsgears\social\login\common\config\TwitterProperties;
+use cmsgears\core\common\base\Widget;
 
-class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
+use cmsgears\social\connect\common\config\FacebookProperties;
+use cmsgears\social\connect\common\config\GoogleProperties;
+use cmsgears\social\connect\common\config\TwitterProperties;
+
+class SnsLoginWidget extends Widget {
 
 	// Variables ---------------------------------------------------
 
@@ -78,5 +78,3 @@ class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
         return Html::tag( 'div', $widgetHtml, $this->options );
     }
 }
-
-?>
