@@ -58,4 +58,5 @@ class TwitterInfoForm extends Model {
             }
         }
     }
+
 }

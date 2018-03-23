@@ -8,7 +8,6 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\connect\common\config\GoogleProperties;
 
 use cmsgears\social\connect\common\models\forms\GoogleLogin;
 
@@ -26,13 +25,17 @@ class GoogleController extends Controller {
 
 	// Private ----------------
 
+	private $googleService;
+
 	// Constructor and Initialisation ------------------------------
 
  	public function init() {
 
         parent::init();
 
-		$this->modelService	= Yii::$app->factory->get( 'googleProfileService' );
+		$this->modelService		= Yii::$app->factory->get( 'googleProfileService' );
+
+		$this->googleService	= Yii::$app->factory->get( 'googleService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -65,11 +68,9 @@ class GoogleController extends Controller {
 
     public function actionAuthorise( $code, $state ) {
 
-		$googleProperties	= GoogleProperties::getInstance();
-
 		// Get Token
-		$accessToken		= $googleProperties->getAccessToken( $code, $state );
-		$snsUser			= $googleProperties->getUser( $accessToken );
+		$accessToken	= $this->googleService->getAccessToken( $code, $state );
+		$snsUser		= $this->googleService->getUser( $accessToken );
 
 		if( isset( $snsUser ) ) {
 

@@ -43,10 +43,21 @@ class SnsConnect extends Component {
 	public function registerComponents() {
 
 		// Register services
+		$this->registerSystemServices();
 		$this->registerEntityServices();
 
 		// Init services
+		$this->initSystemServices();
 		$this->initEntityServices();
+	}
+
+	public function registerSystemServices() {
+
+		$factory = Yii::$app->factory->getContainer();
+
+		$factory->set( 'cmsgears\social\connect\common\services\interfaces\system\IFacebookService', 'cmsgears\social\connect\common\services\system\FacebookService' );
+		$factory->set( 'cmsgears\social\connect\common\services\interfaces\system\IGoogleService', 'cmsgears\social\connect\common\services\system\GoogleService' );
+		$factory->set( 'cmsgears\social\connect\common\services\interfaces\system\ITwitterService', 'cmsgears\social\connect\common\services\system\TwitterService' );
 	}
 
 	public function registerEntityServices() {
@@ -58,6 +69,15 @@ class SnsConnect extends Component {
 		$factory->set( 'cmsgears\social\connect\common\services\interfaces\entities\ITwitterProfileService', 'cmsgears\social\connect\common\services\entities\TwitterProfileService' );
 	}
 
+	public function initSystemServices() {
+
+		$factory = Yii::$app->factory->getContainer();
+
+		$factory->set( 'facebookService', 'cmsgears\social\connect\common\services\system\FacebookService' );
+		$factory->set( 'googleService', 'cmsgears\social\connect\common\services\system\GoogleService' );
+		$factory->set( 'twitterService', 'cmsgears\social\connect\common\services\system\TwitterService' );
+	}
+
 	public function initEntityServices() {
 
 		$factory = Yii::$app->factory->getContainer();
@@ -66,4 +86,5 @@ class SnsConnect extends Component {
 		$factory->set( 'googleProfileService', 'cmsgears\social\connect\common\services\entities\GoogleProfileService' );
 		$factory->set( 'twitterProfileService', 'cmsgears\social\connect\common\services\entities\TwitterProfileService' );
 	}
+
 }

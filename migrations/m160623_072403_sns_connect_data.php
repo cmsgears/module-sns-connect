@@ -140,8 +140,10 @@ class m160623_072403_sns_connect_data extends Migration {
 
 		$fields	= [
 			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{"title":"Check whether Twitter Login is active."}' ],
-			[ $config->id, 'api_key', 'API Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Application Id.","placeholder":"Application Id"}' ],
-			[ $config->id, 'api_secret', 'API Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Application Secret.","placeholder":"Application Secret"}' ],
+			[ $config->id, 'consumer_key', 'Consumer Key', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Consumer Key","placeholder":"Consumer Key"}' ],
+			[ $config->id, 'consumer_secret', 'Consumer Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Consumer Secret","placeholder":"Consumer Secret"}' ],
+			[ $config->id, 'access_token', 'Access Token', FormField::TYPE_TEXT, false, NULL, 0, NULL, '{"title":"Access Token","placeholder":"Access Token"}' ],
+			[ $config->id, 'access_token_secret', 'Access Token Secret', FormField::TYPE_PASSWORD, false, NULL, 0, NULL, '{"title":"Access Token Secret","placeholder":"Access Token Secret"}' ],
 			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
 		];
 
@@ -164,8 +166,10 @@ class m160623_072403_sns_connect_data extends Migration {
 			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'google', 'text', '/sns/google/authorise' ],
 
 			[ $this->site->id, 'active', 'Active', 'twitter', 'flag', '1' ],
-			[ $this->site->id, 'api_key', 'API Key', 'twitter', 'text', null ],
-			[ $this->site->id, 'api_secret', 'API Secret', 'twitter', 'text', null ],
+			[ $this->site->id, 'consumer_key', 'Consumer Key', 'twitter', 'text', null ],
+			[ $this->site->id, 'consumer_secret', 'Consumer Secret', 'twitter', 'text', null ],
+			[ $this->site->id, 'access_token', 'Access Token', 'twitter', 'text', null ],
+			[ $this->site->id, 'access_token_secret', 'Access Token Secret', 'twitter', 'text', null ],
 			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'twitter', 'text', '/sns/twitter/authorise' ],
 		];
 

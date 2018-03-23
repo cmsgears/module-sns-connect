@@ -8,7 +8,6 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\connect\common\config\FacebookProperties;
 
 use cmsgears\social\connect\common\models\forms\FacebookLogin;
 use cmsgears\social\connect\frontend\models\forms\FacebookInfoForm;
@@ -27,13 +26,17 @@ class FacebookController extends Controller {
 
 	// Private ----------------
 
+	private $facebookService;
+
 	// Constructor and Initialisation ------------------------------
 
  	public function init() {
 
         parent::init();
 
-		$this->modelService	= Yii::$app->factory->get( 'facebookProfileService' );
+		$this->modelService		= Yii::$app->factory->get( 'facebookProfileService' );
+
+		$this->facebookService	= Yii::$app->factory->get( 'facebookService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -66,11 +69,9 @@ class FacebookController extends Controller {
 
     public function actionAuthorise( $code, $state ) {
 
-		$fbProperties	= FacebookProperties::getInstance();
-
 		// Get Token
-		$accessToken	= $fbProperties->getAccessToken( $code, $state );
-		$snsUser		= $fbProperties->getUser( $accessToken );
+		$accessToken	= $this->facebookService->getAccessToken( $code, $state );
+		$snsUser		= $this->facebookService->getUser( $accessToken );
 
 		if( isset( $snsUser ) ) {
 

@@ -1,6 +1,4 @@
 <?php
-use \Yii;
-use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $coreProperties = $this->context->getCoreProperties();

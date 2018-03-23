@@ -9,7 +9,6 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 use cmsgears\core\frontend\config\WebGlobalCore;
-use cmsgears\social\login\common\config\TwitterProperties;
 
 use cmsgears\social\connect\common\models\forms\TwitterLogin;
 use cmsgears\social\connect\frontend\models\forms\TwitterInfoForm;
@@ -28,13 +27,17 @@ class TwitterController extends Controller {
 
 	// Private ----------------
 
+	private $twitterService;
+
 	// Constructor and Initialisation ------------------------------
 
  	public function init() {
 
         parent::init();
 
-		$this->modelService	= Yii::$app->factory->get( 'twitterProfileService' );
+		$this->modelService		= Yii::$app->factory->get( 'twitterProfileService' );
+
+		$this->twitterService	= Yii::$app->factory->get( 'twitterService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -69,24 +72,20 @@ class TwitterController extends Controller {
 
 	public function actionLogin() {
 
-		$twitterProperties	= TwitterProperties::getInstance();
+		$this->twitterService->requestToken();
 
-		$twitterProperties->requestToken();
-
-		$authToken			= Yii::$app->session->get( 'tw_oauth_token' );
+		$authToken = Yii::$app->session->get( 'tw_oauth_token' );
 
 		$this->redirect( "https://api.twitter.com/oauth/authorize?oauth_token=$authToken" );
 	}
 
     public function actionAuthorise( $oauth_token, $oauth_verifier ) {
 
-		$twitterProperties	= TwitterProperties::getInstance();
+		$this->twitterService->setAuthToken( $oauth_token, $oauth_verifier );
 
-		$twitterProperties->setAuthToken( $oauth_token, $oauth_verifier );
+		$this->twitterService->getAccessToken();
 
-		$twitterProperties->getAccessToken();
-
-		$snsUser = $twitterProperties->getUser();
+		$snsUser = $this->twitterService->getUser();
 
 		if( $snsUser ) {
 
