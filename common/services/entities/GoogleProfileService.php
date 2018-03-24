@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\connect\common\services\entities;
 
 // Yii Imports
@@ -16,6 +24,11 @@ use cmsgears\social\connect\common\services\base\SnsProfileService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
+/**
+ * GoogleProfileService provide service methods of google profile.
+ *
+ * @since 1.0.0
+ */
 class GoogleProfileService extends SnsProfileService implements IGoogleProfileService {
 
 	// Variables ---------------------------------------------------
@@ -141,6 +154,14 @@ class GoogleProfileService extends SnsProfileService implements IGoogleProfileSe
 
 	// Delete -------------
 
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
+
 	// Static Methods ----------------------------------------------
 
 	// CMG parent classes --------------------
@@ -164,4 +185,5 @@ class GoogleProfileService extends SnsProfileService implements IGoogleProfileSe
 	// Update -------------
 
 	// Delete -------------
+
 }

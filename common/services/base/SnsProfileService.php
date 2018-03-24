@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\connect\common\services\base;
 
 // CMG Imports
@@ -11,6 +19,11 @@ use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;
 
 use cmsgears\core\common\services\base\EntityService;
 
+/**
+ * SnsProfileService provide service methods of SNS profile.
+ *
+ * @since 1.0.0
+ */
 abstract class SnsProfileService extends EntityService implements ISnsProfileService {
 
 	// Variables ---------------------------------------------------
@@ -103,6 +116,14 @@ abstract class SnsProfileService extends EntityService implements ISnsProfileSer
 
 	// Delete -------------
 
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
+
 	// Static Methods ----------------------------------------------
 
 	// CMG parent classes --------------------
@@ -126,4 +147,5 @@ abstract class SnsProfileService extends EntityService implements ISnsProfileSer
 	// Update -------------
 
 	// Delete -------------
+
 }

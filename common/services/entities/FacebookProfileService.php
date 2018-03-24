@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\connect\common\services\entities;
 
 // Yii Imports
@@ -16,6 +24,11 @@ use cmsgears\social\connect\common\services\base\SnsProfileService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
+/**
+ * FacebookProfileService provide service methods of facebook profile.
+ *
+ * @since 1.0.0
+ */
 class FacebookProfileService extends SnsProfileService implements IFacebookProfileService {
 
 	// Variables ---------------------------------------------------
@@ -144,6 +157,14 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 
 	// Delete -------------
 
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
+
 	// Static Methods ----------------------------------------------
 
 	// CMG parent classes --------------------
@@ -167,4 +188,5 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 	// Update -------------
 
 	// Delete -------------
+
 }

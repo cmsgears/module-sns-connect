@@ -134,4 +134,12 @@ class GoogleService extends SystemService {
 		return false;
 	}
 
+	// Static Methods ----------------------------------------------
+
+	// Yii parent classes --------------------
+
+	// CMG parent classes --------------------
+
+	// GoogleService -------------------------
+
 }
