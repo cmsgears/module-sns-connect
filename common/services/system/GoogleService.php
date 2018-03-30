@@ -50,7 +50,7 @@ class GoogleService extends SystemService {
 
 	private function curl( $url, $count = 0, $postString = false ) {
 
-		$ch		= curl_init();
+		$ch = curl_init();
 
 		curl_setopt( $ch, CURLOPT_URL, $url );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
@@ -61,7 +61,7 @@ class GoogleService extends SystemService {
 			curl_setopt( $ch,CURLOPT_POSTFIELDS, $postString );
 		}
 
-		$data 	= curl_exec( $ch );
+		$data = curl_exec( $ch );
 
 		curl_close( $ch );
 
@@ -75,12 +75,12 @@ class GoogleService extends SystemService {
 
       	if( !isset( $state ) ) {
 
-			$state		= Yii::$app->security->generateRandomString();
+			$state = Yii::$app->security->generateRandomString();
 
 			$session->set( 'gplus_state', $state );
         }
 
-		$redirectUri	= $this->getRedirectUri();
+		$redirectUri = $this->getRedirectUri();
 
 		$loginUrl = "https://accounts.google.com/o/oauth2/auth?"
 					. "client_id=" . $this->getAppId()
@@ -94,7 +94,7 @@ class GoogleService extends SystemService {
 
 	public function getAccessToken( $code, $state ) {
 
-		$sState			= Yii::$app->session->get( 'gplus_state' );
+		$sState = Yii::$app->session->get( 'gplus_state' );
 
 		if( isset( $state ) && strcmp( $sState, $state ) == 0 ) {
 
@@ -122,9 +122,9 @@ class GoogleService extends SystemService {
 
 	public function getUser( $accessToken ) {
 
-		$graphUrl 		= 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' . $accessToken;
-		$graphData		= $this->curl( $graphUrl );
-     	$user 			= json_decode( $graphData );
+		$graphUrl 	= 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' . $accessToken;
+		$graphData	= $this->curl( $graphUrl );
+     	$user 		= json_decode( $graphData );
 
      	if( isset( $user ) ) {
 

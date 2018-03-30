@@ -71,23 +71,24 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 
 	public function getUser( $model, $accessToken ) {
 
-		$snsProfile		= $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_FACEBOOK, $model->id );
+		$snsProfile = $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_FACEBOOK, $model->id );
 
 		if( isset( $snsProfile ) ) {
 
 			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
-			$user		= $snsProfile->user;
+
+			$user = $snsProfile->user;
 
 			return $user;
 		}
 		else {
 
-			$user 		= $this->userService->getByEmail( $model->email );
+			$user = $this->userService->getByEmail( $model->email );
 
 			if( !isset( $user ) ) {
 
 				// Create User
-				$user 		= $this->register( $model );
+				$user = $this->register( $model );
 
 				// Add User to current Site
 				$this->siteMemberService->create( $user );
@@ -119,7 +120,7 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 		$snsUser		= $config[ 'snsUser' ];
 		$accessToken	= $config[ 'accessToken' ];
 
-		$snsProfileToSave = new SnsProfile();
+		$snsProfileToSave = $this->getModelObject();
 
 		$snsProfileToSave->userId	= $user->id;
 		$snsProfileToSave->type		= SnsConnectGlobal::SNS_TYPE_FACEBOOK;
@@ -136,7 +137,7 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 
 	function register( $model, $config = [] ) {
 
-		$user 	= new User();
+		$user	= Yii::$app->get( 'userService' )->getModelObject();
 		$date	= DateUtil::getDateTime();
 
 		$user->email 		= $model->email;

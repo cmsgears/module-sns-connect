@@ -34,11 +34,7 @@ abstract class SnsProfileService extends EntityService implements ISnsProfileSer
 
 	// Public -----------------
 
-	public static $modelClass	= '\cmsgears\social\connect\common\models\entities\SnsProfile';
-
-	public static $modelTable	= SnsTables::TABLE_SNS_PROFILE;
-
-	public static $parentType	= null;
+	public static $modelClass = '\cmsgears\social\connect\common\models\entities\SnsProfile';
 
 	// Protected --------------
 
@@ -86,7 +82,9 @@ abstract class SnsProfileService extends EntityService implements ISnsProfileSer
 
    	public function getByTypeSnsId( $type, $snsId ) {
 
-		return SnsProfile::findByTypeSnsId( $type, $snsId );
+		$modelClass	= static::$modelClass;
+
+		return $modelClass::findByTypeSnsId( $type, $snsId );
 	}
 
     // Read - Lists ----

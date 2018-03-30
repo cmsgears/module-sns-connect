@@ -16,7 +16,6 @@ use Yii;
 use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\connect\common\models\entities\SnsProfile;
 
 use cmsgears\social\connect\common\services\interfaces\entities\ITwitterProfileService;
 
@@ -73,24 +72,24 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 
 	public function getUser( $model, $accessToken ) {
 
-		$snsProfile		= $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_TWITTER, $model->id );
+		$snsProfile = $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_TWITTER, $model->id );
 
 		if( isset( $snsProfile ) ) {
 
 			// ToDo update function not worked
 			//$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
-			$user		= $snsProfile->user;
+			$user = $snsProfile->user;
 
 			return $user;
 		}
 		else if( isset( $model->email ) ) {
 
-			$user 		= $this->userService->getByEmail( $model->email );
+			$user = $this->userService->getByEmail( $model->email );
 
 			if( !isset( $user ) ) {
 
 				// Create User
-				$user 		= $this->register( $model );
+				$user = $this->register( $model );
 
 				// Add User to current Site
 				$this->siteMemberService->create( $user );
@@ -120,7 +119,7 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 		$snsUser		= $config[ 'snsUser' ];
 		$accessToken	= $config[ 'accessToken' ];
 
-		$snsProfileToSave = new SnsProfile();
+		$snsProfileToSave = $this->getModelObject();
 
 		$snsProfileToSave->userId	= $user->id;
 		$snsProfileToSave->type		= SnsConnectGlobal::SNS_TYPE_TWITTER;
@@ -138,7 +137,7 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 
 	function register( $model, $config = [] ) {
 
-		$user 	= new User();
+		$user 	= Yii::$app->get( 'userService' )->getModelObject();
 		$date	= DateUtil::getDateTime();
 
 		$user->email 		= $model->email;

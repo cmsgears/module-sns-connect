@@ -55,7 +55,7 @@ class FacebookService extends SystemService {
 		curl_setopt( $ch, CURLOPT_URL, $url );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 
-		$data 	= curl_exec( $ch );
+		$data = curl_exec( $ch );
 
 		curl_close( $ch );
 
@@ -64,17 +64,17 @@ class FacebookService extends SystemService {
 
 	public function getLoginUrl() {
 
-		$session 	= Yii::$app->session;
+		$session	= Yii::$app->session;
         $state		= $session->get( 'fb_state' );
 
       	if( !isset( $state ) ) {
 
-			$state		= Yii::$app->security->generateRandomString();
+			$state = Yii::$app->security->generateRandomString();
 
 			$session->set( 'fb_state', $state );
         }
 
-		$redirectUri	= $this->getRedirectUri();
+		$redirectUri = $this->getRedirectUri();
 
 		$loginUrl = "https://www.facebook.com/v2.8/dialog/oauth?"
 					. "client_id=" . $this->getAppId()
@@ -93,23 +93,23 @@ class FacebookService extends SystemService {
 
 		if( isset( $state ) && strcmp( $sState, $state ) == 0 ) {
 
-			$redirectUri	= $this->getRedirectUri();
+			$redirectUri = $this->getRedirectUri();
 
-			$tokenUrl 	= "https://graph.facebook.com/v2.8/oauth/access_token?"
-							. 'client_id=' . $this->getAppId()
-							. '&redirect_uri=' . urlencode( $redirectUri )
-							. '&client_secret=' . $this->getAppSecret()
-							. '&code=' . $code;
+			$tokenUrl = "https://graph.facebook.com/v2.8/oauth/access_token?"
+						. 'client_id=' . $this->getAppId()
+						. '&redirect_uri=' . urlencode( $redirectUri )
+						. '&client_secret=' . $this->getAppSecret()
+						. '&code=' . $code;
 
-			$response 	= $this->curl( $tokenUrl );
+			$response = $this->curl( $tokenUrl );
 
-			$params 	= json_decode( $response );
+			$params = json_decode( $response );
 
 			//parse_str( $response, $params );
 
 			if( isset( $params->access_token ) ) {
 
-              	$accessToken 	= $params->access_token;
+              	$accessToken = $params->access_token;
 
 				$session->set( 'fb_access_token', $accessToken );
 

@@ -50,10 +50,10 @@ class TwitterService extends SystemService {
 
 	private function curl( $url, $headerParams, $post = true ) {
 
-		$authHeader		= $this->generateAuthHeader( $headerParams );
-		$authHeader		= [ $authHeader, 'Expect:' ];
+		$authHeader	= $this->generateAuthHeader( $headerParams );
+		$authHeader	= [ $authHeader, 'Expect:' ];
 
-		$ch		= curl_init();
+		$ch = curl_init();
 
 		curl_setopt( $ch, CURLOPT_HTTPHEADER, $authHeader );
 		curl_setopt( $ch, CURLOPT_HEADER, false );
@@ -67,7 +67,7 @@ class TwitterService extends SystemService {
 
 		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
 
-		$data 	= curl_exec( $ch );
+		$data = curl_exec( $ch );
 
 		curl_close( $ch );
 
@@ -76,13 +76,13 @@ class TwitterService extends SystemService {
 
 	public function generateBaseString( $tokenUrl, $headerParams, $post = true ) {
 
-		$tempArr	= [];
+		$tempArr = [];
 
 		ksort( $headerParams );
 
 		foreach( $headerParams as $key => $value ) {
 
-		        $tempArr[] = "$key=" . rawurlencode( $value );
+			$tempArr[] = "$key=" . rawurlencode( $value );
 		}
 
 		if( $post ) {
@@ -103,7 +103,7 @@ class TwitterService extends SystemService {
 	public function generateAuthHeader( $headerParams ) {
 
 	    $header		= 'Authorization: OAuth ';
-	    $tempArr 	= array();
+	    $tempArr 	= [];
 
 		ksort( $headerParams );
 
@@ -112,7 +112,7 @@ class TwitterService extends SystemService {
 	        $tempArr[] = "$key=\"" . rawurlencode( $value ) . "\"";
 		}
 
-	    $header 	.= implode( ', ', $tempArr );
+	    $header .= implode( ', ', $tempArr );
 
 	    return $header;
 	}
@@ -133,14 +133,16 @@ class TwitterService extends SystemService {
 		$nonce 			= Yii::$app->security->generateRandomString();
 		$timestamp 		= time();
 
-		$tokenUrl 		= "https://api.twitter.com/oauth/request_token";
+		$tokenUrl = "https://api.twitter.com/oauth/request_token";
 
-		$headerParams	= [ 'oauth_callback' => $redirectUri,
-							'oauth_consumer_key' => $apiKey,
-							'oauth_nonce' => $nonce,
-						    'oauth_signature_method' => 'HMAC-SHA1',
-						    'oauth_timestamp' => "$timestamp",
-						    'oauth_version' => '1.0' ];
+		$headerParams = [
+			'oauth_callback' => $redirectUri,
+			'oauth_consumer_key' => $apiKey,
+			'oauth_nonce' => $nonce,
+			'oauth_signature_method' => 'HMAC-SHA1',
+			'oauth_timestamp' => "$timestamp",
+			'oauth_version' => '1.0'
+		];
 
 		$baseString		= $this->generateBaseString( $tokenUrl, $headerParams );
 		$compositeKey	= $this->generateCompositeKey( $apiSecret, null );
@@ -149,13 +151,13 @@ class TwitterService extends SystemService {
 
 		$headerParams['oauth_signature'] = $oauthSignature;
 
-		$response 		= $this->curl( $tokenUrl, $headerParams );
+		$response = $this->curl( $tokenUrl, $headerParams );
 
-		$params 		= null;
+		$params = null;
 
 		parse_str( $response, $params );
 
-		$session 		= Yii::$app->session;
+		$session = Yii::$app->session;
 
 		$session->set( 'tw_oauth_token', $params[ 'oauth_token' ] );
 		$session->set( 'tw_oauth_token_secret', $params[ 'oauth_token_secret' ] );
@@ -163,7 +165,7 @@ class TwitterService extends SystemService {
 
 	public function setAuthToken( $oauth_token, $oauth_verifier ) {
 
-		$session 		= Yii::$app->session;
+		$session = Yii::$app->session;
 
 		$session->set( 'tw_oauth_token', $oauth_token );
 		$session->set( 'tw_oauth_verifier', $oauth_verifier );
@@ -176,18 +178,20 @@ class TwitterService extends SystemService {
 		$apiSecret		= $this->getApiSecret();
 		$redirectUri	= $this->getRedirectUri();
 
-		$nonce 			= Yii::$app->security->generateRandomString();
-		$timestamp 		= time();
+		$nonce 		= Yii::$app->security->generateRandomString();
+		$timestamp 	= time();
 
-		$tokenUrl 		= "https://api.twitter.com/oauth/access_token";
+		$tokenUrl = "https://api.twitter.com/oauth/access_token";
 
-		$headerParams	= [ 'oauth_token' => $session->get( 'tw_oauth_token' ),
-							'oauth_verifier' => $session->get( 'tw_oauth_verifier' ),
-							'oauth_consumer_key' => $apiKey,
-							'oauth_nonce' => $nonce,
-						    'oauth_signature_method' => 'HMAC-SHA1',
-						    'oauth_timestamp' => "$timestamp",
-						    'oauth_version' => '1.0' ];
+		$headerParams = [
+			'oauth_token' => $session->get( 'tw_oauth_token' ),
+			'oauth_verifier' => $session->get( 'tw_oauth_verifier' ),
+			'oauth_consumer_key' => $apiKey,
+			'oauth_nonce' => $nonce,
+			'oauth_signature_method' => 'HMAC-SHA1',
+			'oauth_timestamp' => "$timestamp",
+			'oauth_version' => '1.0'
+		];
 
 		$baseString		= $this->generateBaseString( $tokenUrl, $headerParams );
 		$compositeKey	= $this->generateCompositeKey( $apiSecret, $session->get( 'tw_oauth_token_secret' ) );
@@ -196,13 +200,13 @@ class TwitterService extends SystemService {
 
 		$headerParams['oauth_signature'] = $oauthSignature;
 
-		$response 		= $this->curl( $tokenUrl, $headerParams );
+		$response = $this->curl( $tokenUrl, $headerParams );
 
-		$params 		= null;
+		$params = null;
 
 		parse_str( $response, $params );
 
-		$session 		= Yii::$app->session;
+		$session = Yii::$app->session;
 
 		$session->set( 'tw_oauth_token', $params[ 'oauth_token' ] );
 		$session->set( 'tw_oauth_token_secret', $params[ 'oauth_token_secret' ] );
@@ -217,17 +221,19 @@ class TwitterService extends SystemService {
 		$apiSecret		= $this->getApiSecret();
 		$redirectUri	= $this->getRedirectUri();
 
-		$nonce 			= Yii::$app->security->generateRandomString();
-		$timestamp 		= time();
+		$nonce 		= Yii::$app->security->generateRandomString();
+		$timestamp 	= time();
 
-		$tokenUrl 		= "https://api.twitter.com/1.1/users/show.json";
+		$tokenUrl = "https://api.twitter.com/1.1/users/show.json";
 
-		$headerParams	= [ 'oauth_token' => $session->get( 'tw_oauth_token' ),
-							'oauth_consumer_key' => $apiKey,
-							'oauth_nonce' => $nonce,
-						    'oauth_signature_method' => 'HMAC-SHA1',
-						    'oauth_timestamp' => "$timestamp",
-						    'oauth_version' => '1.0' ];
+		$headerParams = [
+			'oauth_token' => $session->get( 'tw_oauth_token' ),
+			'oauth_consumer_key' => $apiKey,
+			'oauth_nonce' => $nonce,
+			'oauth_signature_method' => 'HMAC-SHA1',
+			'oauth_timestamp' => "$timestamp",
+			'oauth_version' => '1.0'
+		];
 
 		$baseArr		= ArrayHelper::merge( $headerParams, [ 'screen_name' => $session->get( 'tw_screen_name' ) ] );
 		$baseString		= $this->generateBaseString( $tokenUrl, $baseArr, false );
@@ -237,17 +243,17 @@ class TwitterService extends SystemService {
 
 		$headerParams['oauth_signature'] = $oauthSignature;
 
-		$response 		= $this->curl( $tokenUrl . "?screen_name=" . $session->get( 'tw_screen_name' ), $headerParams, false );
+		$response = $this->curl( $tokenUrl . "?screen_name=" . $session->get( 'tw_screen_name' ), $headerParams, false );
 
-		$user 			= json_decode( $response );
+		$user = json_decode( $response );
 
 		if( isset( $user->id ) ) {
 
 			$userUpd		= new \stdClass;
 			$userUpd->id	= $user->id;
 
-			$name			= $user->name;
-			$name			= preg_split( "/ /", $name );
+			$name = $user->name;
+			$name = preg_split( "/ /", $name );
 
 			if( count( $name ) > 1 ) {
 
@@ -260,7 +266,7 @@ class TwitterService extends SystemService {
 				$userUpd->lastName	= null;
 			}
 
-			$userUpd->secret	= $session->get( 'tw_oauth_token_secret' );
+			$userUpd->secret = $session->get( 'tw_oauth_token_secret' );
 
 			$session->set( 'tw_user', json_encode( $userUpd ) );
 
