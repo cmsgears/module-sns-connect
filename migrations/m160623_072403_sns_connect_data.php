@@ -66,10 +66,10 @@ class m160623_072403_sns_connect_data extends Migration {
             'name' => 'Config Facebook', 'slug' => 'config-facebook',
             'type' => CoreGlobal::TYPE_SYSTEM,
             'description' => 'Facebook configuration form.',
-            'successMessage' => 'All configurations saved successfully.',
+            'success' => 'All configurations saved successfully.',
             'captcha' => false,
             'visibility' => Form::VISIBILITY_PROTECTED,
-            'active' => true, 'userMail' => false, 'adminMail' => false,
+            'status' => Form::STATUS_ACTIVE, 'userMail' => false, 'adminMail' => false,
             'createdAt' => DateUtil::getDateTime(),
             'modifiedAt' => DateUtil::getDateTime()
         ]);
@@ -96,10 +96,10 @@ class m160623_072403_sns_connect_data extends Migration {
             'name' => 'Config Google', 'slug' => 'config-google',
             'type' => CoreGlobal::TYPE_SYSTEM,
             'description' => 'Google configuration form.',
-            'successMessage' => 'All configurations saved successfully.',
+            'success' => 'All configurations saved successfully.',
             'captcha' => false,
             'visibility' => Form::VISIBILITY_PROTECTED,
-            'active' => true, 'userMail' => false, 'adminMail' => false,
+            'status' => Form::STATUS_ACTIVE, 'userMail' => false, 'adminMail' => false,
             'createdAt' => DateUtil::getDateTime(),
             'modifiedAt' => DateUtil::getDateTime()
         ]);
@@ -126,10 +126,10 @@ class m160623_072403_sns_connect_data extends Migration {
             'name' => 'Config Twitter', 'slug' => 'config-twitter',
             'type' => CoreGlobal::TYPE_SYSTEM,
             'description' => 'Twitter configuration form.',
-            'successMessage' => 'All configurations saved successfully.',
+            'success' => 'All configurations saved successfully.',
             'captcha' => false,
             'visibility' => Form::VISIBILITY_PROTECTED,
-            'active' => true, 'userMail' => false, 'adminMail' => false,
+            'status' => Form::STATUS_ACTIVE, 'userMail' => false, 'adminMail' => false,
             'createdAt' => DateUtil::getDateTime(),
             'modifiedAt' => DateUtil::getDateTime()
         ]);
