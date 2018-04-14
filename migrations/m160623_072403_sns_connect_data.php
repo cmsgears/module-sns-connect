@@ -152,25 +152,25 @@ class m160623_072403_sns_connect_data extends Migration {
 
 	private function insertDefaultConfig() {
 
-		$columns = [ 'modelId', 'name', 'label', 'type', 'valueType', 'value' ];
+		$columns = [ 'modelId', 'name', 'label', 'type', 'active', 'valueType', 'value', 'data' ];
 
 		$metas	= [
-			[ $this->site->id, 'active', 'Active', 'facebook', 'flag', '1' ],
-			[ $this->site->id, 'app_id', 'App Id', 'facebook', 'text', null ],
-			[ $this->site->id, 'app_secret', 'App Secret', 'facebook', 'text', null ],
-			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'facebook', 'text', '/sns/facebook/authorise' ],
+			[ $this->site->id, 'active', 'Active', 'facebook', 1, 'flag', '1', NULL ],
+			[ $this->site->id, 'app_id', 'App Id', 'facebook', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'app_secret', 'App Secret', 'facebook', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'facebook', 1, 'text', '/sns/facebook/authorise', NULL ],
 
-			[ $this->site->id, 'active', 'Active', 'google', 'flag', '1' ],
-			[ $this->site->id, 'app_id', 'App Id', 'google', 'text', null ],
-			[ $this->site->id, 'app_secret', 'App Secret', 'google', 'text', null ],
-			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'google', 'text', '/sns/google/authorise' ],
+			[ $this->site->id, 'active', 'Active', 'google', 1, 'flag', '1', NULL ],
+			[ $this->site->id, 'app_id', 'App Id', 'google', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'app_secret', 'App Secret', 'google', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'google', 1, 'text', '/sns/google/authorise', NULL ],
 
-			[ $this->site->id, 'active', 'Active', 'twitter', 'flag', '1' ],
-			[ $this->site->id, 'consumer_key', 'Consumer Key', 'twitter', 'text', null ],
-			[ $this->site->id, 'consumer_secret', 'Consumer Secret', 'twitter', 'text', null ],
-			[ $this->site->id, 'access_token', 'Access Token', 'twitter', 'text', null ],
-			[ $this->site->id, 'access_token_secret', 'Access Token Secret', 'twitter', 'text', null ],
-			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'twitter', 'text', '/sns/twitter/authorise' ],
+			[ $this->site->id, 'active', 'Active', 'twitter', 1, 'flag', '1', NULL ],
+			[ $this->site->id, 'consumer_key', 'Consumer Key', 'twitter', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'consumer_secret', 'Consumer Secret', 'twitter', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'access_token', 'Access Token', 'twitter', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'access_token_secret', 'Access Token Secret', 'twitter', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'twitter', 1, 'text', '/sns/twitter/authorise', NULL ],
 		];
 
 		$this->batchInsert( $this->prefix . 'core_site_meta', $columns, $metas );
