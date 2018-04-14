@@ -136,15 +136,15 @@ class m160623_072403_sns_connect_data extends Migration {
 
 		$config	= Form::findBySlugType( 'config-twitter', CoreGlobal::TYPE_SYSTEM );
 
-		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'validators', 'order', 'icon', 'htmlOptions' ];
+		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'meta', 'active', 'validators', 'order', 'icon', 'htmlOptions' ];
 
 		$fields	= [
-			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{"title":"Check whether Twitter Login is active."}' ],
-			[ $config->id, 'consumer_key', 'Consumer Key', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Consumer Key","placeholder":"Consumer Key"}' ],
-			[ $config->id, 'consumer_secret', 'Consumer Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Consumer Secret","placeholder":"Consumer Secret"}' ],
-			[ $config->id, 'access_token', 'Access Token', FormField::TYPE_TEXT, false, NULL, 0, NULL, '{"title":"Access Token","placeholder":"Access Token"}' ],
-			[ $config->id, 'access_token_secret', 'Access Token Secret', FormField::TYPE_PASSWORD, false, NULL, 0, NULL, '{"title":"Access Token Secret","placeholder":"Access Token Secret"}' ],
-			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
+			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, true, true, 'required', 0, NULL, '{"title":"Check whether Twitter Login is active."}' ],
+			[ $config->id, 'consumer_key', 'Consumer Key', FormField::TYPE_TEXT, false, true, true, 'required', 0, NULL, '{"title":"Consumer Key","placeholder":"Consumer Key"}' ],
+			[ $config->id, 'consumer_secret', 'Consumer Secret', FormField::TYPE_PASSWORD, false, true, true, 'required', 0, NULL, '{"title":"Consumer Secret","placeholder":"Consumer Secret"}' ],
+			[ $config->id, 'access_token', 'Access Token', FormField::TYPE_TEXT, false, true, true, NULL, 0, NULL, '{"title":"Access Token","placeholder":"Access Token"}' ],
+			[ $config->id, 'access_token_secret', 'Access Token Secret', FormField::TYPE_PASSWORD, false, true, true, NULL, 0, NULL, '{"title":"Access Token Secret","placeholder":"Access Token Secret"}' ],
+			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, true, true, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_form_field', $columns, $fields );
