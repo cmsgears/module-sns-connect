@@ -93,7 +93,7 @@ class GoogleProfileService extends SnsProfileService implements IGoogleProfileSe
 				$user = $this->register( $model );
 
 				// Add User to current Site
-				$this->siteMemberService->create( $user );
+				$this->siteMemberService->createByParams( [ 'userId' => $user->id ] );
 
 				// Trigger Mail
 				Yii::$app->snsLoginMailer->sendRegisterFacebookMail( $user );
