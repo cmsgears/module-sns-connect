@@ -25,9 +25,9 @@ class Mailer extends \cmsgears\core\common\base\Mailer {
 
 	// Public -----------------
 
-    public $htmlLayout 			= '@cmsgears/module-sns-login/common/mails/layouts/html';
-    public $textLayout 			= '@cmsgears/module-sns-login/common/mails/layouts/text';
-    public $viewPath 			= '@cmsgears/module-sns-login/common/mails/views';
+    public $htmlLayout 			= '@cmsgears/module-sns-connect/common/mails/layouts/html';
+    public $textLayout 			= '@cmsgears/module-sns-connect/common/mails/layouts/text';
+    public $viewPath 			= '@cmsgears/module-sns-connect/common/mails/views';
 
 	// Protected --------------
 
