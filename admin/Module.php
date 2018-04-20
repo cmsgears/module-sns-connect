@@ -5,24 +5,24 @@ namespace cmsgears\social\connect\admin;
 use \Yii;
 
 // CMG Imports
-use cmsgears\social\connect\common\config\SnsLoginGlobal;
+use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 class Module extends \cmsgears\core\common\base\Module {
 
     public $controllerNamespace = 'cmsgears\social\connect\admin\controllers';
 
-	public $config 				= [ SnsLoginGlobal::CONFIG_SNS_FACEBOOK, SnsLoginGlobal::CONFIG_SNS_GOOGLE, SnsLoginGlobal::CONFIG_SNS_TWITTER ];
+	public $config 				= [ SnsConnectGlobal::CONFIG_SNS_FACEBOOK, SnsConnectGlobal::CONFIG_SNS_GOOGLE, SnsConnectGlobal::CONFIG_SNS_TWITTER ];
 
     public function init() {
 
         parent::init();
 
-        $this->setViewPath( '@cmsgears/module-sns-login/admin/views' );
+        $this->setViewPath( '@cmsgears/module-sns-connect/admin/views' );
     }
 
 	public function getSidebarHtml() {
 
-		$path	= Yii::getAlias( "@cmsgears" ) . "/module-sns-login/admin/views/sidebar.php";
+		$path	= Yii::getAlias( "@cmsgears" ) . "/module-sns-connect/admin/views/sidebar.php";
 
 		return $path;
 	}
