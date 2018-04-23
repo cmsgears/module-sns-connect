@@ -11,7 +11,7 @@ namespace cmsgears\social\connect\common\services\system;
 
 // Yii Imports
 use Yii;
-
+use cmsgears\social\connect\common\config\GoogleProperties;
 // CMG Imports
 use cmsgears\core\common\services\base\SystemService;
 
@@ -80,10 +80,12 @@ class GoogleService extends SystemService {
 			$session->set( 'gplus_state', $state );
         }
 
-		$redirectUri = $this->getRedirectUri();
+		$googleProperties = GoogleProperties::getInstance();
+		$redirectUri	= $googleProperties->getRedirectUri();
+		$appId			= $googleProperties->getAppId();
 
 		$loginUrl = "https://accounts.google.com/o/oauth2/auth?"
-					. "client_id=" . $this->getAppId()
+					. "client_id=" . $appId
 					. "&redirect_uri=" . urlencode( $redirectUri )
 					. "&state=" . $state
 					. "&response_type=code"
@@ -95,15 +97,20 @@ class GoogleService extends SystemService {
 	public function getAccessToken( $code, $state ) {
 
 		$sState = Yii::$app->session->get( 'gplus_state' );
+		
+		$googleProperties = GoogleProperties::getInstance();
+		$redirectUri	= $googleProperties->getRedirectUri();
+		$appId			= $googleProperties->getAppId();
+		$appSecret		= $googleProperties->getAppSecret();
 
 		if( isset( $state ) && strcmp( $sState, $state ) == 0 ) {
 
-			$redirectUri	= $this->getRedirectUri();
+			//$redirectUri	= $this->getRedirectUri();
 
 			$tokenUrl 		= "https://www.googleapis.com/oauth2/v3/token";
-			$tokenParams	= 'client_id=' . $this->getAppId()
+			$tokenParams	= 'client_id=' . $appId
 								. '&redirect_uri=' . urlencode( $redirectUri )
-								. '&client_secret=' . $this->getAppSecret()
+								. '&client_secret=' . $appSecret
 								. '&code=' . $code
 								. '&grant_type=authorization_code';
 

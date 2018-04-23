@@ -5,7 +5,7 @@ namespace cmsgears\social\connect\widgets;
 use yii\helpers\Html;
 
 // CMG Imports
-use cmsgears\social\connect\common\config\SnsLoginGlobal;
+use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\base\Widget;
 
@@ -20,7 +20,7 @@ class SnsLoginWidget extends Widget {
 	// Public Variables --------------------
 
 	// SNS
-	public $sns			= [ SnsLoginGlobal::CONFIG_SNS_FACEBOOK, SnsLoginGlobal::CONFIG_SNS_GOOGLE, SnsLoginGlobal::CONFIG_SNS_TWITTER ];
+	public $sns			= [ SnsConnectGlobal::CONFIG_SNS_FACEBOOK, SnsConnectGlobal::CONFIG_SNS_GOOGLE, SnsConnectGlobal::CONFIG_SNS_TWITTER ];
 
 	// Private Variables -------------------
 
@@ -52,19 +52,19 @@ class SnsLoginWidget extends Widget {
 
 			switch( $sns ) {
 
-				case SnsLoginGlobal::CONFIG_SNS_FACEBOOK: {
+				case SnsConnectGlobal::CONFIG_SNS_FACEBOOK: {
 
 					$this->settings[ $sns ] = FacebookProperties::getInstance();
 
 					break;
 				}
-				case SnsLoginGlobal::CONFIG_SNS_GOOGLE: {
+				case SnsConnectGlobal::CONFIG_SNS_GOOGLE: {
 
 					$this->settings[ $sns ] = GoogleProperties::getInstance();
 
 					break;
 				}
-				case SnsLoginGlobal::CONFIG_SNS_TWITTER: {
+				case SnsConnectGlobal::CONFIG_SNS_TWITTER: {
 
 					$this->settings[ $sns ] = TwitterProperties::getInstance();
 

@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-namespace cmsgears\social\login\common\config;
+namespace cmsgears\social\connect\common\config;
 
 // Yii Imports
 use yii\helpers\Url;
