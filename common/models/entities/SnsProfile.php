@@ -60,7 +60,7 @@ class SnsProfile extends Entity implements IData {
 
 	// Protected --------------
 
-	protected $modelType	= SnsConnectGlobal::TYPE_SNS_PROFILE;
+	protected $modelType = SnsConnectGlobal::TYPE_SNS_PROFILE;
 
 	// Private ----------------
 
