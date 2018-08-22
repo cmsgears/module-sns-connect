@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\connect\frontend\models\forms;
 
 // Yii Imports
@@ -9,17 +17,46 @@ use yii\helpers\ArrayHelper;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
+/**
+ * It collect email from user before completing registration of newly signed in users using Twitter Login.
+ *
+ * @since 1.0.0
+ */
 class TwitterInfoForm extends Model {
 
 	// Variables ---------------------------------------------------
 
-	// Public Variables --------------------
+	// Globals -------------------------------
+
+	// Constants --------------
+
+	// Public -----------------
+
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
 
 	public $email;
 
-	// Instance Methods --------------------------------------------
+	// Protected --------------
 
-	// yii\base\Model
+	// Private ----------------
+
+	// Traits ------------------------------------------------------
+
+	// Constructor and Initialisation ------------------------------
+
+	// Instance methods --------------------------------------------
+
+	// Yii interfaces ------------------------
+
+	// Yii parent classes --------------------
+
+	// yii\base\Component -----
+
+	// yii\base\Model ---------
 
 	public function rules() {
 
@@ -46,11 +83,17 @@ class TwitterInfoForm extends Model {
 		];
 	}
 
+	// CMG interfaces ------------------------
+
+	// CMG parent classes --------------------
+
+	// Validators ----------------------------
+
     public function validateEmail( $attribute, $params ) {
 
         if( !$this->hasErrors() ) {
 
-			$userService	= Yii::$app->factory->get( 'userService' );
+			$userService = Yii::$app->factory->get( 'userService' );
 
             if( $userService->isExistByEmail( $this->email ) ) {
 
@@ -58,5 +101,7 @@ class TwitterInfoForm extends Model {
             }
         }
     }
+
+	// TwitterInfoForm -----------------------
 
 }

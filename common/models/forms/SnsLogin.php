@@ -19,6 +19,11 @@ use cmsgears\core\common\config\CoreGlobal;
 
 use cmsgears\core\common\utilities\DateUtil;
 
+/**
+ * Base Login Form.
+ *
+ * @since 1.0.0
+ */
 abstract class SnsLogin extends Model {
 
 	// Variables ---------------------------------------------------
@@ -49,17 +54,19 @@ abstract class SnsLogin extends Model {
 
 	// Constructor and Initialisation ------------------------------
 
-	public function __construct( $user )  {
+	public function __construct( $user, $config = [] )  {
 
-		$this->user 	= $user;
+		$this->user		= $user;
 		$this->email	= $user->email;
+
+		parent::__construct( $config );
 	}
 
 	public function init() {
 
 		parent::init();
 
-		$this->userService	= Yii::$app->factory->get( 'userService' );
+		$this->userService = Yii::$app->factory->get( 'userService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -168,10 +175,11 @@ abstract class SnsLogin extends Model {
 	 */
     public function login() {
 
-        if ( $this->validate() ) {
+        if( $this->validate() ) {
 
-			$user				= $this->getUser();
-			$user->lastLoginAt 	= DateUtil::getDateTime();
+			$user = $this->getUser();
+
+			$user->lastLoginAt = DateUtil::getDateTime();
 
 			$user->save();
 
@@ -180,4 +188,5 @@ abstract class SnsLogin extends Model {
 
 		return false;
     }
+
 }

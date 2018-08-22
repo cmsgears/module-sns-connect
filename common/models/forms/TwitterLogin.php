@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * This file is part of CMSGears Framework. Please view License file distributed
  * with the source code for license details.
@@ -9,6 +9,11 @@
 
 namespace cmsgears\social\connect\common\models\forms;
 
+/**
+ * Twitter Login Form.
+ *
+ * @since 1.0.0
+ */
 class TwitterLogin extends SnsLogin {
 
 	// Variables ---------------------------------------------------

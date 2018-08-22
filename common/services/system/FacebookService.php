@@ -13,6 +13,8 @@ namespace cmsgears\social\connect\common\services\system;
 use Yii;
 
 // CMG Imports
+use cmsgears\social\connect\common\config\FacebookProperties;
+
 use cmsgears\core\common\services\base\SystemService;
 
 /**
@@ -74,10 +76,13 @@ class FacebookService extends SystemService {
 			$session->set( 'fb_state', $state );
         }
 
-		$redirectUri = $this->getRedirectUri();
+		$properties = FacebookProperties::getInstance();
+
+		$redirectUri	= $properties->getRedirectUri();
+		$appId			= $properties->getAppId();
 
 		$loginUrl = "https://www.facebook.com/v2.8/dialog/oauth?"
-					. "client_id=" . $this->getAppId()
+					. "client_id=" . $appId
 					. "&redirect_uri=" . urlencode( $redirectUri )
 					. "&state=" . $state
 					. "&response_type=code"
@@ -93,12 +98,16 @@ class FacebookService extends SystemService {
 
 		if( isset( $state ) && strcmp( $sState, $state ) == 0 ) {
 
-			$redirectUri = $this->getRedirectUri();
+			$properties = FacebookProperties::getInstance();
+
+			$redirectUri	= $properties->getRedirectUri();
+			$appId			= $properties->getAppId();
+			$appSecret		= $properties->getAppSecret();
 
 			$tokenUrl = "https://graph.facebook.com/v2.8/oauth/access_token?"
-						. 'client_id=' . $this->getAppId()
+						. 'client_id=' .$appId
 						. '&redirect_uri=' . urlencode( $redirectUri )
-						. '&client_secret=' . $this->getAppSecret()
+						. '&client_secret=' . $appSecret
 						. '&code=' . $code;
 
 			$response = $this->curl( $tokenUrl );

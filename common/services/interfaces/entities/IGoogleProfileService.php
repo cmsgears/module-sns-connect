@@ -13,7 +13,7 @@ namespace cmsgears\social\connect\common\services\interfaces\entities;
 use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;
 
 /**
- * IGoogleProfileService declares methods specific to google login.
+ * IGoogleProfileService declares methods specific to Google Profile.
  *
  * @since 1.0.0
  */

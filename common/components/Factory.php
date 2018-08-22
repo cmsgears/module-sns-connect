@@ -73,6 +73,7 @@ class Factory extends Component {
 		$factory->set( 'cmsgears\social\connect\common\services\interfaces\system\IFacebookService', 'cmsgears\social\connect\common\services\system\FacebookService' );
 		$factory->set( 'cmsgears\social\connect\common\services\interfaces\system\IGoogleService', 'cmsgears\social\connect\common\services\system\GoogleService' );
 		$factory->set( 'cmsgears\social\connect\common\services\interfaces\system\ITwitterService', 'cmsgears\social\connect\common\services\system\TwitterService' );
+		$factory->set( 'cmsgears\social\connect\common\services\interfaces\system\ILinkedinService', 'cmsgears\social\connect\common\services\system\LinkedinService' );
 	}
 
 	/**
@@ -85,6 +86,7 @@ class Factory extends Component {
 		$factory->set( 'cmsgears\social\connect\common\services\interfaces\entities\IFacebookProfileService', 'cmsgears\social\connect\common\services\entities\FacebookProfileService' );
 		$factory->set( 'cmsgears\social\connect\common\services\interfaces\entities\IGoogleProfileService', 'cmsgears\social\connect\common\services\entities\GoogleProfileService' );
 		$factory->set( 'cmsgears\social\connect\common\services\interfaces\entities\ITwitterProfileService', 'cmsgears\social\connect\common\services\entities\TwitterProfileService' );
+		$factory->set( 'cmsgears\social\connect\common\services\interfaces\entities\ILinkedinProfileService', 'cmsgears\social\connect\common\services\entities\LinkedinProfileService' );
 	}
 
 	/**
@@ -97,6 +99,7 @@ class Factory extends Component {
 		$factory->set( 'facebookService', 'cmsgears\social\connect\common\services\system\FacebookService' );
 		$factory->set( 'googleService', 'cmsgears\social\connect\common\services\system\GoogleService' );
 		$factory->set( 'twitterService', 'cmsgears\social\connect\common\services\system\TwitterService' );
+		$factory->set( 'linkedinService', 'cmsgears\social\connect\common\services\system\LinkedinService' );
 	}
 
 	/**
@@ -109,6 +112,7 @@ class Factory extends Component {
 		$factory->set( 'facebookProfileService', 'cmsgears\social\connect\common\services\entities\FacebookProfileService' );
 		$factory->set( 'googleProfileService', 'cmsgears\social\connect\common\services\entities\GoogleProfileService' );
 		$factory->set( 'twitterProfileService', 'cmsgears\social\connect\common\services\entities\TwitterProfileService' );
+		$factory->set( 'linkedinProfileService', 'cmsgears\social\connect\common\services\entities\LinkedinProfileService' );
 	}
 
 }

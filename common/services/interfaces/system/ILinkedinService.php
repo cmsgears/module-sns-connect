@@ -13,11 +13,11 @@ namespace cmsgears\social\connect\common\services\interfaces\system;
 use cmsgears\core\common\services\interfaces\base\ISystemService;
 
 /**
- * IGoogleService declares methods specific to Google Login.
+ * ILinkedinService declares methods specific to LinkedIn Login.
  *
  * @since 1.0.0
  */
-interface IGoogleService extends ISystemService {
+interface ILinkedinService extends ISystemService {
 
 	public function getLoginUrl();
 

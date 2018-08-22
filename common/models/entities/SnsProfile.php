@@ -36,6 +36,7 @@ use cmsgears\core\common\models\traits\resources\DataTrait;
  * @property string $snsId
  * @property string $token
  * @property string $secret
+ * @property datetime $tokenExpiresAt
  * @property datetime $createdAt
  * @property datetime $modifiedAt
  * @property string $data
@@ -110,9 +111,10 @@ class SnsProfile extends Entity implements IData {
 			[ [ 'snsId', 'userId', 'type' ], 'unique', 'targetAttribute' => [ 'snsId', 'userId', 'type' ], 'comboNotUnique' => Yii::$app->coreMessage->getMessage( CoreGlobal::ERROR_EXIST ) ],
             // Text Limit
             [ 'type', 'string', 'min' => 1, 'max' => Yii::$app->core->mediumText ],
-            [ [ 'snsId', 'token', 'secret' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
+            [ [ 'snsId', 'secret' ], 'string', 'min' => 1, 'max' => Yii::$app->core->xLargeText ],
+			[ 'token', 'string', 'min' => 1, 'max' => Yii::$app->core->xxLargeText ],
 			// Other
-            [ [ 'createdAt', 'modifiedAt' ], 'date', 'format' => Yii::$app->formatter->datetimeFormat ]
+            [ [ 'tokenExpiresAt', 'createdAt', 'modifiedAt' ], 'date', 'format' => Yii::$app->formatter->datetimeFormat ]
         ];
 
 		return $rules;
@@ -128,6 +130,7 @@ class SnsProfile extends Entity implements IData {
 			'type' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TYPE ),
 			'snsId' => Yii::$app->snsLoginMessage->getMessage( SnsConnectGlobal::FIELD_SNS_NETWORK ),
 			'token' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_TOKEN ),
+			'tokenExpiresAt' => 'Token Expires At',
 			'data' => Yii::$app->coreMessage->getMessage( CoreGlobal::FIELD_DATA )
 		];
 	}

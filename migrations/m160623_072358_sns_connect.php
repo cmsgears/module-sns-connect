@@ -30,11 +30,11 @@ class m160623_072358_sns_connect extends Migration {
 	public function init() {
 
 		// Table prefix
-		$this->prefix		= Yii::$app->migration->cmgPrefix;
+		$this->prefix = Yii::$app->migration->cmgPrefix;
 
 		// Get the values via config
-		$this->fk			= Yii::$app->migration->isFk();
-		$this->options		= Yii::$app->migration->getTableOptions();
+		$this->fk		= Yii::$app->migration->isFk();
+		$this->options	= Yii::$app->migration->getTableOptions();
 
 		// Default collation
 		if( $this->db->driverName === 'mysql' ) {
@@ -61,8 +61,9 @@ class m160623_072358_sns_connect extends Migration {
 			'userId' => $this->bigInteger( 20 ),
 			'type' => $this->string( Yii::$app->core->mediumText )->notNull(),
 			'snsId' => $this->string(Yii::$app->core->xLargeText )->notNull(),
-			'token' => $this->string(Yii::$app->core->xLargeText )->notNull(),
+			'token' => $this->string(Yii::$app->core->xxLargeText )->notNull(),
 			'secret' => $this->string(Yii::$app->core->xLargeText ),
+			'tokenExpiresAt' => $this->dateTime(),
 			'createdAt' => $this->dateTime()->notNull(),
 			'modifiedAt' => $this->dateTime(),
 			'data' => $this->text()

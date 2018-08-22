@@ -24,7 +24,7 @@ $confirmLink	= Url::toRoute( "/activate-account?token=$token&email=$email", true
 	<tr><td height="20"></td></tr>
 	<tr>
 		<td>
-			<font face="Roboto, Arial, sans-serif">Thank you for registering with <?= $siteName ?> using your Google Account. You can also login using your email by activating your account. Activate your account using the below mentioned details:</font>
+			<font face="Roboto, Arial, sans-serif">Thank you for registering with <?= $siteName ?> using your LinkedIn Account. You can also login using your email by activating your account. Activate your account using the below mentioned details:</font>
 		</td>
 	</tr>
 	<tr><td height="20"></td></tr>

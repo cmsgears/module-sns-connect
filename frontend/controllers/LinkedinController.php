@@ -17,16 +17,16 @@ use yii\web\NotFoundHttpException;
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\social\connect\common\models\forms\GoogleLogin;
+use cmsgears\social\connect\common\models\forms\LinkedinLogin;
 
 use cmsgears\core\frontend\controllers\base\Controller;
 
 /**
- * It provides actions specific to Google Login.
+ * It provides actions specific to LinkedIn Login.
  *
  * @since 1.0.0
  */
-class GoogleController extends Controller {
+class LinkedinController extends Controller {
 
 	// Variables ---------------------------------------------------
 
@@ -38,7 +38,7 @@ class GoogleController extends Controller {
 
 	// Private ----------------
 
-	private $googleService;
+	private $linkedinService;
 
 	// Constructor and Initialisation ------------------------------
 
@@ -46,9 +46,9 @@ class GoogleController extends Controller {
 
         parent::init();
 
-		$this->modelService		= Yii::$app->factory->get( 'googleProfileService' );
+		$this->modelService		= Yii::$app->factory->get( 'linkedinProfileService' );
 
-		$this->googleService	= Yii::$app->factory->get( 'googleService' );
+		$this->linkedinService	= Yii::$app->factory->get( 'linkedinService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -82,8 +82,8 @@ class GoogleController extends Controller {
     public function actionAuthorise( $code, $state ) {
 
 		// Get Token
-		$accessToken	= $this->googleService->getAccessToken( $code, $state );
-		$snsUser		= $this->googleService->getUser( $accessToken );
+		$accessToken	= $this->linkedinService->getAccessToken( $code, $state );
+		$snsUser		= $this->linkedinService->getUser( $accessToken );
 
 		if( isset( $snsUser ) ) {
 
@@ -91,7 +91,7 @@ class GoogleController extends Controller {
 			$user = $this->modelService->getUser( $snsUser, $accessToken );
 
 			// Login and Redirect to home page
-			$login = new GoogleLogin( $user );
+			$login = new LinkedinLogin( $user );
 
 			if( $login->login() ) {
 

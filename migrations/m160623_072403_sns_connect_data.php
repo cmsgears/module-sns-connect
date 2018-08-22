@@ -53,6 +53,7 @@ class m160623_072403_sns_connect_data extends Migration {
 		$this->insertFacebookConfig();
 		$this->insertGoogleConfig();
 		$this->insertTwitterConfig();
+		$this->insertLinkedinConfig();
 
 		// Init default config
 		$this->insertDefaultConfig();
@@ -80,9 +81,10 @@ class m160623_072403_sns_connect_data extends Migration {
 
 		$fields	= [
 			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{"title":"Check whether Facebook Login is active."}' ],
-			[ $config->id, 'app_id', 'App Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Application Id.","placeholder":"Application Id"}' ],
-			[ $config->id, 'app_secret', 'App Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Application Secret.","placeholder":"Application Secret"}' ],
-			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
+			[ $config->id, 'app_id', 'App Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Application Id","placeholder":"Application Id"}' ],
+			[ $config->id, 'app_secret', 'App Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Application Secret","placeholder":"Application Secret"}' ],
+			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI","placeholder":"Redirect URI"}' ],
+			[ $config->id, 'scope', 'Scope', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Scope","placeholder":"Scope"}' ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_form_field', $columns, $fields );
@@ -112,7 +114,8 @@ class m160623_072403_sns_connect_data extends Migration {
 			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{"title":"Check whether Google Login is active."}' ],
 			[ $config->id, 'app_id', 'App Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Application Id.","placeholder":"Application Id"}' ],
 			[ $config->id, 'app_secret', 'App Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Application Secret.","placeholder":"Application Secret"}' ],
-			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
+			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ],
+			[ $config->id, 'scope', 'Scope', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Scope","placeholder":"Scope"}' ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_form_field', $columns, $fields );
@@ -144,7 +147,39 @@ class m160623_072403_sns_connect_data extends Migration {
 			[ $config->id, 'consumer_secret', 'Consumer Secret', FormField::TYPE_PASSWORD, false, true, true, 'required', 0, NULL, '{"title":"Consumer Secret","placeholder":"Consumer Secret"}' ],
 			[ $config->id, 'access_token', 'Access Token', FormField::TYPE_TEXT, false, true, true, NULL, 0, NULL, '{"title":"Access Token","placeholder":"Access Token"}' ],
 			[ $config->id, 'access_token_secret', 'Access Token Secret', FormField::TYPE_PASSWORD, false, true, true, NULL, 0, NULL, '{"title":"Access Token Secret","placeholder":"Access Token Secret"}' ],
-			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, true, true, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ]
+			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, true, true, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ],
+			[ $config->id, 'scope', 'Scope', FormField::TYPE_TEXT, false, true, true, 'required', 0, NULL, '{"title":"Scope","placeholder":"Scope"}' ]
+		];
+
+		$this->batchInsert( $this->prefix . 'core_form_field', $columns, $fields );
+	}
+
+	private function insertLinkedinConfig() {
+
+		$this->insert( $this->prefix . 'core_form', [
+            'siteId' => $this->site->id,
+            'createdBy' => $this->master->id, 'modifiedBy' => $this->master->id,
+            'name' => 'Config LinkedIn', 'slug' => 'config-linkedin',
+            'type' => CoreGlobal::TYPE_SYSTEM,
+            'description' => 'Linkedin configuration form.',
+            'success' => 'All configurations saved successfully.',
+            'captcha' => false,
+            'visibility' => Form::VISIBILITY_PROTECTED,
+            'status' => Form::STATUS_ACTIVE, 'userMail' => false, 'adminMail' => false,
+            'createdAt' => DateUtil::getDateTime(),
+            'modifiedAt' => DateUtil::getDateTime()
+        ]);
+
+		$config	= Form::findBySlugType( 'config-linkedin', CoreGlobal::TYPE_SYSTEM );
+
+		$columns = [ 'formId', 'name', 'label', 'type', 'compress', 'validators', 'order', 'icon', 'htmlOptions' ];
+
+		$fields	= [
+			[ $config->id, 'active', 'Active', FormField::TYPE_TOGGLE, false, 'required', 0, NULL, '{"title":"Check whether LinkedIn Login is active."}' ],
+			[ $config->id, 'client_id', 'Client Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Client Id.","placeholder":"Client Id"}' ],
+			[ $config->id, 'client_secret', 'Client Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Client Secret.","placeholder":"Client Secret"}' ],
+			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI.","placeholder":"Redirect URI"}' ],
+			[ $config->id, 'scope', 'Scope', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Scope","placeholder":"Scope"}' ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_form_field', $columns, $fields );
@@ -159,11 +194,13 @@ class m160623_072403_sns_connect_data extends Migration {
 			[ $this->site->id, 'app_id', 'App Id', 'facebook', 1, 'text', NULL, NULL ],
 			[ $this->site->id, 'app_secret', 'App Secret', 'facebook', 1, 'text', NULL, NULL ],
 			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'facebook', 1, 'text', '/sns/facebook/authorise', NULL ],
+			[ $this->site->id, 'scope', 'Scope', 'facebook', 1, 'text', NULL, NULL ],
 
 			[ $this->site->id, 'active', 'Active', 'google', 1, 'flag', '1', NULL ],
 			[ $this->site->id, 'app_id', 'App Id', 'google', 1, 'text', NULL, NULL ],
 			[ $this->site->id, 'app_secret', 'App Secret', 'google', 1, 'text', NULL, NULL ],
 			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'google', 1, 'text', '/sns/google/authorise', NULL ],
+			[ $this->site->id, 'scope', 'Scope', 'google', 1, 'text', NULL, NULL ],
 
 			[ $this->site->id, 'active', 'Active', 'twitter', 1, 'flag', '1', NULL ],
 			[ $this->site->id, 'consumer_key', 'Consumer Key', 'twitter', 1, 'text', NULL, NULL ],
@@ -171,6 +208,13 @@ class m160623_072403_sns_connect_data extends Migration {
 			[ $this->site->id, 'access_token', 'Access Token', 'twitter', 1, 'text', NULL, NULL ],
 			[ $this->site->id, 'access_token_secret', 'Access Token Secret', 'twitter', 1, 'text', NULL, NULL ],
 			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'twitter', 1, 'text', '/sns/twitter/authorise', NULL ],
+			[ $this->site->id, 'scope', 'Scope', 'twitter', 1, 'text', NULL, NULL ],
+
+			[ $this->site->id, 'active', 'Active', 'linkedin', 1, 'flag', '1', NULL ],
+			[ $this->site->id, 'client_id', 'Client Id', 'linkedin', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'client_secret', 'Client Secret', 'linkedin', 1, 'text', NULL, NULL ],
+			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'linkedin', 1, 'text', '/sns/linkedin/authorise', NULL ],
+			[ $this->site->id, 'scope', 'Scope', 'linkedin', 1, 'text', NULL, NULL ]
 		];
 
 		$this->batchInsert( $this->prefix . 'core_site_meta', $columns, $metas );

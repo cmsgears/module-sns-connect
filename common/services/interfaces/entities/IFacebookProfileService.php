@@ -13,7 +13,7 @@ namespace cmsgears\social\connect\common\services\interfaces\entities;
 use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;
 
 /**
- * IFacebookProfileService declares methods specific to facebook login.
+ * IFacebookProfileService declares methods specific to Facebook Profile.
  *
  * @since 1.0.0
  */

@@ -10,9 +10,6 @@
 namespace cmsgears\social\connect\common\services\base;
 
 // CMG Imports
-use cmsgears\social\connect\common\models\base\SnsTables;
-use cmsgears\social\connect\common\models\entities\SnsProfile;
-
 use cmsgears\core\common\services\interfaces\entities\IUserService;
 use cmsgears\core\common\services\interfaces\mappers\ISiteMemberService;
 use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;

@@ -13,16 +13,16 @@ namespace cmsgears\social\connect\common\services\system;
 use Yii;
 
 // CMG Imports
-use cmsgears\social\connect\common\config\GoogleProperties;
+use cmsgears\social\connect\common\config\LinkedinProperties;
 
 use cmsgears\core\common\services\base\SystemService;
 
 /**
- * GoogleService provide methods to login using Google.
+ * LinkedinService provide methods to login using LinkedIn.
  *
  * @since 1.0.0
  */
-class GoogleService extends SystemService {
+class LinkedinService extends SystemService {
 
 	// Variables ---------------------------------------------------
 
@@ -48,20 +48,14 @@ class GoogleService extends SystemService {
 
 	// CMG parent classes --------------------
 
-	// GoogleService -------------------------
+	// LinkedinService -----------------------
 
-	private function curl( $url, $count = 0, $postString = false ) {
+	private function curl( $url ) {
 
-		$ch = curl_init();
+		$ch	= curl_init();
 
 		curl_setopt( $ch, CURLOPT_URL, $url );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-
-		if( $postString ) {
-
-			curl_setopt( $ch,CURLOPT_POST, $count );
-			curl_setopt( $ch,CURLOPT_POSTFIELDS, $postString );
-		}
 
 		$data = curl_exec( $ch );
 
@@ -72,57 +66,62 @@ class GoogleService extends SystemService {
 
 	public function getLoginUrl() {
 
-		$session 	= Yii::$app->session;
-        $state		= $session->get( 'gplus_state' );
+		$session	= Yii::$app->session;
+        $state		= $session->get( 'lkdn_state' );
 
       	if( !isset( $state ) ) {
 
 			$state = Yii::$app->security->generateRandomString();
 
-			$session->set( 'gplus_state', $state );
+			$session->set( 'lkdn_state', $state );
         }
 
-		$properties = GoogleProperties::getInstance();
+		$properties = LinkedinProperties::getInstance();
 
 		$redirectUri	= $properties->getRedirectUri();
-		$appId			= $properties->getAppId();
+		$clientId		= $properties->getClientId();
 
-		$loginUrl = "https://accounts.google.com/o/oauth2/auth?"
-					. "client_id=" . $appId
+		$loginUrl = "https://www.linkedin.com/oauth/v2/authorization?"
+					. "client_id=" . $clientId
 					. "&redirect_uri=" . urlencode( $redirectUri )
 					. "&state=" . $state
 					. "&response_type=code"
-					. "&scope=email%20profile";
+					. "&scope=r_fullprofile,r_emailaddress,w_share";
 
 	     return $loginUrl;
 	}
 
 	public function getAccessToken( $code, $state ) {
 
-		$sState = Yii::$app->session->get( 'gplus_state' );
-
-		$properties = GoogleProperties::getInstance();
-
-		$redirectUri	= $properties->getRedirectUri();
-		$appId			= $properties->getAppId();
-		$appSecret		= $properties->getAppSecret();
+		$session 	= Yii::$app->session;
+		$sState		= $session->get( 'fb_state' );
 
 		if( isset( $state ) && strcmp( $sState, $state ) == 0 ) {
 
-			//$redirectUri	= $this->getRedirectUri();
+			$properties = LinkedinProperties::getInstance();
 
-			$tokenUrl 		= "https://www.googleapis.com/oauth2/v3/token";
-			$tokenParams	= 'client_id=' . $appId
-								. '&redirect_uri=' . urlencode( $redirectUri )
-								. '&client_secret=' . $appSecret
-								. '&code=' . $code
-								. '&grant_type=authorization_code';
+			$redirectUri	= $properties->getRedirectUri();
+			$clientId		= $properties->getClientId();
+			$clientSecret	= $properties->getClientSecret();
 
-			$response 		= $this->curl( $tokenUrl, 5, $tokenParams );
-			$response 		= json_decode( $response, true );
-			$accessToken 	= $response[ 'access_token' ];
+			$tokenUrl = "https://www.linkedin.com/oauth/v2/accessToken?"
+						. 'client_id=' . $clientId
+						. '&redirect_uri=' . urlencode( $redirectUri )
+						. '&client_secret=' . $clientSecret
+						. '&grant_type=authorization_code'
+						. '&code=' . $code;
 
-			if( isset( $accessToken ) ) {
+			$response = $this->curl( $tokenUrl );
+
+			$params = json_decode( $response );
+
+			//parse_str( $response, $params );
+
+			if( isset( $params->access_token ) ) {
+
+              	$accessToken = $params->access_token;
+
+				$session->set( 'lkdn_access_token', $accessToken );
 
 				return $accessToken;
 			}
@@ -133,11 +132,14 @@ class GoogleService extends SystemService {
 
 	public function getUser( $accessToken ) {
 
-		$graphUrl 	= 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' . $accessToken;
+		$session 	= Yii::$app->session;
+		$graphUrl 	= "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)?format=json&access_token=" . $accessToken;
 		$graphData	= $this->curl( $graphUrl );
      	$user 		= json_decode( $graphData );
 
      	if( isset( $user ) ) {
+
+			$session->set( 'lkdn_user', json_encode( $user ) );
 
 			return $user;
 		}
@@ -151,6 +153,6 @@ class GoogleService extends SystemService {
 
 	// CMG parent classes --------------------
 
-	// GoogleService -------------------------
+	// FacebookService -----------------------
 
 }

@@ -16,7 +16,6 @@ use Yii;
 use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\connect\common\models\entities\SnsProfile;
 
 use cmsgears\social\connect\common\services\interfaces\entities\IGoogleProfileService;
 
@@ -71,38 +70,40 @@ class GoogleProfileService extends SnsProfileService implements IGoogleProfileSe
 
     // Read - Models ---
 
-	public function getUser( $model, $accessToken ) {
+	public function getUser( $snsUser, $accessToken ) {
 
-		$snsProfile = $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_GOOGLE, $model->id );
+		$snsProfile = $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_GOOGLE, $snsUser->id );
 
 		$user = null;
 
 		if( isset( $snsProfile ) ) {
 
-			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $snsUser, 'accessToken' => $accessToken ] );
 
 			$user = $snsProfile->user;
 		}
-		else {
+		else if( isset( $snsUser->email ) ) {
 
-			$user = $this->userService->getByEmail( $model->email );
+			$user = $this->userService->getByEmail( $snsUser->email );
 
 			if( !isset( $user ) ) {
 
 				// Create User
-				$user = $this->register( $model );
+				$user = $this->register( $snsUser );
 
 				// Add User to current Site
 				$this->siteMemberService->createByParams( [ 'userId' => $user->id ] );
 
 				// Trigger Mail
-				Yii::$app->snsLoginMailer->sendRegisterFacebookMail( $user );
+				Yii::$app->snsLoginMailer->sendRegisterGoogleMail( $user );
 			}
 
-			$snsProfile	= $this->create( $user, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->create( $user, [ 'snsUser' => $snsUser, 'accessToken' => $accessToken ] );
+
+			return $user;
 		}
 
-		return $user;
+		return false;
 	}
 
     // Read - Lists ----
@@ -122,7 +123,7 @@ class GoogleProfileService extends SnsProfileService implements IGoogleProfileSe
 
 		$snsProfileToSave->userId	= $user->id;
 		$snsProfileToSave->type		= SnsConnectGlobal::SNS_TYPE_GOOGLE;
-		$snsProfileToSave->snsId	= $snsUser->id;
+		$snsProfileToSave->snsId	= strval( $snsUser->id );
 		$snsProfileToSave->token	= $accessToken;
 		$snsProfileToSave->data		= json_encode( $snsUser );
 
@@ -146,6 +147,7 @@ class GoogleProfileService extends SnsProfileService implements IGoogleProfileSe
 
 		$user->generateVerifyToken();
 		$user->generateAuthKey();
+		$user->generateOtp();
 
 		$user->save();
 

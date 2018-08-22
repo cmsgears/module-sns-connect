@@ -13,7 +13,7 @@ namespace cmsgears\social\connect\common\services\interfaces\entities;
 use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;
 
 /**
- * ITwitterProfileService declares methods specific to twitter login.
+ * ITwitterProfileService declares methods specific to Twitter Profile.
  *
  * @since 1.0.0
  */

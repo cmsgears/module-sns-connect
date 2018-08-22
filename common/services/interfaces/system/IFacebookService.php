@@ -13,7 +13,7 @@ namespace cmsgears\social\connect\common\services\interfaces\system;
 use cmsgears\core\common\services\interfaces\base\ISystemService;
 
 /**
- * IFacebookService declares methods specific to facebook login.
+ * IFacebookService declares methods specific to Facebook Login.
  *
  * @since 1.0.0
  */

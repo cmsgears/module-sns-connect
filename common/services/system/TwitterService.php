@@ -11,8 +11,11 @@ namespace cmsgears\social\connect\common\services\system;
 
 // Yii Imports
 use Yii;
+use yii\helpers\Url;
 
 // CMG Imports
+use cmsgears\social\connect\common\config\TwitterProperties;
+
 use cmsgears\core\common\services\base\SystemService;
 
 /**
@@ -126,12 +129,14 @@ class TwitterService extends SystemService {
 
 	public function requestToken() {
 
-		$apiKey			= $this->getApiKey();
-		$apiSecret		= $this->getApiSecret();
-		$redirectUri	= $this->getRedirectUri();
+		$properties = TwitterProperties::getInstance();
 
-		$nonce 			= Yii::$app->security->generateRandomString();
-		$timestamp 		= time();
+		$apiKey			= $properties->getApiKey();
+		$apiSecret		= $properties->getApiSecret();
+		$redirectUri	= $properties->getRedirectUri();
+
+		$nonce 		= Yii::$app->security->generateRandomString();
+		$timestamp 	= time();
 
 		$tokenUrl = "https://api.twitter.com/oauth/request_token";
 
@@ -149,7 +154,7 @@ class TwitterService extends SystemService {
 
 		$oauthSignature = base64_encode( hash_hmac( 'sha1', $baseString, $compositeKey, true ) );
 
-		$headerParams['oauth_signature'] = $oauthSignature;
+		$headerParams[ 'oauth_signature' ] = $oauthSignature;
 
 		$response = $this->curl( $tokenUrl, $headerParams );
 
@@ -173,10 +178,12 @@ class TwitterService extends SystemService {
 
 	public function getAccessToken() {
 
-		$session 		= Yii::$app->session;
-		$apiKey			= $this->getApiKey();
-		$apiSecret		= $this->getApiSecret();
-		$redirectUri	= $this->getRedirectUri();
+		$session 	= Yii::$app->session;
+		$properties = TwitterProperties::getInstance();
+
+		$apiKey			= $properties->getApiKey();
+		$apiSecret		= $properties->getApiSecret();
+		$redirectUri	= $properties->getRedirectUri();
 
 		$nonce 		= Yii::$app->security->generateRandomString();
 		$timestamp 	= time();
@@ -198,7 +205,7 @@ class TwitterService extends SystemService {
 
 		$oauthSignature = base64_encode( hash_hmac( 'sha1', $baseString, $compositeKey, true ) );
 
-		$headerParams['oauth_signature'] = $oauthSignature;
+		$headerParams[ 'oauth_signature' ] = $oauthSignature;
 
 		$response = $this->curl( $tokenUrl, $headerParams );
 
@@ -216,10 +223,12 @@ class TwitterService extends SystemService {
 
 	public function getUser() {
 
-		$session 		= Yii::$app->session;
-		$apiKey			= $this->getApiKey();
-		$apiSecret		= $this->getApiSecret();
-		$redirectUri	= $this->getRedirectUri();
+		$session 	= Yii::$app->session;
+		$properties = TwitterProperties::getInstance();
+
+		$apiKey			= $properties->getApiKey();
+		$apiSecret		= $properties->getApiSecret();
+		$redirectUri	= $properties->getRedirectUri();
 
 		$nonce 		= Yii::$app->security->generateRandomString();
 		$timestamp 	= time();
@@ -241,7 +250,7 @@ class TwitterService extends SystemService {
 
 		$oauthSignature = base64_encode( hash_hmac( 'sha1', $baseString, $compositeKey, true ) );
 
-		$headerParams['oauth_signature'] = $oauthSignature;
+		$headerParams[ 'oauth_signature' ] = $oauthSignature;
 
 		$response = $this->curl( $tokenUrl . "?screen_name=" . $session->get( 'tw_screen_name' ), $headerParams, false );
 

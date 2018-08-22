@@ -16,7 +16,6 @@ use Yii;
 use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\models\entities\User;
-use cmsgears\social\connect\common\models\entities\SnsProfile;
 
 use cmsgears\social\connect\common\services\interfaces\entities\IFacebookProfileService;
 
@@ -25,7 +24,7 @@ use cmsgears\social\connect\common\services\base\SnsProfileService;
 use cmsgears\core\common\utilities\DateUtil;
 
 /**
- * FacebookProfileService provide service methods of facebook profile.
+ * FacebookProfileService provide service methods of Facebook Profile.
  *
  * @since 1.0.0
  */
@@ -69,43 +68,45 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 
 	// Read ---------------
 
-	public function getUser( $model, $accessToken ) {
+    // Read - Models ---
 
-		$snsProfile = $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_FACEBOOK, $model->id );
+	public function getUser( $snsUser, $accessToken ) {
+
+		$snsProfile = $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_FACEBOOK, $snsUser->id );
+
+		$user = null;
 
 		if( isset( $snsProfile ) ) {
 
-			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $snsUser, 'accessToken' => $accessToken ] );
 
 			$user = $snsProfile->user;
 
 			return $user;
 		}
-		else {
+		else if( isset( $snsUser->email ) ) {
 
-			$user = $this->userService->getByEmail( $model->email );
+			$user = $this->userService->getByEmail( $snsUser->email );
 
 			if( !isset( $user ) ) {
 
 				// Create User
-				$user = $this->register( $model );
+				$user = $this->register( $snsUser );
 
 				// Add User to current Site
-				$this->siteMemberService->create( $user );
+				$this->siteMemberService->createByParams( [ 'userId' => $user->id ] );
 
 				// Trigger Mail
 				Yii::$app->snsLoginMailer->sendRegisterFacebookMail( $user );
 			}
 
-			$snsProfile	= $this->create( $user, [ 'snsUser' => $model, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->create( $user, [ 'snsUser' => $snsUser, 'accessToken' => $accessToken ] );
 
 			return $user;
 		}
 
 		return false;
 	}
-
-    // Read - Models ---
 
     // Read - Lists ----
 
@@ -124,7 +125,7 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 
 		$snsProfileToSave->userId	= $user->id;
 		$snsProfileToSave->type		= SnsConnectGlobal::SNS_TYPE_FACEBOOK;
-		$snsProfileToSave->snsId	= $snsUser->id;
+		$snsProfileToSave->snsId	= strval( $snsUser->id );
 		$snsProfileToSave->token	= $accessToken;
 		$snsProfileToSave->data		= json_encode( $snsUser );
 
@@ -148,6 +149,7 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 
 		$user->generateVerifyToken();
 		$user->generateAuthKey();
+		$user->generateOtp();
 
 		$user->save();
 
