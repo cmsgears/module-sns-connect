@@ -81,6 +81,8 @@ class GoogleProfileService extends SnsProfileService implements IGoogleProfileSe
 			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $snsUser, 'accessToken' => $accessToken ] );
 
 			$user = $snsProfile->user;
+
+			return $user;
 		}
 		else if( isset( $snsUser->email ) ) {
 
