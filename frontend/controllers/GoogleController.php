@@ -36,9 +36,9 @@ class GoogleController extends Controller {
 
 	// Protected --------------
 
-	// Private ----------------
+	protected $googleService;
 
-	private $googleService;
+	// Private ----------------
 
 	// Constructor and Initialisation ------------------------------
 
