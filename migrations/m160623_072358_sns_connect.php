@@ -63,6 +63,7 @@ class m160623_072358_sns_connect extends Migration {
 			'snsId' => $this->string(Yii::$app->core->xLargeText )->notNull(),
 			'token' => $this->string(Yii::$app->core->xxLargeText )->notNull(),
 			'secret' => $this->string(Yii::$app->core->xLargeText ),
+			'status' => $this->smallInteger( 6 )->notNull()->defaultValue( 0 ),
 			'tokenExpiresAt' => $this->dateTime(),
 			'createdAt' => $this->dateTime()->notNull(),
 			'modifiedAt' => $this->dateTime(),

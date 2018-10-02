@@ -84,6 +84,7 @@ class m160623_072403_sns_connect_data extends Migration {
 			[ $config->id, 'app_id', 'App Id', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Application Id","placeholder":"Application Id"}' ],
 			[ $config->id, 'app_secret', 'App Secret', FormField::TYPE_PASSWORD, false, 'required', 0, NULL, '{"title":"Application Secret","placeholder":"Application Secret"}' ],
 			[ $config->id, 'redirect_uri', 'Redirect URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Redirect URI","placeholder":"Redirect URI"}' ],
+			[ $config->id, 'deauthorize_uri', 'De-Authorize URI', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"De-Authorize URI","placeholder":"De-Authorize URI"}' ],
 			[ $config->id, 'scope', 'Scope', FormField::TYPE_TEXT, false, 'required', 0, NULL, '{"title":"Scope","placeholder":"Scope"}' ]
 		];
 
@@ -194,6 +195,7 @@ class m160623_072403_sns_connect_data extends Migration {
 			[ $this->site->id, 'app_id', 'App Id', 'facebook', 1, 'text', NULL, NULL ],
 			[ $this->site->id, 'app_secret', 'App Secret', 'facebook', 1, 'text', NULL, NULL ],
 			[ $this->site->id, 'redirect_uri', 'Redirect URI', 'facebook', 1, 'text', '/sns/facebook/authorise', NULL ],
+			[ $this->site->id, 'deauthorize_uri', 'De-Authorize URI', 'facebook', 1, 'text', '/sns/facebook/deauthorise', NULL ],
 			[ $this->site->id, 'scope', 'Scope', 'facebook', 1, 'text', NULL, NULL ],
 
 			[ $this->site->id, 'active', 'Active', 'google', 1, 'flag', '1', NULL ],

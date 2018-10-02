@@ -51,7 +51,21 @@ class SnsProfile extends Entity implements IData {
 
 	// Constants --------------
 
+	const STATUS_NEW		=  0; // Added on SNS Profile
+	const STATUS_EMAIL		= 10; // Pending Email
+	const STATUS_ACTIVE		= 20; // Verified and created user account using email provided by user
+	const STATUS_LEFT		= 30; // Disconnected by user from social platform
+	const STATUS_BLOCKED	= 40; // Blocked by site admin
+
 	// Public -----------------
+
+	public $statusMap = [
+		self::STATUS_NEW => 'New',
+		self::STATUS_EMAIL => 'Email',
+		self::STATUS_ACTIVE => 'Active',
+		self::STATUS_LEFT => 'Left',
+		self::STATUS_BLOCKED => 'Blocked'
+	];
 
 	// Protected --------------
 
