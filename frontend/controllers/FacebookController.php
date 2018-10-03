@@ -128,7 +128,7 @@ class FacebookController extends Controller {
 			$user = $this->modelService->getUser( $snsUser, Yii::$app->session->get( 'fb_access_token' ) );
 
 			// Login and Redirect to home page
-			$login = new TwitterLogin( $user );
+			$login = new FacebookLogin( $user );
 
 			if( $login->login() ) {
 
