@@ -38,8 +38,8 @@ class Mailer extends BaseMailer {
 
 	// Public -----------------
 
-    public $htmlLayout 	= '@cmsgears/module-sns-connect/common/mails/layouts/html';
-    public $textLayout 	= '@cmsgears/module-sns-connect/common/mails/layouts/text';
+    public $htmlLayout 	= '@cmsgears/module-sns-connect/common/mails/views/layouts/html';
+    public $textLayout 	= '@cmsgears/module-sns-connect/common/mails/views/layouts/text';
     public $viewPath 	= '@cmsgears/module-sns-connect/common/mails/views';
 
 	// Protected --------------

@@ -86,7 +86,7 @@ class FacebookService extends SystemService {
 					. "&redirect_uri=" . urlencode( $redirectUri )
 					. "&state=" . $state
 					. "&response_type=code"
-					. "&scope=user_about_me,email";
+					. "&scope=email";
 
 	     return $loginUrl;
 	}

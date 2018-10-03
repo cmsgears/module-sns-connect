@@ -138,7 +138,7 @@ class FacebookProfileService extends SnsProfileService implements IFacebookProfi
 
 	function register( $model, $config = [] ) {
 
-		$user	= Yii::$app->get( 'userService' )->getModelObject();
+		$user	= Yii::$app->factory->get( 'userService' )->getModelObject();
 		$date	= DateUtil::getDateTime();
 
 		$user->email 		= $model->email;
