@@ -39,7 +39,7 @@ class FacebookController extends Controller {
 
 	// Private ----------------
 
-	private $facebookService;
+	protected $facebookService;
 
 	// Constructor and Initialisation ------------------------------
 
