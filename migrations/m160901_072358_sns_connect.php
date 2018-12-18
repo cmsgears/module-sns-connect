@@ -16,7 +16,7 @@ use cmsgears\core\common\base\Migration;
  *
  * @since 1.0.0
  */
-class m160623_072358_sns_connect extends Migration {
+class m160901_072358_sns_connect extends Migration {
 
 	// Public Variables
 

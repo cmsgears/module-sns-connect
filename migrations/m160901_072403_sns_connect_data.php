@@ -24,7 +24,7 @@ use cmsgears\core\common\utilities\DateUtil;
  *
  * @since 1.0.0
  */
-class m160623_072403_sns_connect_data extends Migration {
+class m160901_072403_sns_connect_data extends Migration {
 
 	// Public Variables
 
@@ -224,7 +224,7 @@ class m160623_072403_sns_connect_data extends Migration {
 
     public function down() {
 
-        echo "m160623_072403_sns_connect_data will be deleted with m160621_014408_core.\n";
+        echo "m160901_072403_sns_connect_data will be deleted with m160621_014408_core.\n";
 
         return true;
     }

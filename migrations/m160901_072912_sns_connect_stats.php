@@ -19,7 +19,7 @@ use cmsgears\social\connect\common\models\base\SnsTables;
  *
  * @since 1.0.0
  */
-class m160623_072912_sns_connect_stats extends Migration {
+class m160901_072912_sns_connect_stats extends Migration {
 
 	// Public Variables
 
