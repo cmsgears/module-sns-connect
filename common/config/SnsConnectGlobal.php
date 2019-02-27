@@ -10,7 +10,8 @@
 namespace cmsgears\social\connect\common\config;
 
 /**
- * SnsConnectGlobal defines the global constants and variables available for sns connect and dependent modules.
+ * SnsConnectGlobal defines the global constants and variables available for sns
+ * connect and dependent modules.
  *
  * @since 1.0.0
  */
@@ -29,6 +30,7 @@ class SnsConnectGlobal {
 	const SNS_TYPE_FACEBOOK		= 'facebook'; // Facebook
 	const SNS_TYPE_GOOGLE		= 'google'; // Google
 	const SNS_TYPE_TWITTER		= 'twitter'; // Twitter
+	const SNS_TYPE_LINKEDIN		= 'linkedin'; // Linkedin
 
 	// Templates -------------------------------------------------------
 
@@ -37,6 +39,7 @@ class SnsConnectGlobal {
 	const CONFIG_SNS_FACEBOOK	= 'facebook'; // Facebook
 	const CONFIG_SNS_GOOGLE		= 'google'; // Google
 	const CONFIG_SNS_TWITTER	= 'twitter'; // Twitter
+	const CONFIG_SNS_LINKEDIN	= 'linkedin'; // Linkedin
 
 	// Roles -----------------------------------------------------------
 

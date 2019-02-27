@@ -7,27 +7,23 @@
  * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
  */
 
-namespace cmsgears\social\connect\common\services\interfaces\base;
+namespace cmsgears\social\connect\common\services\interfaces\entities;
 
 // CMG Imports
-use cmsgears\core\common\services\interfaces\base\IEntityService;
+use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;
 
 /**
- * ISnsProfileService declares methods specific to sns login.
+ * ILinkedinProfileService declares methods specific to LinkedIn Profile.
  *
  * @since 1.0.0
  */
-interface ISnsProfileService extends IEntityService {
+interface ILinkedinProfileService extends ISnsProfileService {
 
 	// Data Provider ------
 
 	// Read ---------------
 
 	// Read - Models ---
-
-	public function getByTypeSnsId( $type, $snsId );
-
-	public function getUser( $snsUser, $accessToken );
 
 	// Read - Lists ----
 

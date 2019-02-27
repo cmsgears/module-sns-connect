@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\connect\frontend\controllers;
 
 // Yii Imports
@@ -8,13 +16,17 @@ use yii\web\NotFoundHttpException;
 
 // CMG Imports
 use cmsgears\core\common\config\CoreGlobal;
-use cmsgears\social\connect\common\config\FacebookProperties;
 
 use cmsgears\social\connect\common\models\forms\FacebookLogin;
 use cmsgears\social\connect\frontend\models\forms\FacebookInfoForm;
 
 use cmsgears\core\frontend\controllers\base\Controller;
 
+/**
+ * It provides actions specific to Facebook Login.
+ *
+ * @since 1.0.0
+ */
 class FacebookController extends Controller {
 
 	// Variables ---------------------------------------------------
@@ -27,13 +39,17 @@ class FacebookController extends Controller {
 
 	// Private ----------------
 
+	protected $facebookService;
+
 	// Constructor and Initialisation ------------------------------
 
  	public function init() {
 
         parent::init();
 
-		$this->modelService	= Yii::$app->factory->get( 'facebookProfileService' );
+		$this->modelService		= Yii::$app->factory->get( 'facebookProfileService' );
+
+		$this->facebookService	= Yii::$app->factory->get( 'facebookService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -48,7 +64,7 @@ class FacebookController extends Controller {
 
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'authorise' => [ 'get' ]
                 ]
@@ -66,21 +82,19 @@ class FacebookController extends Controller {
 
     public function actionAuthorise( $code, $state ) {
 
-		$fbProperties	= FacebookProperties::getInstance();
-
 		// Get Token
-		$accessToken	= $fbProperties->getAccessToken( $code, $state );
-		$snsUser		= $fbProperties->getUser( $accessToken );
+		$accessToken	= $this->facebookService->getAccessToken( $code, $state );
+		$snsUser		= $this->facebookService->getUser( $accessToken );
 
 		if( isset( $snsUser ) ) {
 
 			// Get User
-			$user	= $this->modelService->getUser( $snsUser, $accessToken );
+			$user = $this->modelService->getUser( $snsUser, $accessToken );
 
 			if( $user ) {
 
 				// Login and Redirect to home page
-				$login	= new FacebookLogin( $user );
+				$login = new FacebookLogin( $user );
 
 				if( $login->login() ) {
 
@@ -99,21 +113,22 @@ class FacebookController extends Controller {
 
 	public function actionUserInfo() {
 
-		$this->layout	= WebGlobalCore::LAYOUT_PUBLIC;
+		$this->layout = WebGlobalCore::LAYOUT_PUBLIC;
 
-		$model			= new FacebookInfoForm();
+		$model = new FacebookInfoForm();
 
 		if( $model->load( Yii::$app->request->post() ) && $model->validate() ) {
 
 			// Get User
-			$snsUser		= Yii::$app->session->get( 'fb_user' );
-			$snsUser		= json_decode( $snsUser );
-            $snsUser->email	= $model->email;
+			$snsUser = Yii::$app->session->get( 'fb_user' );
+			$snsUser = json_decode( $snsUser );
 
-			$user			= $this->modelService->getUser( $snsUser, Yii::$app->session->get( 'fb_access_token' ) );
+			$snsUser->email	= $model->email;
+
+			$user = $this->modelService->getUser( $snsUser, Yii::$app->session->get( 'fb_access_token' ) );
 
 			// Login and Redirect to home page
-			$login	= new TwitterLogin( $user );
+			$login = new FacebookLogin( $user );
 
 			if( $login->login() ) {
 

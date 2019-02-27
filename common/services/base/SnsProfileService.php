@@ -1,16 +1,26 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\connect\common\services\base;
 
 // CMG Imports
-use cmsgears\social\connect\common\models\base\SnsTables;
-use cmsgears\social\connect\common\models\entities\SnsProfile;
-
 use cmsgears\core\common\services\interfaces\entities\IUserService;
 use cmsgears\core\common\services\interfaces\mappers\ISiteMemberService;
 use cmsgears\social\connect\common\services\interfaces\base\ISnsProfileService;
 
 use cmsgears\core\common\services\base\EntityService;
 
+/**
+ * SnsProfileService provide service methods of SNS profile.
+ *
+ * @since 1.0.0
+ */
 abstract class SnsProfileService extends EntityService implements ISnsProfileService {
 
 	// Variables ---------------------------------------------------
@@ -21,11 +31,7 @@ abstract class SnsProfileService extends EntityService implements ISnsProfileSer
 
 	// Public -----------------
 
-	public static $modelClass	= '\cmsgears\social\connect\common\models\entities\SnsProfile';
-
-	public static $modelTable	= SnsTables::TABLE_SNS_PROFILE;
-
-	public static $parentType	= null;
+	public static $modelClass = '\cmsgears\social\connect\common\models\entities\SnsProfile';
 
 	// Protected --------------
 
@@ -73,7 +79,9 @@ abstract class SnsProfileService extends EntityService implements ISnsProfileSer
 
    	public function getByTypeSnsId( $type, $snsId ) {
 
-		return SnsProfile::findByTypeSnsId( $type, $snsId );
+		$modelClass	= static::$modelClass;
+
+		return $modelClass::findByTypeSnsId( $type, $snsId );
 	}
 
     // Read - Lists ----
@@ -103,6 +111,14 @@ abstract class SnsProfileService extends EntityService implements ISnsProfileSer
 
 	// Delete -------------
 
+	// Bulk ---------------
+
+	// Notifications ------
+
+	// Cache --------------
+
+	// Additional ---------
+
 	// Static Methods ----------------------------------------------
 
 	// CMG parent classes --------------------
@@ -126,4 +142,5 @@ abstract class SnsProfileService extends EntityService implements ISnsProfileSer
 	// Update -------------
 
 	// Delete -------------
+
 }

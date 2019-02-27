@@ -9,6 +9,11 @@
 
 namespace cmsgears\social\connect\common\models\forms;
 
+/**
+ * Google Login Form.
+ *
+ * @since 1.0.0
+ */
 class GoogleLogin extends SnsLogin {
 
 	// Variables ---------------------------------------------------

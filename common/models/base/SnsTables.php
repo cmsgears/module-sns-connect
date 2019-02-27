@@ -21,7 +21,7 @@ class SnsTables extends DbTables {
 
 	// Entities -------------
 
-	const TABLE_SNS_PROFILE		= 'cmg_sns_profile';
+	const TABLE_SNS_PROFILE = 'cmg_sns_profile';
 
 	// Resources ------------
 

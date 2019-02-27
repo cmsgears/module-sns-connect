@@ -16,11 +16,11 @@ use yii\helpers\Url;
 use cmsgears\core\common\config\Properties;
 
 /**
- * TwitterProperties provide methods to access the properties specific to twitter application for login.
+ * LinkedinProperties provide methods to access the properties specific to LinkedIn application for login.
  *
  * @since 1.0.0
  */
-class TwitterProperties extends Properties {
+class LinkedinProperties extends Properties {
 
 	// Variables ---------------------------------------------------
 
@@ -28,13 +28,9 @@ class TwitterProperties extends Properties {
 
 	const PROP_ACTIVE			= 'active';
 
-	const PROP_CONSUMER_KEY		= 'consumer_key';
+	const PROP_CLIENT_ID		= 'client_id';
 
-	const PROP_CONSUMER_SECRET	= 'consumer_secret';
-
-	const PROP_ACCESS_TOKEN		= 'access_token';
-
-	const PROP_ACCESS_TOKEN_SECRET	= 'access_token_secret';
+	const PROP_CLIENT_SECRET	= 'client_secret';
 
 	const PROP_REDIRECT_URI		= 'redirect_uri';
 
@@ -57,9 +53,9 @@ class TwitterProperties extends Properties {
 
 		if( !isset( self::$instance ) ) {
 
-			self::$instance	= new TwitterProperties();
+			self::$instance	= new LinkedinProperties();
 
-			self::$instance->init( SnsConnectGlobal::CONFIG_SNS_TWITTER );
+			self::$instance->init( SnsConnectGlobal::CONFIG_SNS_LINKEDIN );
 		}
 
 		return self::$instance;
@@ -75,31 +71,21 @@ class TwitterProperties extends Properties {
 
 	// CMG parent classes --------------------
 
-	// TwitterProperties ---------------------
+	// FacebookProperties --------------------
 
 	public function isActive() {
 
 		return $this->properties[ self::PROP_ACTIVE ];
 	}
 
-	public function getConsumerKey() {
+	public function getClientId() {
 
-		return $this->properties[ self::PROP_CONSUMER_KEY ];
+		return $this->properties[ self::PROP_CLIENT_ID ];
 	}
 
-	public function getConsumerSecret() {
+	public function getClientSecret() {
 
-		return $this->properties[ self::PROP_CONSUMER_SECRET ];
-	}
-
-	public function getAccessToken() {
-
-		return $this->properties[ self::PROP_ACCESS_TOKEN ];
-	}
-
-	public function getAccessTokenSecret() {
-
-		return $this->properties[ self::PROP_ACCESS_TOKEN_SECRET ];
+		return $this->properties[ self::PROP_CLIENT_SECRET ];
 	}
 
 	public function getRedirectUri() {

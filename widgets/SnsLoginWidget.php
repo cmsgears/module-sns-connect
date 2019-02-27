@@ -1,72 +1,102 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\connect\widgets;
 
 // Yii Imports
 use yii\helpers\Html;
 
 // CMG Imports
-use cmsgears\social\connect\common\config\SnsLoginGlobal;
+use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\base\Widget;
 
 use cmsgears\social\connect\common\config\FacebookProperties;
 use cmsgears\social\connect\common\config\GoogleProperties;
 use cmsgears\social\connect\common\config\TwitterProperties;
+use cmsgears\social\connect\common\config\LinkedinProperties;
 
 class SnsLoginWidget extends Widget {
 
 	// Variables ---------------------------------------------------
 
-	// Public Variables --------------------
+	// Globals -------------------------------
 
-	// SNS
-	public $sns			= [ SnsLoginGlobal::CONFIG_SNS_FACEBOOK, SnsLoginGlobal::CONFIG_SNS_GOOGLE, SnsLoginGlobal::CONFIG_SNS_TWITTER ];
+	// Constants --------------
 
-	// Private Variables -------------------
+	// Public -----------------
 
-	private $settings	= null;
+	// Protected --------------
+
+	// Variables -----------------------------
+
+	// Public -----------------
+
+	public $sns = [
+		SnsConnectGlobal::CONFIG_SNS_FACEBOOK,
+		SnsConnectGlobal::CONFIG_SNS_GOOGLE,
+		SnsConnectGlobal::CONFIG_SNS_TWITTER,
+		SnsConnectGlobal::CONFIG_SNS_LINKEDIN
+	];
+
+	// Protected --------------
+
+	// Private ----------------
+
+	private $settings = null;
+
+	// Traits ------------------------------------------------------
 
 	// Constructor and Initialisation ------------------------------
 
-	// yii\base\Object
+	// Instance methods --------------------------------------------
 
-    public function init() {
+	// Yii interfaces ------------------------
 
-        parent::init();
-    }
+	// Yii parent classes --------------------
 
-	// Instance Methods --------------------------------------------
+	// CMG interfaces ------------------------
 
-	// yii\base\Widget
+	// CMG parent classes --------------------
 
-    public function run() {
+	// cmsgears\core\common\base\Widget
 
-        return $this->renderWidget();
-    }
-
-	// SnsLoginWidget
-
+	/**
+	 * @inheritdoc
+	 */
     public function renderWidget( $config = [] ) {
 
-		foreach ( $this->sns as $sns ) {
+		foreach( $this->sns as $sns ) {
 
 			switch( $sns ) {
 
-				case SnsLoginGlobal::CONFIG_SNS_FACEBOOK: {
+				case SnsConnectGlobal::CONFIG_SNS_FACEBOOK: {
 
 					$this->settings[ $sns ] = FacebookProperties::getInstance();
 
 					break;
 				}
-				case SnsLoginGlobal::CONFIG_SNS_GOOGLE: {
+				case SnsConnectGlobal::CONFIG_SNS_GOOGLE: {
 
 					$this->settings[ $sns ] = GoogleProperties::getInstance();
 
 					break;
 				}
-				case SnsLoginGlobal::CONFIG_SNS_TWITTER: {
+				case SnsConnectGlobal::CONFIG_SNS_TWITTER: {
 
 					$this->settings[ $sns ] = TwitterProperties::getInstance();
+
+					break;
+				}
+				case SnsConnectGlobal::CONFIG_SNS_LINKEDIN: {
+
+					$this->settings[ $sns ] = LinkedinProperties::getInstance();
 
 					break;
 				}
@@ -77,4 +107,7 @@ class SnsLoginWidget extends Widget {
 
         return Html::tag( 'div', $widgetHtml, $this->options );
     }
+
+	// SnsLoginWidget ------------------------
+
 }

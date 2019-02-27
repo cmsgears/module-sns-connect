@@ -1,11 +1,23 @@
 <?php
+/**
+ * This file is part of CMSGears Framework. Please view License file distributed
+ * with the source code for license details.
+ *
+ * @link https://www.cmsgears.org/
+ * @copyright Copyright (c) 2015 VulpineCode Technologies Pvt. Ltd.
+ */
+
 namespace cmsgears\social\connect\common\components;
 
+// CMG Imports
+use cmsgears\core\common\base\Mailer as BaseMailer;
+
 /**
- * The mail component used for sending possible mails by the CMSGears sns login module. It must be initialised
- * for app using the name cmgSnsLoginMailer. It's used by various controllers to trigger mails.
+ * The mail component used for sending possible mails by the CMSGears sns login module.
+ *
+ * @since 1.0.0
  */
-class Mailer extends \cmsgears\core\common\base\Mailer {
+class Mailer extends BaseMailer {
 
 	// Variables ---------------------------------------------------
 
@@ -16,6 +28,7 @@ class Mailer extends \cmsgears\core\common\base\Mailer {
 	const MAIL_REG_FACEBOOK		= 'register/facebook';
 	const MAIL_REG_GOOGLE		= 'register/google';
 	const MAIL_REG_TWITTER		= 'register/twitter';
+	const MAIL_REG_LINKEDIN		= 'register/linkedin';
 
 	// Public -----------------
 
@@ -25,9 +38,9 @@ class Mailer extends \cmsgears\core\common\base\Mailer {
 
 	// Public -----------------
 
-    public $htmlLayout 			= '@cmsgears/module-sns-login/common/mails/layouts/html';
-    public $textLayout 			= '@cmsgears/module-sns-login/common/mails/layouts/text';
-    public $viewPath 			= '@cmsgears/module-sns-login/common/mails/views';
+    public $htmlLayout 	= '@cmsgears/module-sns-connect/common/mails/views/layouts/html';
+    public $textLayout 	= '@cmsgears/module-sns-connect/common/mails/views/layouts/text';
+    public $viewPath 	= '@cmsgears/module-sns-connect/common/mails/views';
 
 	// Protected --------------
 
@@ -90,4 +103,19 @@ class Mailer extends \cmsgears\core\common\base\Mailer {
             //->setTextBody( $contact->contact_message )
             ->send();
 	}
+
+	public function sendRegisterLinkedinMail( $user ) {
+
+		$fromEmail 	= $this->mailProperties->getSenderEmail();
+		$fromName 	= $this->mailProperties->getSenderName();
+
+		// Send Mail
+        $this->getMailer()->compose( self::MAIL_REG_LINKEDIN, [ 'coreProperties' => $this->coreProperties, 'user' => $user ] )
+            ->setTo( $user->email )
+            ->setFrom( [ $fromEmail => $fromName ] )
+            ->setSubject( "Registration | " . $this->coreProperties->getSiteName() )
+            //->setTextBody( $contact->contact_message )
+            ->send();
+	}
+
 }

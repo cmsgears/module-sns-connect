@@ -17,18 +17,18 @@ use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
 use cmsgears\core\common\models\entities\User;
 
-use cmsgears\social\connect\common\services\interfaces\entities\ITwitterProfileService;
+use cmsgears\social\connect\common\services\interfaces\entities\ILinkedinProfileService;
 
 use cmsgears\social\connect\common\services\base\SnsProfileService;
 
 use cmsgears\core\common\utilities\DateUtil;
 
 /**
- * TwitterProfileService provide service methods of twitter profile.
+ * LinkedinProfileService provide service methods of LinkedIn Profile.
  *
  * @since 1.0.0
  */
-class TwitterProfileService extends SnsProfileService implements ITwitterProfileService {
+class LinkedinProfileService extends SnsProfileService implements ILinkedinProfileService {
 
 	// Variables ---------------------------------------------------
 
@@ -62,7 +62,7 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 
 	// CMG parent classes --------------------
 
-	// TwitterProfileService -----------------
+	// LinkedinProfileService ----------------
 
 	// Data Provider ------
 
@@ -72,14 +72,13 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 
 	public function getUser( $snsUser, $accessToken ) {
 
-		$snsProfile = $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_TWITTER, $snsUser->id );
+		$snsProfile = $this->getByTypeSnsId( SnsConnectGlobal::SNS_TYPE_LINKEDIN, $snsUser->id );
 
 		$user = null;
 
 		if( isset( $snsProfile ) ) {
 
-			// TODO: Check the update method
-			//$snsProfile = $this->update( $snsProfile, [ 'snsUser' => $snsUser, 'accessToken' => $accessToken ] );
+			$snsProfile	= $this->update( $snsProfile, [ 'snsUser' => $snsUser, 'accessToken' => $accessToken ] );
 
 			$user = $snsProfile->user;
 
@@ -95,10 +94,10 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 				$user = $this->register( $snsUser );
 
 				// Add User to current Site
-				$this->siteMemberService->create( $user );
+				$this->siteMemberService->createByParams( [ 'userId' => $user->id ] );
 
 				// Trigger Mail
-				Yii::$app->snsLoginMailer->sendRegisterTwitterMail( $user );
+				Yii::$app->snsLoginMailer->sendRegisterLinkedinMail( $user );
 			}
 
 			$snsProfile	= $this->create( $user, [ 'snsUser' => $snsUser, 'accessToken' => $accessToken ] );
@@ -125,10 +124,9 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 		$snsProfileToSave = $this->getModelObject();
 
 		$snsProfileToSave->userId	= $user->id;
-		$snsProfileToSave->type		= SnsConnectGlobal::SNS_TYPE_TWITTER;
+		$snsProfileToSave->type		= SnsConnectGlobal::SNS_TYPE_LINKEDIN;
 		$snsProfileToSave->snsId	= strval( $snsUser->id );
 		$snsProfileToSave->token	= $accessToken;
-		$snsProfileToSave->secret	= $snsUser->secret;
 		$snsProfileToSave->data		= json_encode( $snsUser );
 
 		// Create SnsProfile
@@ -140,7 +138,7 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 
 	function register( $model, $config = [] ) {
 
-		$user 	= Yii::$app->get( 'userService' )->getModelObject();
+		$user	= Yii::$app->get( 'userService' )->getModelObject();
 		$date	= DateUtil::getDateTime();
 
 		$user->email 		= $model->email;
@@ -151,6 +149,7 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 
 		$user->generateVerifyToken();
 		$user->generateAuthKey();
+		$user->generateOtp();
 
 		$user->save();
 
@@ -173,7 +172,7 @@ class TwitterProfileService extends SnsProfileService implements ITwitterProfile
 
 	// CMG parent classes --------------------
 
-	// TwitterProfileService -----------------
+	// LinkedinProfileService ----------------
 
 	// Data Provider ------
 

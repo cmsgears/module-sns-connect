@@ -10,11 +10,11 @@
 namespace cmsgears\social\connect\common\models\forms;
 
 /**
- * Facebook Login Form.
+ * Linkedin Login Form.
  *
  * @since 1.0.0
  */
-class FacebookLogin extends SnsLogin {
+class LinkedinLogin extends SnsLogin {
 
 	// Variables ---------------------------------------------------
 
@@ -54,6 +54,6 @@ class FacebookLogin extends SnsLogin {
 
 	// Validators ----------------------------
 
-	// FacebookLogin -------------------------
+	// LinkedinLogin -------------------------
 
 }
