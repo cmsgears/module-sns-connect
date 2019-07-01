@@ -45,6 +45,8 @@ abstract class SnsLogin extends Model {
 	// Protected --------------
 
 	protected $userService;
+	protected $siteService;
+	protected $siteMemberService;
 
 	// Private ----------------
 
@@ -67,6 +69,8 @@ abstract class SnsLogin extends Model {
 		parent::init();
 
 		$this->userService = Yii::$app->factory->get( 'userService' );
+		$this->siteService 	= Yii::$app->factory->get( 'siteService' );
+		$this->siteMemberService = Yii::$app->factory->get( 'siteMemberService' );
 	}
 
 	// Instance methods --------------------------------------------
@@ -179,6 +183,7 @@ abstract class SnsLogin extends Model {
 
 			$user = $this->getUser();
 
+			$this->checkSitemember( $user );
 			$user->lastLoginAt = DateUtil::getDateTime();
 
 			$user->save();
@@ -188,5 +193,22 @@ abstract class SnsLogin extends Model {
 
 		return false;
     }
+
+ 	public function checkSitemember( $user ) {
+
+		$siteModelClass = $this->siteService->getModelClass();
+		
+		$siteModels = $siteModelClass::find()->All();
+		
+		foreach( $siteModels as $site ){
+			
+			$siteMember = $this->siteMemberService->getBySiteIdUserId( $site->id, $user->id );
+
+			if( !isset( $siteMember ) ) {
+
+				$this->siteMemberService->createByParams( [ 'siteId' => $site->id, 'userId' => $user->id ] );
+			}
+		}
+	}
 
 }
