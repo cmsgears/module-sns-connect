@@ -11,7 +11,6 @@ namespace cmsgears\social\connect\common\models\forms;
 
 // Yii Imports
 use Yii;
-use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 // CMG Imports
@@ -24,7 +23,7 @@ use cmsgears\core\common\utilities\DateUtil;
  *
  * @since 1.0.0
  */
-abstract class SnsLogin extends Model {
+abstract class SnsLogin extends \cmsgears\core\common\models\forms\BaseForm {
 
 	// Variables ---------------------------------------------------
 
@@ -197,11 +196,11 @@ abstract class SnsLogin extends Model {
  	public function checkSitemember( $user ) {
 
 		$siteModelClass = $this->siteService->getModelClass();
-		
+
 		$siteModels = $siteModelClass::find()->All();
-		
+
 		foreach( $siteModels as $site ){
-			
+
 			$siteMember = $this->siteMemberService->getBySiteIdUserId( $site->id, $user->id );
 
 			if( !isset( $siteMember ) ) {

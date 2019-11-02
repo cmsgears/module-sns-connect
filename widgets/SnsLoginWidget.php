@@ -43,7 +43,8 @@ class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
 		SnsConnectGlobal::CONFIG_SNS_LINKEDIN
 	];
 
-	public $icons = false;
+	public $icons	= true;
+	public $text	= true;
 
 	// Protected --------------
 
