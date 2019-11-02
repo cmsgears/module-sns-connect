@@ -15,14 +15,12 @@ use yii\helpers\Html;
 // CMG Imports
 use cmsgears\social\connect\common\config\SnsConnectGlobal;
 
-use cmsgears\core\common\base\Widget;
-
 use cmsgears\social\connect\common\config\FacebookProperties;
 use cmsgears\social\connect\common\config\GoogleProperties;
 use cmsgears\social\connect\common\config\TwitterProperties;
 use cmsgears\social\connect\common\config\LinkedinProperties;
 
-class SnsLoginWidget extends Widget {
+class SnsLoginWidget extends \cmsgears\core\common\base\Widget {
 
 	// Variables ---------------------------------------------------
 
@@ -44,6 +42,8 @@ class SnsLoginWidget extends Widget {
 		SnsConnectGlobal::CONFIG_SNS_TWITTER,
 		SnsConnectGlobal::CONFIG_SNS_LINKEDIN
 	];
+
+	public $icons = false;
 
 	// Protected --------------
 
@@ -103,7 +103,7 @@ class SnsLoginWidget extends Widget {
 			}
 		}
 
-		$widgetHtml = $this->render( $this->template, [ 'settings' => $this->settings ] );
+		$widgetHtml = $this->render( $this->template, [ 'widget' => $this, 'settings' => $this->settings ] );
 
         return Html::tag( 'div', $widgetHtml, $this->options );
     }
