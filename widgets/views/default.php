@@ -1,6 +1,9 @@
 <?php
 // CMG Imports
 use cmsgears\social\connect\common\config\SnsConnectGlobal;
+
+$icons	= $widget->icons;
+$text	= $widget->text;
 ?>
 
 <div class="menu-social row max-cols-50">
@@ -16,7 +19,13 @@ use cmsgears\social\connect\common\config\SnsConnectGlobal;
 					$facebookService = Yii::$app->factory->get( 'facebookService' );
 ?>
 					<div class="col col12x3">
-						<a class="btn facebook" href="<?= $facebookService->getLoginUrl() ?>"> <i class="cmti cmti-social-facebook"> </i> Facebook</a>
+						<?php if( $icons && !$text ) { ?>
+							<a class="btn facebook" href="<?= $facebookService->getLoginUrl() ?>"> <i class="cmti cmti-social-facebook"></i></a>
+						<?php } else if( $text && !$icons ) { ?>
+							<a class="btn facebook" href="<?= $facebookService->getLoginUrl() ?>">Facebook</a>
+						<?php } else { ?>
+							<a class="btn facebook" href="<?= $facebookService->getLoginUrl() ?>"> <i class="cmti cmti-social-facebook"></i> Facebook</a>
+						<?php } ?>
 					</div>
 <?php
 					break;
@@ -26,7 +35,13 @@ use cmsgears\social\connect\common\config\SnsConnectGlobal;
 					$googleService = Yii::$app->factory->get( 'googleService' );
 ?>
 					<div class="col col12x3">
-						<a class="btn google" href="<?= $googleService->getLoginUrl() ?>"> <i class="cmti cmti-social-google"> </i> Google</a>
+						<?php if( $icons && !$text ) { ?>
+							<a class="btn google" href="<?= $googleService->getLoginUrl() ?>"> <i class="cmti cmti-social-google"></i></a>
+						<?php } else if( $text && !$icons ) { ?>
+							<a class="btn google" href="<?= $googleService->getLoginUrl() ?>">Google</a>
+						<?php } else { ?>
+							<a class="btn google" href="<?= $googleService->getLoginUrl() ?>"> <i class="cmti cmti-social-google"></i> Google</a>
+						<?php } ?>
 					</div>
 <?php
 					break;
@@ -36,7 +51,13 @@ use cmsgears\social\connect\common\config\SnsConnectGlobal;
 					$twitterService = Yii::$app->factory->get( 'twitterService' );
 ?>
 					<div class="col col12x3">
-						<a class="btn twitter" href="<?= $twitterService->getLoginUrl() ?>"> <i class="cmti cmti-social-twitter"> </i> Twitter</a>
+						<?php if( $icons && !$text ) { ?>
+							<a class="btn twitter" href="<?= $twitterService->getLoginUrl() ?>"> <i class="cmti cmti-social-twitter"></i></a>
+						<?php } else if( $text && !$icons ) { ?>
+							<a class="btn twitter" href="<?= $twitterService->getLoginUrl() ?>">Twitter</a>
+						<?php } else { ?>
+							<a class="btn twitter" href="<?= $twitterService->getLoginUrl() ?>"> <i class="cmti cmti-social-twitter"></i> Twitter</a>
+						<?php } ?>
 					</div>
 <?php
 					break;
@@ -46,7 +67,13 @@ use cmsgears\social\connect\common\config\SnsConnectGlobal;
 					$linkedinService = Yii::$app->factory->get( 'linkedinService' );
 ?>
 					<div class="col col12x3">
-						<a class="btn linkedin" href="<?= $linkedinService->getLoginUrl() ?>"> <i class="cmti cmti-social-linkedin"> </i> LinkedIn</a>
+						<?php if( $icons && !$text ) { ?>
+							<a class="btn linkedin" href="<?= $linkedinService->getLoginUrl() ?>"> <i class="cmti cmti-social-linkedin"></i></a>
+						<?php } else if( $text && !$icons ) { ?>
+							<a class="btn linkedin" href="<?= $linkedinService->getLoginUrl() ?>">LinkedIn</a>
+						<?php } else { ?>
+							<a class="btn linkedin" href="<?= $linkedinService->getLoginUrl() ?>"> <i class="cmti cmti-social-linkedin"></i> LinkedIn</a>
+						<?php } ?>
 					</div>
 <?php
 					break;

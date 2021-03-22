@@ -10,7 +10,6 @@
 namespace cmsgears\social\connect\widgets\assets;
 
 // Yii Imports
-use yii\web\AssetBundle;
 use yii\web\View;
 
 // CMG Imports
@@ -21,7 +20,7 @@ use cmsgears\social\connect\common\config\FacebookProperties;
  *
  * @since 1.0.0
  */
-class FbSdkAsset extends AssetBundle {
+class FbSdkAsset extends \yii\web\AssetBundle {
 
 	// Variables ---------------------------------------------------
 
