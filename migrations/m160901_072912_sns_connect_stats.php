@@ -8,9 +8,9 @@
  */
 
 // CMG Imports
-use cmsgears\core\common\base\Migration;
+use cmsgears\core\common\config\CoreGlobal;
 
-use cmsgears\core\common\models\resources\Stats;
+use cmsgears\core\common\models\resources\ModelStats;
 use cmsgears\social\connect\common\models\base\SnsTables;
 
 /**
@@ -19,7 +19,7 @@ use cmsgears\social\connect\common\models\base\SnsTables;
  *
  * @since 1.0.0
  */
-class m160901_072912_sns_connect_stats extends Migration {
+class m160901_072912_sns_connect_stats extends \cmsgears\core\common\base\Migration {
 
 	// Public Variables
 
@@ -52,18 +52,18 @@ class m160901_072912_sns_connect_stats extends Migration {
 
 	private function insertTables() {
 
-		$columns 	= [ 'tableName', 'type', 'count' ];
+		$columns = [ 'parentId', 'parentType', 'name', 'type', 'count' ];
 
-		$tableData	= [
-			[ $this->prefix . 'sns_profile', 'rows', 0 ]
+		$tableData = [
+			[ 1, CoreGlobal::TYPE_SITE, $this->prefix . 'sns_profile', 'rows', 0 ]
 		];
 
-		$this->batchInsert( $this->prefix . 'core_stats', $columns, $tableData );
+		$this->batchInsert( $this->prefix . 'core_model_stats', $columns, $tableData );
 	}
 
 	public function down() {
 
-		Stats::deleteByTableName( SnsTables::getTableName( SnsTables::TABLE_SNS_PROFILE ) );
+		ModelStats::deleteByTable( SnsTables::getTableName( SnsTables::TABLE_SNS_PROFILE ) );
 	}
 
 }
